@@ -1,0 +1,160 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+}
+label {
+	position: relative;
+	vertical-align: middle;
+	bottom: 1px;
+}
+a:visited {
+	color:inherit;
+}
+a {
+	color: inherit;
+}
+input[type=text],
+input[type=password],
+input[type=submit],
+select,
+input[type=email] {
+	display: block;
+	margin-bottom: 15px;
+}
+input[type=checkbox] {
+	margin-bottom: 15px;
+}
+.navBarContainer {
+	width: 100%;
+	height: 40px;
+	background-color: #FFF;
+	border-bottom: solid 1px rgb(232,232,232);
+	top:0;
+	position: fixed;
+	z-index: 5;
+}
+.navBarLogoContainer {
+	font-size: 24px;
+	font-weight: bold;
+	width: 150px;
+	line-height: 40px;
+	height: 40px;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+	-webkit-transition: background-color .3s;
+}
+.navBarLogoContainer:hover {
+	background-color: #F0F0F0;
+}
+.navBarSearchContainer {
+	width:400px;
+	height:30px;
+	padding: 5px;
+	float: left;
+}
+.navBarSearchBar {
+	padding-top: 8px;
+	padding-left:5px;
+	width:400px; 
+	font-size: 18px;
+	outline: 0;
+	border: 0;
+	border-bottom:solid 1px rgb(232,232,232);
+}
+.navBarSearchBar:focus {
+	border-bottom: solid 1px #000;
+}
+.navBarUserContainer {
+	height: 40px;
+	float: right;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: right;
+	-webkit-user-select: none;
+	right:0;
+	background-color: #FFF;
+	position: absolute;
+	z-index: 5;
+	border-bottom: solid 1px rgb(232,232,232);
+	overflow: hidden;
+	max-width: 400px;
+}
+.navBarUserContainerExpanded {
+	height: 130px;
+	float: right;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: right;
+	-webkit-user-select: none;
+	right:0;
+	background-color: #FFF;
+	position: absolute;
+	z-index: 5;
+	border-bottom: solid 1px #FFF;
+	box-shadow: 0 0 10px #888;
+}
+.navBarUserName {
+	cursor: pointer;
+}
+.navBarUserName:hover {
+	background-color: #F0F0F0;
+}
+.navBarUserOptionsLinks {
+	width:100%;
+	height:30px;
+	margin-top:10px;
+	background-color: #FFF;
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	-webkit-transition: background-color .3s;
+}
+.navBarUserOptionsLinks:hover {
+	background-color: #F0F0F0;
+}
+.navBarUserAvatarContainer {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	float: right;
+	margin: 5px 5px 5px 10px;
+}
+.sideBarContainer {
+	width:150px;
+	height: 100%;
+	background-color: #FFF;
+	border-right:solid 1px rgb(232,232,232);
+	float: left;
+	position: fixed;
+	top:0;
+	margin-top:40px;
+	z-index: 4;
+}
+.mainContentContainer {
+	left:150px;
+	padding: 10px;
+	margin-top: 40px;
+	position: absolute;
+	min-width: 450px;
+	overflow: auto;
+}
+.sideBarTabContainer {
+	width:150px;
+	height:40px;
+	margin-top:5px;
+	background-color: #FFF;
+	line-height: 40px;
+	font-size: 20px;
+	cursor: pointer;
+	text-align: center;
+	-webkit-transition: background-color .3s;
+}
+.sideBarTabContainer:hover {
+	background-color:#F0F0F0;
+}
+.noUnderline {
+	text-decoration: none;
+}
