@@ -1,5 +1,5 @@
 All work on the proposal should be done off the proposal branch, and in this
-directory.
+directory (unless it's on the Google doc, but that info should be moved here).
 
 I started a TeX file for the proposal - this is probably a little overkill, but
 the proposal will definitely look great, and I've been looking for a chance to
