@@ -1,0 +1,8 @@
+For those who aren't familiar with git: you basically never want to edit on the
+master branch. Instead, create a new branch, edit on that, and then submit a
+pull request (If you don't know how, just Google it; nothing should be hard to
+find). The idea is that the master branch should only have 100% woking
+code, not development code. You can do all of this on github.com, or on your
+computer using git if you have it downloaded.
+
+I've created a proposal branch for working on the proposal.
