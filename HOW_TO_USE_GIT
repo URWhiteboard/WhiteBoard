@@ -8,6 +8,9 @@ or on your computer using git if you have it downloaded.
 
 I've created a proposal branch for working on the proposal.
 
+I've also created a site branch for working on the site, to keeo that work
+separate.
+
 (Yeah so this didn't really say how to use git/github, but that's easily
 Googlable. I'd just like branches to be used so the code on master always
 works.)
