@@ -1,4 +1,4 @@
-For those who aren't familiar with git:
+For those who aren't familiar with git (not really sure who is/isn't):
 
 Basically never edit on the master branch. Instead, create a new branch, edit
 on that, and then submit a pull request (If you don't know how, just Google it;
@@ -7,3 +7,7 @@ have woking code, not development code. You can do all of this on github.com,
 or on your computer using git if you have it downloaded.
 
 I've created a proposal branch for working on the proposal.
+
+(Yeah so this didn't really say how to use git/github, but that's easily
+Googlable. I'd just like branches to be used so the code on master always
+works.)
