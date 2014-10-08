@@ -1,9 +1,12 @@
-PDFlATEX_DIR=pdf-aux
+PDF_AUX=pdf-aux
 
 proposal.pdf: proposal.tex
-	pdflatex -output-directory=$(PDFlATEX_DIR) $< > $(PDFlATEX_DIR)/OUTPUT
-	xdg-open $(PDFlATEX_DIR)/proposal.pdf
-	ln -f $(PDFlATEX_DIR)/proposal.pdf
+	pdflatex -output-directory=$(PDF_AUX) $<
+	bibtex $(PDF_AUX)/proposal.aux
+	pdflatex -output-directory=$(PDF_AUX) $<
+	pdflatex -output-directory=$(PDF_AUX) $<
+	xdg-open $(PDF_AUX)/proposal.pdf
+	ln -f $(PDF_AUX)/proposal.pdf
 
 clean:
-	rm -f $(PDFlATEX_DIR)/* proposal.pdf
+	rm -f $(PDF_AUX)/* proposal.pdf
