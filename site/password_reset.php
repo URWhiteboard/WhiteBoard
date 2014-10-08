@@ -1,12 +1,12 @@
 <?php
 // include the config
-require_once('config/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
 
 // include the PHPMailer library
-require_once('included/libraries/PHPMailer.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
 
 // load the login class
-require_once('classes/Login.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
@@ -51,5 +51,5 @@ if ($login->passwordResetLinkIsValid() == true) { ?>
 <a href="/"><?php echo "Back to Login Page"; ?></a>
 <?php
 // Include footer
-include("included/footer.php");
+include($_SERVER['DOCUMENT_ROOT'] ."/included/footer.php");
 ?>

@@ -1,12 +1,12 @@
 <?php
 // include the config
-require_once('config/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
 
 // include the PHPMailer library
-require_once('included/libraries/PHPMailer.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
 
 // load the login class
-require_once('classes/Login.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
@@ -17,7 +17,7 @@ if ($login->isUserLoggedIn() == false) {
 	// the user is not logged in, redirect them to the homepage
 	header("location: /");
 }
-require_once('included/header.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/included/header.php');
 ?>
 <form method="post" action="/edit/" name="user_edit_form_name">
 	<label for="user_name"><?php echo "New username (username cannot be empty and must be azAZ09 and 2-64 characters)"; ?></label>
@@ -47,4 +47,4 @@ require_once('included/header.php');
 </form><hr/>
 
 <!-- Include the footer page -->
-<?php include('included/footer.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] .'/included/footer.php'); ?>

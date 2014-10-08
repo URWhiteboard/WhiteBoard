@@ -1,18 +1,18 @@
 <?php
 // include the config
-require_once('config/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
 
 // include the PHPMailer library
-require_once('included/libraries/PHPMailer.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
 
 // load the registration class
-require_once('classes/Registration.php');
+require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Registration.php');
 
 // create the registration object. when this object is created, it will do all registration stuff automatically
 // so this single line handles the entire registration process.
 $registration = new Registration();
 // showing the register view (with the registration form, and messages/errors)
-include("included/headerout.php");
+include($_SERVER['DOCUMENT_ROOT'] ."/included/headerout.php");
 
 // show potential errors / feedback (from registration object)
 if (isset($registration)) {
