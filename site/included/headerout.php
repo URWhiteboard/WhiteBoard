@@ -1,4 +1,7 @@
 <?php
+// Load the login class so we can check to make sure the user is logged out
+// inlucde the Login Class
+require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 $login = new Login();
 // ... ask if we are logged in here:
 if ($login->isUserLoggedIn() == true) {
