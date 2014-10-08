@@ -1,10 +1,5 @@
 <?php
-$login = new Login();
-// ... ask if we are logged in here:
-if ($login->isUserLoggedIn() == true) {
-	// User is logged in, shouldn't be seeing the logged out header, redirect back home
-	header("location: /");
-}
+
 ?>
 <!DOCTYPE html>
 <html>
