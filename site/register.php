@@ -97,7 +97,7 @@ if (isset($registration)) {
 	<label for="user_password_repeat"><?php echo "Password repeat"; ?></label>
 	<input id="user_password_repeat" type="password" name="user_password_repeat" pattern=".{6,}" required autocomplete="off" />
 	<br />
-	<img src="/tools/showCaptcha.php" alt="captcha" />
+	<img src="../tools/showCaptcha.php" alt="captcha" />
 	<br />
 	<label><?php echo "Please enter these characters"; ?></label>
 	<input type="text" name="captcha" required />
