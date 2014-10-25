@@ -151,12 +151,13 @@ class Registration
 				$user_birthday = $user_birthday_year ."-". $user_birthday_month ."-". $user_birthday_day;
 				
 				// write new users data into database
-				$query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime, user_name_first, user_name_last, user_class_of, user_birthday) VALUES(:user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, now(), :user_name_first, :user_name_last, :user_class_of, :user_birthday)');
+				$query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_name, user_password_hash, user_email, user_activation_hash, user_registration_ip, user_registration_datetime, user_name_first, user_name_last, user_class_of, user_birthday) VALUES(:user_name, :user_password_hash, :user_email, :user_activation_hash, :user_registration_ip, :user_registration_datetime, :user_name_first, :user_name_last, :user_class_of, :user_birthday)');
 				$query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_registration_ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
+				$query_new_user_insert->bindValue(':user_registration_datetime', time(), PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_name_first', $user_name_first, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_name_last', $user_name_last, PDO::PARAM_STR);
 				$query_new_user_insert->bindValue(':user_class_of', $user_class_of, PDO::PARAM_STR);
