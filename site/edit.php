@@ -18,32 +18,33 @@ if ($login->isUserLoggedIn() == false) {
 	header("location: /");
 }
 require_once($_SERVER['DOCUMENT_ROOT'] .'/included/header.php');
+
 ?>
-<form method="post" action="/edit/" name="user_edit_form_name">
-	<label for="user_name"><?php echo "New username (username cannot be empty and must be azAZ09 and 2-64 characters)"; ?></label>
-	<input id="user_name" type="text" name="user_name" pattern="[a-zA-Z0-9]{2,64}" required /> (<?php echo "currently"; ?>: <?php echo $_SESSION['user_name']; ?>)
-	<input type="submit" name="user_edit_submit_name" value="<?php echo "Change username"; ?>" />
+<form method="post" action="/edit/" name="edit_form_name">
+	<label for="name"><?php echo "New username (username cannot be empty and must be azAZ09 and 2-64 characters)"; ?></label>
+	<input id="edit_username" type="text" name="edit_dusername" pattern="[a-zA-Z0-9]{2,64}" required /> (<?php echo "currently"; ?>: <?php echo $_SESSION['username']; ?>)
+	<input type="submit" name="edit_submit_name" value="Change username" />
 </form><hr/>
 
 <!-- edit form for user email / this form uses HTML5 attributes, like "required" and type="email" -->
-<form method="post" action="/edit/" name="user_edit_form_email">
-	<label for="user_email"><?php echo "New email"; ?></label>
-	<input id="user_email" type="email" name="user_email" required /> (<?php echo "currently"; ?>: <?php echo $_SESSION['user_email']; ?>)
-	<input type="submit" name="user_edit_submit_email" value="<?php echo "Change email"; ?>" />
+<form method="post" action="/edit/" name="edit_form_email">
+	<label for="email"><?php echo "New email"; ?></label>
+	<input id="email" type="email" name="email" required /> (<?php echo "currently"; ?>: <?php echo $_SESSION['email']; ?>)
+	<input type="submit" name="edit_submit_email" value="Change email" />
 </form><hr/>
 
 <!-- edit form for user's password / this form uses the HTML5 attribute "required" -->
-<form method="post" action="/edit/" name="user_edit_form_password">
-	<label for="user_password_old"><?php echo "Your OLD Password"; ?></label>
-	<input id="user_password_old" type="password" name="user_password_old" autocomplete="off" />
+<form method="post" action="/edit/" name="edit_form_password">
+	<label for="password_old"><?php echo "Your OLD Password"; ?></label>
+	<input id="password_old" type="password" name="password_old" autocomplete="off" />
 
-	<label for="user_password_new"><?php echo "New password"; ?></label>
-	<input id="user_password_new" type="password" name="user_password_new" autocomplete="off" />
+	<label for="password_new"><?php echo "New password"; ?></label>
+	<input id="password_new" type="password" name="password_new" autocomplete="off" />
 
-	<label for="user_password_repeat"><?php echo "Repeat new password"; ?></label>
-	<input id="user_password_repeat" type="password" name="user_password_repeat" autocomplete="off" />
+	<label for="password_repeat"><?php echo "Repeat new password"; ?></label>
+	<input id="password_repeat" type="password" name="password_repeat" autocomplete="off" />
 
-	<input type="submit" name="user_edit_submit_password" value="<?php echo "Change password"; ?>" />
+	<input type="submit" name="edit_submit_password" value="Change password" />
 </form><hr/>
 
 <!-- Include the footer page -->
