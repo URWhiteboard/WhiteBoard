@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage[margin=1in]{geometry}
 
-\DeclareGraphicsExtensions{.png}
+\DeclareGraphicsExtensions{.png,.jpg}
 
 \begin{document}
 
@@ -123,8 +123,9 @@ promote efficiency.
 \subsection{Database Structure}
 
 We have thoroughly planned the database for the entire system. Fundamentally,
-the database dictates how the PHP code is organized and implemented. A diagram
-of the database structure follows.
+the database dictates how the PHP code is organized and implemented. The
+relationships follow fairly closely with how the back-end will be implemented
+and integrated. A diagram of the database structure follows.
 
 \includegraphics[width=6.5 in]{db}
 
@@ -139,33 +140,33 @@ structure may be necessary, but they should be fairly small.
 The general layout of the page is straightforward: there is a header, sidebar,
 and the main content area. The goal of this project is not to make anything too
 fancy, and keeping the user interface simple like this is one of the main ways
-we accomplish this goal.
+we accomplish this goal. Below is an image of the current general layout.
 
-% \includegraphics[width=6.5 in]{example_page}
+\includegraphics[width=6.5 in]{general_layout}
 
-\subsection{Courses}
+\subsection{Courses and Grades}
 
-TEXT
+Courses will be primarily a way of organizing students
+with their teachers and their grades. Grades are some of the most important
+data of the system.
 
-\subsection{Grades}
+\subsection{Announcements and Communication}
 
-TEXT
-
-\subsection{Announcements}
-
-TEXT
-
-\subsection{Communication}
-
-TEXT
+The primary aim of announcements and communication is for students to be able
+to contact other students in their classes.
 
 \subsection{Schedule / Calendar}
 
-TEXT
+A schedule and calendar will be part of the site for students to plan their
+schedules, and to have a general calendar. If time allows, a bonus feature of a
+schedule optimizer might be added. This section is mostly independent of the
+other sections, but it involves a lot of front-end.
 
 \subsection{Presentation}
 
-TEXT
+We will prepare a presentation demonstrating how to use the system. The system
+should have a clear visual UI and it should be simple enough that it could even
+be explained with just screenshots and instructions.
 
 \bibliography{refs}{} \bibliographystyle{plain}
 
