@@ -20,14 +20,40 @@ $(document).ready(function() {
 	// NavBarUserContainer pop up logout and other functions on click
 	$('.navBarUserContainer').click(function(e) {
         $('.navBarUserContainer').toggleClass('navBarUserContainerExpanded');
+        $('.navBarSearchResultsContainer').hide();
 		e.stopPropagation();
 	});
 
 	$(document.body).click(function() {
 		$('.navBarUserContainer').removeClass('navBarUserContainerExpanded');
+		$('.navBarSearchResultsContainer').hide();
 	});
-
 	$('.navBarUserOptionsContainer').click(function(e) {
 		e.stopPropagation();
+	});
+
+	$('.navBarSearchBar').focus(function(e) {
+		$('.navBarSearchResultsContainer').show();
+		e.stopPropagation();
+	})
+	$('.navBarSearchContainer').click(function(e) {
+		e.stopPropagation();
+	});
+	function searchCourses(value){
+		$.get("../../search.php",
+		{ 
+			s: value
+			
+		},
+		function(data) {
+			$('.navBarSearchResultsContainer').html(data);
+		}
+
+	)};
+	$(".navBarSearchBar").click(function(){
+		searchCourses($('.navBarSearchBar').val())
+	});
+	$(".navBarSearchBar").keyup(function(){
+		searchCourses($('.navBarSearchBar').val())
 	});
 });

@@ -2,7 +2,7 @@
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
 // so this single line handles the entire login process.
-$login = new Login();
+
 // ... ask if we are logged in here:
 if ($login->isUserLoggedIn() == false) {
 	// User is not logged in, redirect back home
@@ -26,12 +26,15 @@ if ($login->isUserLoggedIn() == false) {
 		</div>
 		</a>
 		<div id="navBarSearchContainer" class="navBarSearchContainer">
-			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to start searching...">
+			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to start searching..." autocomplete="off">
+		</div>
+		<div id="navBarSearchResultsContainer" class="navBarSearchResultsContainer">
+		Hello
 		</div>
 		<div id="navBarUserContainer" class="navBarUserContainer">
 			<div id="navBarUserName" class="navBarUserName">
 				<?php
-					echo "&nbsp;" . $_SESSION['user_name_first'] . " " . $_SESSION['user_name_last'];
+					echo "&nbsp;" . $_SESSION['name_first'] . " " . $_SESSION['name_last'];
 				?>
 				<div id="navBarUserAvatarContainer" class="navBarUserAvatarContainer">
 					<?php

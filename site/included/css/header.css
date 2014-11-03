@@ -54,6 +54,15 @@ input[type=checkbox] {
 	padding: 5px;
 	float: left;
 }
+.navBarSearchResultsContainer {
+	width:405px;
+	left:155px;
+	top:37px;
+	border: solid 1px #000;
+	background-color:#FFF;
+	position:absolute;
+	display: none;
+}
 .navBarSearchBar {
 	padding-top: 8px;
 	padding-left:5px;

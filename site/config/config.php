@@ -14,9 +14,9 @@
  * DB_PASS: the password of the above user
  */
 define("DB_HOST", "localhost");
-define("DB_NAME", "login");
+define("DB_NAME", "mydb");
 define("DB_USER", "root");
-define("DB_PASS", "root");
+define("DB_PASS", "uofrwhiteboard");
 
 /**
  * Configuration for: Cookies
@@ -73,7 +73,7 @@ define("EMAIL_SMTP_ENCRYPTION", "ssl");
  * Configuration for: password reset email data
  * Set the absolute URL to password_reset.php, necessary for email password reset links
  */
-define("EMAIL_PASSWORDRESET_URL", "http://localhost/password_reset.php");
+define("EMAIL_PASSWORDRESET_URL", "http://". $_SERVER['SERVER_NAME'] ."/password_reset.php");
 define("EMAIL_PASSWORDRESET_FROM", "admin@jacobroschen.com");
 define("EMAIL_PASSWORDRESET_FROM_NAME", "Whiteboard");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for Whiteboard");
@@ -83,7 +83,7 @@ define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your p
  * Configuration for: verification email data
  * Set the absolute URL to register.php, necessary for email verification links
  */
-define("EMAIL_VERIFICATION_URL", "http://localhost/register.php");
+define("EMAIL_VERIFICATION_URL", "http://". $_SERVER['SERVER_NAME'] ."/register.php");
 define("EMAIL_VERIFICATION_FROM", "admin@jacobroschen.com");
 define("EMAIL_VERIFICATION_FROM_NAME", "Whiteboard");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for Whiteboard");

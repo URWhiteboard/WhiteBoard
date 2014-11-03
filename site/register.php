@@ -31,20 +31,23 @@ if (isset($registration)) {
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful && !$registration->verification_successful) { ?>
 <form method="post" action="/register/" name="registerform">
-	<label for="user_name"><?php echo "Username (only letters and numbers, 2 to 64 characters)"; ?></label>
-	<input id="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" name="user_name" required />
+	<label for="username"><?php echo "Username (only letters and numbers, 2 to 64 characters)"; ?></label>
+	<input id="username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="username" required />
 	<br />
-	<label for="user_name_first"><?php echo "First name"; ?></label>
-	<input id="user_name_first" type="text" pattern="[a-zA-Z]{2,30}" name="user_name_first" required />
+	<label for="name_first"><?php echo "First name"; ?></label>
+	<input id="name_first" type="text" pattern="[a-zA-Z]{2,30}" name="name_first" required />
 	<br />
-	<label for="user_name_last"><?php echo "Last name"; ?></label>
-	<input id="user_name_last" type="text" pattern="[a-zA-Z]{2,30}" name="user_name_last" required />
+	<label for="name_last"><?php echo "Last name"; ?></label>
+	<input id="name_last" type="text" pattern="[a-zA-Z]{2,30}" name="name_last" required />
 	<br />
-	<label for="user_email"><?php echo "User's email (please provide a real email address, you'll get a verification mail with an activation link)"; ?></label>
-	<input id="user_email" type="email" name="user_email" required />
+	<label for="name_suffix"><?php echo "Suffix"; ?></label>
+	<input id="name_suffix" type="text" pattern="[a-zA-Z]{2,30}" name="name_suffix" required />
 	<br />
-	<label for="user_birthday_month"><?php echo "Month"; ?></label>
-	<select id="user_birthday_month" name="user_birthday_month">
+	<label for="email"><?php echo "User's email (please provide a real email address, you'll get a verification mail with an activation link)"; ?></label>
+	<input id="email" type="email" name="email" required />
+	<br />
+	<label for="birth_month"><?php echo "Month"; ?></label>
+	<select id="birth_month" name="birth_month">
 	<option disabled="" selected=""></option>
 	<option value="01">January</option>
 	<option value="02">Febuary</option>
@@ -60,8 +63,8 @@ if (isset($registration)) {
 	<option value="12">December</option>
 	</select>
 	<br />
-	<label for="user_birthday_day"><?php echo "Day"; ?></label>
-	<select id="user_birthday_day" name="user_birthday_day">
+	<label for="birth_day"><?php echo "Day"; ?></label>
+	<select id="birth_day" name="birth_day">
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = 1; $i < 32; $i++) {
@@ -70,8 +73,8 @@ if (isset($registration)) {
 	?>
 	</select>
 	<br />
-	<label for="user_birthday_year"><?php echo "Year"; ?></label>
-	<select id="user_birthday_year" name="user_birthday_year">
+	<label for="birth_year"><?php echo "Year"; ?></label>
+	<select id="birth_year" name="birth_year">
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = date("Y"); $i > 1899 ; $i--) {
@@ -80,8 +83,8 @@ if (isset($registration)) {
 	?>
 	</select>
 	<br />
-	<label for="user_class_of"><?php echo "Class of"; ?></label>
-	<select id="user_class_of" name="user_class_of">
+	<label for="expected_graduation"><?php echo "Class of"; ?></label>
+	<select id="expected_graduation" name="expected_graduation">
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = date("Y")-4; $i < date("Y")+5; $i++) {
@@ -91,11 +94,11 @@ if (isset($registration)) {
 	</select>
 	<br />
 
-	<label for="user_password_new"><?php echo "Password (min. 6 characters!)"; ?></label>
-	<input id="user_password_new" type="password" name="user_password_new" pattern=".{6,}" required autocomplete="off" />
+	<label for="password_new"><?php echo "Password (min. 6 characters!)"; ?></label>
+	<input id="password_new" type="password" name="password_new" pattern=".{6,}" required autocomplete="off" />
 	<br />
-	<label for="user_password_repeat"><?php echo "Password repeat"; ?></label>
-	<input id="user_password_repeat" type="password" name="user_password_repeat" pattern=".{6,}" required autocomplete="off" />
+	<label for="password_repeat"><?php echo "Password repeat"; ?></label>
+	<input id="password_repeat" type="password" name="password_repeat" pattern=".{6,}" required autocomplete="off" />
 	<br />
 	<img src="../tools/showCaptcha.php" alt="captcha" />
 	<br />
