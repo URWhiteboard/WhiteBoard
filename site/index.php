@@ -20,6 +20,7 @@ if ($login->isUserLoggedIn() == true) {
 	include($_SERVER['DOCUMENT_ROOT'] .'/included/header.php');
 	// Show the default page for logged in users
 	?>
+<div id="mainContentContainerContent" class="mainContentContainerContent">
 <div>
 	Hello
 	<br />

@@ -8,6 +8,15 @@ if ($login->isUserLoggedIn() == false) {
 	// User is not logged in, redirect back home
 	header("location: /");
 }
+// include the config
+require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
+
+// include the PHPMailer library
+require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
+
+// inlucde the Login Class
+require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
+$login = new Login();
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,11 +24,8 @@ if ($login->isUserLoggedIn() == false) {
 	<meta charset="UTF-8">
 	<title>Whiteboard</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<!-- Included with php so we can use php variables in the javascript -->
-	<?php
-	require_once($_SERVER['DOCUMENT_ROOT'] .'/included/javascript/header.js');
-	?>
-	<link rel="stylesheet" type="text/css" href="../included/css/header.css">
+	<script src="/included/javascript/header.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../included/css/header.css">
 </head>
 <body>
 	<div id="navBarContainer" class="navBarContainer">
@@ -59,20 +65,54 @@ if ($login->isUserLoggedIn() == false) {
 	</div>
 	<div id="sideBarContainer" class="sideBarContainer">
 		<a href="../" class="noUnderline">
-		<div id="sideBarHomeContainer" class="sideBarTabContainer">
+		<?php
+		if($_SERVER["REQUEST_URI"] == "/") {
+			echo "<div id='sideBarHomeContainer' class='sideBarTabContainer selected'>";
+		} else {
+			echo "<div id='sideBarHomeContainer' class='sideBarTabContainer'>";
+		}
+		?>
 			Home
 		</div>
 		</a>
 		<a href="../courses/" class="noUnderline">
-		<div id="sideBarCoursesContainer" class="sideBarTabContainer">
+		<?php
+		if(strpos($_SERVER["REQUEST_URI"],'courses') !== false) {
+			echo "<div id='sideBarCoursesContainer' class='sideBarTabContainer selected'>";
+		} else {
+			echo "<div id='sideBarCoursesContainer' class='sideBarTabContainer'>";
+		}
+		?>
 			Courses
 		</div>
 		</a>
-		<a href="../grades/" class="noUnderline">
-		<div id="sideBarGradesContainer" class="sideBarTabContainer">
-			Grades
-		</div>
-		</a>
+		<!-- <div id="sideBarCoursesSubContainer" class="sideBarCoursesSubContainer">
+			<?php
+			if ($login->databaseConnection()) {
+				$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE userID = :userID AND is_active = 1 ORDER BY sectionID ASC');
+				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+				$query_sectionStudents->execute();
+				
+			// get result row as an object, so we can itenerate through the sections
+			while($sectionStudents = $query_sectionStudents->fetchObject()) {
+				// database query, get all the relevant information about the section
+				$query_section = $login->db_connection->prepare('SELECT * FROM sections WHERE sectionID = :sectionID');
+					$query_section->bindValue(':sectionID', $sectionStudents->sectionID, PDO::PARAM_STR);
+					$query_section->execute();
+					$section = $query_section->fetchObject();
+				// database query, get all of the relevant information about the course
+				$query_course = $login->db_connection->prepare('SELECT * FROM courses WHERE courseID = :courseID');
+					$query_course->bindValue(':courseID', $section->courseID, PDO::PARAM_STR);
+					$query_course->execute();
+					// get result row (as an object)
+					$course = $query_course->fetchObject();
+				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
+				echo "<div id='sideBarCoursesSubBar' class='sideBarCoursesSubBar'>". $course->title ."</div>";
+				echo "</a>";
+				}
+			}
+			?>
+		</div> -->
 		<div id="sideBarCalendarContainer" class="sideBarTabContainer">
 			Calendar
 		</div>

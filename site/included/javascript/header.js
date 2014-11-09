@@ -1,9 +1,8 @@
-<script type="text/javascript">
 $(document).ready(function() {
 	
 	//GET BROWSER WINDOW SIZE
-	var currWidth = $(window).width() - 170;
-	var currHeight = $(window).height() - 60;
+	var currWidth = $(window).width() - 150;
+	var currHeight = $(window).height() - 30;
 	$('#mainContentContainer').css('width', currWidth);
 	$('#mainContentContainer').css('height', currHeight);
 	
@@ -81,4 +80,3 @@ $(document).ready(function() {
 
 	)};
 });
-</script>

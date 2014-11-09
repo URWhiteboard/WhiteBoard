@@ -148,11 +148,14 @@ input[type=checkbox] {
 }
 .mainContentContainer {
 	left:150px;
-	padding: 10px;
+	padding: 0px;
 	margin-top: 40px;
 	position: absolute;
 	min-width: 450px;
 	overflow: auto;
+}
+.mainContentContainerContent {
+	padding:10px;
 }
 .sideBarTabContainer {
 	width:150px;
@@ -166,6 +169,23 @@ input[type=checkbox] {
 	-webkit-transition: background-color .3s;
 }
 .sideBarTabContainer:hover {
+	background-color:#F0F0F0;
+}
+.selected {
+	background-color: #F0F0F0;
+}
+.sideBarCoursesSubBar {
+	width:150px;
+	height:30px;
+	margin-top:5px;
+	background-color: #FFF;
+	line-height: 12px;
+	font-size: 12px;
+	cursor: pointer;
+	text-align: center;
+	-webkit-transition: background-color .3s;
+}
+.sideBarCoursesSubBar:hover {
 	background-color:#F0F0F0;
 }
 .noUnderline {

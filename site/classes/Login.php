@@ -22,6 +22,10 @@ class Login
 	 */
 	private $username = "";
 	/**
+	 * @var string $type The user's type
+	 */
+	private $type = "";
+	/**
 	 * @var string $email The user's mail
 	 */
 	private $email = "";
@@ -180,7 +184,7 @@ class Login
 	{
 		$this->username = $_SESSION['username'];
 		$this->email = $_SESSION['email'];
-
+		$this->type = $_SESSION['type'];
 		// set logged in status to true, because we just checked for this:
 		// !empty($_SESSION['username']) && ($_SESSION['user_logged_in'] == 1)
 		// when we called this method (in the constructor)
@@ -201,7 +205,7 @@ class Login
 				// cookie looks good, try to select corresponding user
 				if ($this->databaseConnection()) {
 					// get real token from database (and all other data)
-					$sth = $this->db_connection->prepare("SELECT userID, username, email FROM users WHERE userID = :userID
+					$sth = $this->db_connection->prepare("SELECT userID, username, email, type FROM users WHERE userID = :userID
 													  AND user_rememberme_token = :user_rememberme_token AND user_rememberme_token IS NOT NULL");
 					$sth->bindValue(':userID', $userID, PDO::PARAM_INT);
 					$sth->bindValue(':user_rememberme_token', $token, PDO::PARAM_STR);
@@ -213,6 +217,7 @@ class Login
 						// write user data into PHP SESSION [a file on your server]
 						$_SESSION['userID'] = $result_row->userID;
 						$_SESSION['username'] = $result_row->username;
+						$_SESSION['type'] = $result_row->type;
 						$_SESSION['email'] = $result_row->email;
 						$_SESSION['name_first'] = $result_row->name_first;
 						$_SESSION['name_last'] = $result_row->name_last;
@@ -221,6 +226,7 @@ class Login
 						// declare user id, set the login status to true
 						$this->userID = $result_row->userID;
 						$this->username = $result_row->username;
+						$this->type = $result_row->type;
 						$this->email = $result_row->email;
 						$this->user_is_logged_in = true;
 
@@ -295,6 +301,7 @@ class Login
 				// write user data into PHP SESSION [a file on your server]
 				$_SESSION['userID'] = $result_row->userID;
 				$_SESSION['username'] = $result_row->username;
+				$_SESSION['type'] = $result_row->type;
 				$_SESSION['email'] = $result_row->email;
 				$_SESSION['name_first'] = $result_row->name_first;
 				$_SESSION['name_last'] = $result_row->name_last;
@@ -303,6 +310,7 @@ class Login
 				// declare user id, set the login status to true
 				$this->userID = $result_row->userID;
 				$this->username = $result_row->username;
+				$this->type = $result_row->type;
 				$this->email = $result_row->email;
 				$this->user_is_logged_in = true;
 
@@ -746,6 +754,15 @@ class Login
 	public function getUsername()
 	{
 		return $this->username;
+	}
+
+	/**
+	 * Gets the type of the user
+	 * @return string username
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 
 	public function getSections($CRN)
