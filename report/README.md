@@ -1,9 +1,15 @@
-All work on the proposal should be done off the proposal branch, and in this
-directory (unless it's on the Google doc, but that info should be moved here).
+Progress Report
+===============
 
-I started a TeX file for the proposal - this is probably a little overkill, but
-the proposal will definitely look great, and I've been looking for a chance to
-learn LaTex. It's not necessary that we keep it, though.
+This could be due on Friday! We really need to work on this. Check out directory
+cb/ for CB's notes on our proposal, revised proposal, and what we need to do
+for this progress report.
 
-The Makefile will compile the TeX file into a PDF file (and open it). I don't
-know if it will work for anyone else.
+Basically, even though this is called a progrss report, it's really version 3.0
+of the proposal. This time we really need to make it good.
+
+Proposals
+=========
+
+The proposal is tag v1.0, and the revised proposal is tag v2.0, if you want to
+access them.
