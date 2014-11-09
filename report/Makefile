@@ -1,6 +1,6 @@
 PDF_AUX=pdf-aux
 
-report.pdf: proposal.tex
+report.pdf: report.tex
 	pdflatex -output-directory=$(PDF_AUX) $<
 	bibtex $(PDF_AUX)/report.aux
 	pdflatex -output-directory=$(PDF_AUX) $<
