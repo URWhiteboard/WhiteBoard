@@ -41,7 +41,7 @@ if (isset($registration)) {
 	<input id="name_last" type="text" pattern="[a-zA-Z]{2,30}" name="name_last" required />
 	<br />
 	<label for="name_suffix"><?php echo "Suffix"; ?></label>
-	<input id="name_suffix" type="text" pattern="[a-zA-Z]{2,30}" name="name_suffix" required />
+	<input id="name_suffix" type="text" pattern="[a-zA-Z]{2,30}" name="name_suffix" />
 	<br />
 	<label for="email"><?php echo "User's email (please provide a real email address, you'll get a verification mail with an activation link)"; ?></label>
 	<input id="email" type="email" name="email" required />
