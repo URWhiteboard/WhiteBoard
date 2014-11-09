@@ -15,7 +15,10 @@ if ($login->isUserLoggedIn() == false) {
 	<meta charset="UTF-8">
 	<title>Whiteboard</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script src="../included/javascript/header.js"></script>
+	<!-- Included with php so we can use php variables in the javascript -->
+	<?php
+	require_once($_SERVER['DOCUMENT_ROOT'] .'/included/javascript/header.js');
+	?>
 	<link rel="stylesheet" type="text/css" href="../included/css/header.css">
 </head>
 <body>
@@ -26,10 +29,10 @@ if ($login->isUserLoggedIn() == false) {
 		</div>
 		</a>
 		<div id="navBarSearchContainer" class="navBarSearchContainer">
-			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to start searching..." autocomplete="off">
+			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to start searching..." autocomplete="off" autocorrect="off">
 		</div>
 		<div id="navBarSearchResultsContainer" class="navBarSearchResultsContainer">
-		Hello
+		Start typing to search...
 		</div>
 		<div id="navBarUserContainer" class="navBarUserContainer">
 			<div id="navBarUserName" class="navBarUserName">
