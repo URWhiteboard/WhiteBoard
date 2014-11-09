@@ -1,3 +1,6 @@
 .sectionEnrollStatus {
 	cursor: pointer;
 }
+.sectionEnrollStatus:hover {
+	text-decoration: underline;
+}

@@ -30,7 +30,7 @@ if (isset($registration)) {
 ?>
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful && !$registration->verification_successful) { ?>
-<form method="post" action="/register/" name="registerform">
+<form method="post" action="/register.php" name="registerform">
 	<label for="username"><?php echo "Username (only letters and numbers, 2 to 64 characters)"; ?></label>
 	<input id="username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="username" required />
 	<br />
