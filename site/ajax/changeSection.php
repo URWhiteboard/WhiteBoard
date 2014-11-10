@@ -36,7 +36,7 @@ if ($AJAX){
 
 				// If there were no rows returned, then the data did not get inserted correctly
 				if($query_addSection->rowCount() > 0) { 
-					echo "You are now enrolled in this section!";
+					echo "Enrolled, reloading...";
 				} else {
 					echo "There was an error and you were not enrolled in the section.";
 				}
@@ -52,7 +52,7 @@ if ($AJAX){
 
 				// If there were no rows returned, then the data did not get inserted correctly
 				if($query_deleteSection->rowCount() > 0) { 
-					echo "You have dropped this section!";
+					echo "Dropped, reloading...";
 				} else {
 					echo "There was an error and you did not drop the section.";
 				}
@@ -61,7 +61,7 @@ if ($AJAX){
 			echo "There was an error, please try again later.";
 		}
 	} else {
-		echo "There was an error, please try again later.";
+		echo "There was an error, please try again later.". $_GET["a"];
 	}
 }
 ?>

@@ -2,7 +2,7 @@ $(document).ready(function() {
 	
 	//GET BROWSER WINDOW SIZE
 	var currWidth = $(window).width() - 150;
-	var currHeight = $(window).height() - 30;
+	var currHeight = $(window).height() - 40;
 	$('#mainContentContainer').css('width', currWidth);
 	$('#mainContentContainer').css('height', currHeight);
 	
@@ -55,19 +55,15 @@ $(document).ready(function() {
 	$(".navBarSearchBar").keyup(function(){
 		searchCourses($('.navBarSearchBar').val())
 	});
-	$(".sectionEnrollStatus").click(function(){
-		var action;
-		if($('.sectionEnrollStatus').html() == "Add section") {
-			action = "a";
-		}else if($('.sectionEnrollStatus').html() == "Drop section"){
-			action = "r";
-		}
-		changeSection(action)
+	$("#courseNavBarEnrollStatus").click(function(){
+		changeSection()
 	});
 	// Function to add and remove a section
-	function changeSection(action){
-		var section = $('.sectionEnrollStatus').data("sid");
-		console.log(section);
+	function changeSection(){
+		var section = $('#courseNavBarEnrollStatus').data("sid");
+		var action = $('#courseNavBarEnrollStatus').data("action");
+		$('#courseNavBarEnrollStatus').css('cursor', 'default');
+
 		$.get("../../ajax/changeSection.php",
 		{ 
 			s: section,
@@ -75,8 +71,8 @@ $(document).ready(function() {
 			
 		},
 		function(data) {
-			$('.sectionEnrollStatus').html(data);
+			$('#courseNavBarEnrollStatus').html(data);
+			setTimeout(function(){window.location.reload(true)}, 1000);
 		}
-
 	)};
 });

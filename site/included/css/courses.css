@@ -27,3 +27,20 @@
 .courseNavBarButton:hover {
 	background-color:#F0F0F0;
 }
+.courseNavBarButtonRight {
+	position: fixed;
+	float: right;
+	right:0;
+	font-size: 14px;
+	line-height: 20px;
+	cursor: pointer;
+	padding: 5px;
+	padding-left:10px;
+	padding-right:10px;
+	background-color:#FFF;
+	-webkit-transition: background-color .3s;
+	margin-left:5px;
+}
+.courseNavBarButtonRight:hover {
+	background-color:#F0F0F0;
+}

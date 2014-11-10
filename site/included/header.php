@@ -75,7 +75,7 @@ $login = new Login();
 			Home
 		</div>
 		</a>
-		<a href="../courses/" class="noUnderline">
+		<a href="../../courses/" class="noUnderline">
 		<?php
 		if(strpos($_SERVER["REQUEST_URI"],'courses') !== false) {
 			echo "<div id='sideBarCoursesContainer' class='sideBarTabContainer selected'>";
