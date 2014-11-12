@@ -1,10 +1,8 @@
 <?php
 // include the config
 require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
-
 // include the PHPMailer library
 require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
-
 // load the login class
 require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 
@@ -41,7 +39,7 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 			$enrolled = $query_sectionStudents->fetchColumn();
 			if($enrolled == 1) {
 				?>
-					<div id="courseNavBarAssignments" class="courseNavBarButton">
+					<div id="courseNavBarAnnouncements" class="courseNavBarButton">
 					Announcements
 					</div>
 					<div id="courseNavBarAssignments" class="courseNavBarButton">
@@ -64,44 +62,25 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 				</div>
 				<?php
 			}
-	}
+		} else if(isset($_GET['c'])) {
+			?>
+			<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" style="cursor:default;" data-cID="<?php echo $_GET['c']; ?>">
+				Select a Section
+			</div>
+			<?php
+		}
 	?>
 
 </div>
-<div id="mainContentContainerContent" class="mainContentContainerContent" style="padding-top:40px;">
+<div id="mainContentContainerContent" class="mainContentContainerContent" style="margin-top:30px;">
 <?php
 }
 if ($login->databaseConnection()) {
 	if(isset($_GET['c'])) {
 		// if the user is trying to look up a course
-		include($_SERVER['DOCUMENT_ROOT'] .'/ajax/courses/info.php');
-			
+		echo "Loading...";
 	} elseif(isset($_GET['s'])) {
-		include($_SERVER['DOCUMENT_ROOT'] .'/ajax/courses/info.php');
-		if($login->getType() == "TEACHER"){
-			// Teacher control panel
-			echo "All students enrolled in this course<br />";
-			$query_sectionStudents = $login->db_connection->prepare('SELECT userID FROM sectionStudents WHERE sectionID = :sectionID');
-			$query_sectionStudents->bindValue(':sectionID', $section->sectionID, PDO::PARAM_STR);
-			$query_sectionStudents->execute();
-			while($sectionStudents = $query_sectionStudents->fetchObject()) {
-				$query_sectionUserData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
-				$query_sectionUserData->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
-				$query_sectionUserData->execute();
-				$sectionUserData = $query_sectionUserData->fetchObject();
-				echo $sectionUserData->name_first ." ". $sectionUserData->name_last .", ";
-			}
-		} elseif($login->getType() == "STUDENT"){
-			// Student control panel
-			// query database, check if the user is enrolled in the section
-			$query_sectionStudents = $login->db_connection->prepare('SELECT COUNT(*) FROM sectionStudents WHERE sectionID = :sectionID AND userID = :userID');
-				$query_sectionStudents->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
-				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
-				$query_sectionStudents->execute();
-				$enrolled = $query_sectionStudents->fetchColumn();
-		} else {
-			echo "You are an admin!";
-		}
+		echo "Loading...";
 	} else {
 		echo "<div id='mainContentContainerContent' class='mainContentContainerContent'>";
 		// If the user is a teacher, show them the classes they teach

@@ -30,7 +30,7 @@ if (isset($registration)) {
 ?>
 <!-- show registration form, but only if we didn't submit already -->
 <?php if (!$registration->registration_successful && !$registration->verification_successful) { ?>
-<form method="post" action="/register.php" name="registerform">
+<form method="post" action="/register/" name="registerform">
 	<label for="username"><?php echo "Username (only letters and numbers, 2 to 64 characters)"; ?></label>
 	<input id="username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="username" required />
 	<br />
@@ -47,7 +47,7 @@ if (isset($registration)) {
 	<input id="email" type="email" name="email" required />
 	<br />
 	<label for="birth_month"><?php echo "Month"; ?></label>
-	<select id="birth_month" name="birth_month">
+	<select id="birth_month" name="birth_month" required>
 	<option disabled="" selected=""></option>
 	<option value="01">January</option>
 	<option value="02">Febuary</option>
@@ -64,7 +64,7 @@ if (isset($registration)) {
 	</select>
 	<br />
 	<label for="birth_day"><?php echo "Day"; ?></label>
-	<select id="birth_day" name="birth_day">
+	<select id="birth_day" name="birth_day" required>
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = 1; $i < 32; $i++) {
@@ -74,7 +74,7 @@ if (isset($registration)) {
 	</select>
 	<br />
 	<label for="birth_year"><?php echo "Year"; ?></label>
-	<select id="birth_year" name="birth_year">
+	<select id="birth_year" name="birth_year" required>
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = date("Y"); $i > 1899 ; $i--) {
@@ -84,7 +84,7 @@ if (isset($registration)) {
 	</select>
 	<br />
 	<label for="expected_graduation"><?php echo "Class of"; ?></label>
-	<select id="expected_graduation" name="expected_graduation">
+	<select id="expected_graduation" name="expected_graduation" required>
 	<option disabled="" selected=""></option>
 	<?php
 	for($i = date("Y")-4; $i < date("Y")+5; $i++) {

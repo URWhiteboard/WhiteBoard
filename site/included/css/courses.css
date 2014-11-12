@@ -44,3 +44,6 @@
 .courseNavBarButtonRight:hover {
 	background-color:#F0F0F0;
 }
+.selected {
+	background-color: #F0F0F0;
+}

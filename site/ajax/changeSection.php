@@ -61,7 +61,7 @@ if ($AJAX){
 			echo "There was an error, please try again later.";
 		}
 	} else {
-		echo "There was an error, please try again later.". $_GET["a"];
+		echo "There was an error, please try again later.";
 	}
 }
 ?>
