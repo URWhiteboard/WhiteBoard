@@ -84,7 +84,7 @@ $(document).ready(function() {
 	// Check to see if the user is browsing the courses page
 	if(window.location.search.indexOf('c') !== -1) {
 		$('#courseNavBarInfo').addClass('selected');
-		var course = $('#courseNavBarEnrollStatus').data("cid");
+		var course = $('#courseNavBarEnrollInfo').data("cid");
 		$.get("../../ajax/courses/info.php",
 		{ 
 			c: course

@@ -23,7 +23,7 @@ if ($login->databaseConnection()) {
 			$query_course->execute();
 		$course = $query_course->fetchObject();
 
-		// get result row (as an object)
+		// get all of the course sections
 		$query_section = $login->db_connection->prepare('SELECT * FROM sections WHERE courseID = :courseID');
 			$query_section->bindValue(':courseID', $course->courseID, PDO::PARAM_STR);
 			$query_section->execute();
@@ -144,6 +144,8 @@ if ($login->databaseConnection()) {
 		} else {
 			echo "You are an admin!";
 		}
+	} else {
+		echo "There was an error, please try again later.";
 	}
 } else {
 	echo "Database connection failed, please try again later.";

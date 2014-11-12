@@ -51,7 +51,7 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 					<div id="courseNavBarResources" class="courseNavBarButton">
 					Resources
 					</div>
-					<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" data-sID="<?php echo $section->sectionID; ?>" data-action="r">
+					<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" data-sID="<?php echo $_GET['s']; ?>" data-action="r">
 					Drop Section
 					</div>
 				<?php
@@ -64,7 +64,7 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 			}
 		} else if(isset($_GET['c'])) {
 			?>
-			<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" style="cursor:default;" data-cID="<?php echo $_GET['c']; ?>">
+			<div id="courseNavBarEnrollInfo" class="courseNavBarButtonRight" style="cursor:default;" data-cID="<?php echo $_GET['c']; ?>">
 				Select a Section
 			</div>
 			<?php
@@ -85,7 +85,7 @@ if ($login->databaseConnection()) {
 		echo "<div id='mainContentContainerContent' class='mainContentContainerContent'>";
 		// If the user is a teacher, show them the classes they teach
 		if($login->getType() == "TEACHER"){
-			echo "You are a student!<br />";
+			echo "You are a teacher!<br />";
 			// database query, get all of the sections the teacher teaches
 			$query_sectionTeachers = $login->db_connection->prepare('SELECT * FROM sectionTeachers WHERE userID = :userID ORDER BY sectionID ASC');
 				$query_sectionTeachers->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
