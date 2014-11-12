@@ -55,29 +55,30 @@ input[type=checkbox] {
 	float: left;
 }
 .navBarSearchResultsContainer {
-	width:396px;
+	width:406px;
 	left:155px;
-	top:35px;
-	background-color:#FFF;
+	top:10px;
 	position:absolute;
 	display: none;
 	border-bottom: solid 1px #FFF;
-	box-shadow: 0 3px 10px #888;
+	box-shadow: 0 0px 10px #888;
 	-webkit-user-select: none;
+	padding-top:30px;
+}
+.navbarSearchResultsContainerContent {
+	background-color:#FFF;
 	padding:5px;
 }
 .navBarSearchBar {
-	padding-top: 8px;
 	padding-left:5px;
 	width:400px; 
 	font-size: 18px;
 	outline: 0;
 	border: 0;
 	border-bottom:solid 1px rgb(232,232,232);
-}
-.navBarSearchBar:focus {
-	border-bottom: solid 1px #000;
-	box-shadow: 0 2px 10px #888;
+	position: absolute;
+	z-index: 1;
+	margin-top:10px;
 }
 .navBarUserContainer {
 	height: 40px;

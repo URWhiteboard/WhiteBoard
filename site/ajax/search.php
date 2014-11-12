@@ -12,7 +12,7 @@ if ($AJAX){
 	// create a login object. when this object is created, it will do all login/logout stuff automatically
 	// so this single line handles the entire login process.
 	$login = new Login();
-
+	echo "<div id='navbarSearchResultsContainerContent' class='navbarSearchResultsContainerContent'>";
 	// ... ask if we are logged in here:
 	if ($login->isUserLoggedIn() == false) {
 		// the user is not logged in, redirect them to the homepage
@@ -29,11 +29,15 @@ if ($AJAX){
 			$query_section->execute();
 			// get result row (as an object)
 			if($query_section->rowCount() > 0) { 
+				$i = 0;
 				while($course = $query_section->fetchObject()) {
+					$i++;
 					echo "CourseID: <a href='../courses/?c=". $course->courseID ."'>". $course->courseID ."</a><br>";
 					echo "Title: ". $course->title ."<br>";
 					echo "Department: ". $course->department ." ". $course->number ."<br>";
-					echo "<br>";
+					if($i != $query_section->rowCount()) {
+						echo "<br>";
+					}
 				}
 			} else {
 				echo "There were no matches for ". $_GET['s'];
@@ -42,5 +46,6 @@ if ($AJAX){
 	} else {
 		echo "Start typing to search...";
 	}
+	echo "</div>";
 }
 ?>

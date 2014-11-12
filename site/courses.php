@@ -85,6 +85,7 @@ if ($login->databaseConnection()) {
 		echo "<div id='mainContentContainerContent' class='mainContentContainerContent'>";
 		// If the user is a teacher, show them the classes they teach
 		if($login->getType() == "TEACHER"){
+			echo "You are a student!<br />";
 			// database query, get all of the sections the teacher teaches
 			$query_sectionTeachers = $login->db_connection->prepare('SELECT * FROM sectionTeachers WHERE userID = :userID ORDER BY sectionID ASC');
 				$query_sectionTeachers->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
@@ -121,11 +122,16 @@ if ($login->databaseConnection()) {
 				echo "<br />";
 			}		
 		} elseif($login->getType() == "STUDENT"){
+			echo "You are a student!<br />";
 			// database query, get all of the sections the user is enrolled in
 			$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE userID = :userID ORDER BY sectionID ASC');
 				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 				$query_sectionStudents->execute();
-				
+			
+			if($query_sectionStudents->rowCount() == 0) {
+				echo "You are not enrolled in any courses! Please use the search above to find courses.";
+			}
+
 			// get result row as an object, so we can itenerate through the sections
 			while($sectionStudents = $query_sectionStudents->fetchObject()) {
 				// database query, get all the relevant information about the section

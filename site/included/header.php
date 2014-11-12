@@ -23,7 +23,7 @@ $login = new Login();
 <head>
 	<meta charset="UTF-8">
 	<title>Whiteboard</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="/included/javascript/header.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../included/css/header.css">
 </head>
