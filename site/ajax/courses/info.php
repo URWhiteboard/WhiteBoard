@@ -1,9 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
 
-// include the PHPMailer library
-require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
-
 // load the login class
 require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 
@@ -135,12 +132,7 @@ if ($login->databaseConnection()) {
 			}
 		} elseif($login->getType() == "STUDENT"){
 			// Student control panel
-			// query database, check if the user is enrolled in the section
-			$query_sectionStudents = $login->db_connection->prepare('SELECT COUNT(*) FROM sectionStudents WHERE sectionID = :sectionID AND userID = :userID');
-				$query_sectionStudents->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
-				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
-				$query_sectionStudents->execute();
-				$enrolled = $query_sectionStudents->fetchColumn();
+			// echo "You are enrolled in this section";
 		} else {
 			echo "You are an admin!";
 		}

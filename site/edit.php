@@ -2,9 +2,6 @@
 // include the config
 require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
 
-// include the PHPMailer library
-require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
-
 // load the login class
 require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 

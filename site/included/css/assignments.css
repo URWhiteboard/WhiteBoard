@@ -1,0 +1,26 @@
+.assignmentsAssignmentContainer {
+	border-bottom: solid 1px rgb(232,232,232);
+	height:40px;
+	-webkit-transition: background-color .3s;
+	padding-left:5px;
+	padding-right:5px;
+}
+.assignmentsAssignmentContainer:hover {
+	background-color:#F0F0F0;
+	cursor: pointer;
+}
+.assignmentsAssignmentName {
+	line-height: 25px;
+	font-size: 20px;
+}
+.assignmentsAssignmentDue {
+	line-height: 15px;
+}
+.assignmentsAssignmentGrade {
+	line-height: 40px;
+	font-size: 20px;
+	width: 100px;
+	float: right;
+	text-align: right;
+	margin-top:-40px;
+}

@@ -24,8 +24,10 @@ $login = new Login();
 	<meta charset="UTF-8">
 	<title>Whiteboard</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="../../included/libraries/jquery.datetimepicker.js"></script>
 	<script src="/included/javascript/header.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../included/css/header.css">
+	<link rel="stylesheet" type="text/css" href="../../included/css/jquery.datetimepicker.css"/ >
 </head>
 <body>
 	<div id="navBarContainer" class="navBarContainer">
@@ -113,9 +115,6 @@ $login = new Login();
 			}
 			?>
 		</div> -->
-		<div id="sideBarCalendarContainer" class="sideBarTabContainer">
-			Calendar
-		</div>
 	</div>
 	<div id="mainContentContainer" class="mainContentContainer">
 	<?php

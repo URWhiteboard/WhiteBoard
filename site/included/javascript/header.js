@@ -94,6 +94,41 @@ $(document).ready(function() {
 		});
 	// Check to see if the user is browsing their course list or a section
 	} else if(window.location.search != "") {
+		// handles changing the hash to the correct tab and changing the highlighting
+		function changeSelected(hashValue) {
+			var div;
+			var url;
+			if(hashValue == "#info") {
+				div = '#courseNavBarInfo';
+				url = 'info';
+			} else if(hashValue == "#announcements") {
+				div = '#courseNavBarAnnouncements';
+				url = 'announcements';
+			} else if(hashValue == "#assignments") {
+				div = '#courseNavBarAssignments';
+				url = 'assignments';
+			} else if(hashValue == "#grades") {
+				div = '#courseNavBarGrades';
+				url = 'grades';
+			} else if(hashValue == "#resources") {
+				div = '#courseNavBarResources';
+				url = 'resources';
+			} else {
+				// Hash doesn't correlate to a page, change it to the default info, which will load the default info page
+				window.location.hash = '#info';
+			}
+			// Changes the highlighting of the tabs
+			$('#courseNavBarInfo').removeClass('selected');
+			$('#courseNavBarAnnouncements').removeClass('selected');
+			$('#courseNavBarAssignments').removeClass('selected');
+			$('#courseNavBarGrades').removeClass('selected');
+			$('#courseNavBarResources').removeClass('selected');
+			$(div).addClass('selected');
+			// Finally send a request to load the tab if the div is not null
+			if(div!=null) {
+				loadTab($(div), url);
+			}
+		}
 		// Load initial page in which the hash correlates to
 		changeSelected(window.location.hash);
 
@@ -129,49 +164,18 @@ $(document).ready(function() {
 			function(data) {
 				if(data=="Permission Denied!") {
 					// User does not have permission, redirect them back to info
-					changeSelected('#info');
+					window.location.hash = '#info';
 				} else {
 					// User has permission, show them the page
 					$('#mainContentContainerContent').html(data);
 				}
 			});
 		}
-
-		// handles changing the hash to the correct tab and changing the highlighting
-		function changeSelected(hashValue) {
-			var div;
-			var url;
-			if(hashValue == "#info") {
-				div = '#courseNavBarInfo';
-				url = 'info';
-			} else if(hashValue == "#announcements") {
-				div = '#courseNavBarAnnouncements';
-				url = 'announcements';
-			} else if(hashValue == "#assignments") {
-				div = '#courseNavBarAssignments';
-				url = 'assignments';
-			} else if(hashValue == "#grades") {
-				div = '#courseNavBarGrades';
-				url = 'grades';
-			} else if(hashValue == "#resources") {
-				div = '#courseNavBarResources';
-				url = 'resources';
-			} else {
-				// Hash doesn't correlate to a page, change it to the default info, which will load the default info page
-				window.location.hash = '#info';
-				div = '#courseNavBarInfo';
-				url = 'info';
-			}
-			// Changes the highlighting of the tabs
-			$('#courseNavBarInfo').removeClass('selected');
-			$('#courseNavBarAnnouncements').removeClass('selected');
-			$('#courseNavBarAssignments').removeClass('selected');
-			$('#courseNavBarGrades').removeClass('selected');
-			$('#courseNavBarResources').removeClass('selected');
-			$(div).addClass('selected');
-			// Finally send a request to load the tab
-			loadTab($(div), url);
-		}
-
 	}
+	// Handles the new assignment
+	// Attach a submit handler to the form
+	//callback handler for form submit
+	$("#newAssignment").submit(function(e){
+    e.preventDefault();
+});
 });

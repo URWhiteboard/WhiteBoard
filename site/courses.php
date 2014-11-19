@@ -1,8 +1,6 @@
 <?php
 // include the config
 require_once($_SERVER['DOCUMENT_ROOT'] .'/config/config.php');
-// include the PHPMailer library
-require_once($_SERVER['DOCUMENT_ROOT'] .'/included/libraries/PHPMailer.php');
 // load the login class
 require_once($_SERVER['DOCUMENT_ROOT'] .'/classes/Login.php');
 
@@ -37,7 +35,7 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 				$query_sectionStudents->execute();
 			$enrolled = $query_sectionStudents->fetchColumn();
-			if($enrolled == 1) {
+			if($enrolled == 1 || $login->getType()=="TEACHER") {
 				?>
 					<div id="courseNavBarAnnouncements" class="courseNavBarButton">
 					Announcements
@@ -85,7 +83,6 @@ if ($login->databaseConnection()) {
 		echo "<div id='mainContentContainerContent' class='mainContentContainerContent'>";
 		// If the user is a teacher, show them the classes they teach
 		if($login->getType() == "TEACHER"){
-			echo "You are a teacher!<br />";
 			// database query, get all of the sections the teacher teaches
 			$query_sectionTeachers = $login->db_connection->prepare('SELECT * FROM sectionTeachers WHERE userID = :userID ORDER BY sectionID ASC');
 				$query_sectionTeachers->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
@@ -108,21 +105,34 @@ if ($login->databaseConnection()) {
 					// get result row (as an object)
 					$course = $query_course->fetchObject();
 				// Display all relevant course information
-				echo "<a href='../courses/?s=". $section->sectionID ."'>". $course->department ." ". $course->number ." - ". $course->title ."</a><br />";
-		    	echo "sectionID: ". $section->sectionID ."</a><br />";
-		    	echo "courseID: ". $course->courseID ."<br />";
-				echo "Day: ". $section->day ."<br />";
-				echo "Time Start: ". $section->time_start ."<br />";
-				echo "Time End: ". $section->time_end ."<br />";
-				echo "Building: ". $section->building ."<br />";
-				echo "Room: ". $section->room ."<br />";
-				echo "Instructor: ". $section->instructor ."<br />";
-				echo "Term: ". $section->term ."<br />";
-				echo "Year: ". $section->year ."<br />";
-				echo "<br />";
+				// echo "<a href='../courses/?s=". $section->sectionID ."'>". $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title)) ."</a><br />";
+		  //   	echo "sectionID: ". $section->sectionID ."</a><br />";
+		  //   	echo "courseID: ". $course->courseID ."<br />";
+				// echo "Day: ". $section->day ."<br />";
+				// echo "Time Start: ". $section->time_start ."<br />";
+				// echo "Time End: ". $section->time_end ."<br />";
+				// echo "Building: ". $section->building ."<br />";
+				// echo "Room: ". $section->room ."<br />";
+				// echo "Instructor: ". $section->instructor ."<br />";
+				// echo "Term: ". $section->term ."<br />";
+				// echo "Year: ". $section->year ."<br />";
+
+				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
+				echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
+				echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+				echo $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title));
+				echo "</div>";
+				echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
+				if($section->instructor =="") {
+					echo "No instructor assigned";
+				} else {
+					echo "". $section->instructor ."";
+				}
+				echo "</div>";
+				echo "</div>";
+				echo "</a>";
 			}		
 		} elseif($login->getType() == "STUDENT"){
-			echo "You are a student!<br />";
 			// database query, get all of the sections the user is enrolled in
 			$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE userID = :userID ORDER BY sectionID ASC');
 				$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
@@ -157,18 +167,34 @@ if ($login->databaseConnection()) {
 					$sectionTeacherData = $query_sectionTeacherData->fetchObject();
 
 				// Display all relevant course information
-				echo "<a href='../courses/?s=". $section->sectionID ."'>". $course->department ." ". $course->number ." - ". $course->title ."</a><br />";
-		    	echo "sectionID: ". $section->sectionID ."</a><br />";
-		    	echo "courseID: ". $course->courseID ."<br />";
-				echo "Day: ". $section->day ."<br />";
-				echo "Time Start: ". $section->time_start ."<br />";
-				echo "Time End: ". $section->time_end ."<br />";
-				echo "Building: ". $section->building ."<br />";
-				echo "Room: ". $section->room ."<br />";
-				echo "Instructor: ". $sectionTeacherData->name_first . " ". $sectionTeacherData->name_last ."<br />";
-				echo "Term: ". $section->term ."<br />";
-				echo "Year: ". $section->year ."<br />";
-				echo "<br />";
+				// echo "<a href='../courses/?s=". $section->sectionID ."'>". $course->department ." ". $course->number ." - ". $course->title ."</a><br />";
+		  //   	echo "sectionID: ". $section->sectionID ."</a><br />";
+		  //   	echo "courseID: ". $course->courseID ."<br />";
+				// echo "Day: ". $section->day ."<br />";
+				// echo "Time Start: ". $section->time_start ."<br />";
+				// echo "Time End: ". $section->time_end ."<br />";
+				// echo "Building: ". $section->building ."<br />";
+				// echo "Room: ". $section->room ."<br />";
+				// echo "Instructor: ". $sectionTeacherData->name_first . " ". $sectionTeacherData->name_last ."<br />";
+				// echo "Term: ". $section->term ."<br />";
+				// echo "Year: ". $section->year ."<br />";
+				// echo "<br />";
+
+				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
+				echo "<div id='coursesCourseContainer' class='coursesCourseContainer'>";
+				echo "<div id='coursesCourseTitle' class='coursesCourseTitle'>";
+				echo $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title));
+				echo "</div>";
+				echo "<div id='coursesCourseTeacher' class='coursesCourseTeacher'>";
+				if($sectionTeacherData->name_first == "") {
+					echo "No instructor assigned";
+				} else {
+					echo "". $sectionTeacherData->name_first ." ". $sectionTeacherData->name_last ."";
+				}
+				echo "</div>";
+				echo "</div>";
+				echo "</a>";
+
 			}
 		}
 	}

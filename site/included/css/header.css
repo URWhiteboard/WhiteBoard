@@ -193,3 +193,22 @@ input[type=checkbox] {
 .noUnderline {
 	text-decoration: none;
 }
+
+.coursesCourseContainer {
+	border-bottom: solid 1px rgb(232,232,232);
+	height:40px;
+	-webkit-transition: background-color .3s;
+	padding-left:5px;
+	padding-right:5px;
+}
+.coursesCourseContainer:hover {
+	background-color:#F0F0F0;
+	cursor: pointer;
+}
+.coursesCourseTitle {
+	line-height: 25px;
+	font-size: 20px;
+}
+.coursesCourseTeacher {
+	line-height: 15px;
+}
