@@ -77,6 +77,38 @@ if (isset($registration)) {
 	<br />
 	<select id="expected_graduation" name="expected_graduation" required>
 	<option disabled="" selected="">Class Of</option>
+	<option value="01">January</option>
+	<option value="02">Febuary</option>
+	<option value="03">March</option>
+	<option value="04">April</option>
+	<option value="05">May</option>
+	<option value="06">June</option>
+	<option value="07">July</option>
+	<option value="08">August</option>
+	<option value="09">September</option>
+	<option value="10">October</option>
+	<option value="11">November</option>
+	<option value="12">December</option>
+	</select>
+	<select id="birth_day" name="birth_day" required>
+	<option disabled="" selected="">Day</option>
+	<?php
+	for($i = 1; $i < 32; $i++) {
+		echo "<option value=\"". $i ."\">". $i ."</option>";
+	}
+	?>
+	</select>
+	<select id="birth_year" name="birth_year" required>
+	<option disabled="" selected="">Year</option>
+	<?php
+	for($i = date("Y"); $i > 1899 ; $i--) {
+		echo "<option value=\"". $i ."\">". $i ."</option>";
+	}
+	?>
+	</select>
+	<br />
+	<select id="expected_graduation" name="expected_graduation" required>
+	<option disabled="" selected="">Class Of</option>
 	<?php
 	for($i = date("Y")-4; $i < date("Y")+5; $i++) {
 		echo "<option value=\"". $i ."\">". $i ."</option>";
