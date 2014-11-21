@@ -29,12 +29,12 @@ if ($login->isUserLoggedIn() == true) {
 			<form method="post" action="../../../" name="loginform">
 				<div id="headerLoginContainerForms" class="headerLoginContainerForms">
 					<div id="headerLoginContainerFormUsername" class="headerLoginContainerFormUsername">
-						<input id="user_name" type="text" name="user_name" placeholder="Username" tabindex="1" required />
+						<input id="username" type="text" name="username" placeholder="Username" tabindex="1" required />
 						<input type="checkbox" id="user_rememberme" name="user_rememberme" value="1" tabindex="3" />
 						<label for="user_rememberme"><?php echo "Keep me logged in (for 2 weeks)"; ?></label>
 					</div>
 					<div id="headerLoginContainerFormPassword" class="headerLoginContainerFormPassword">
-						<input id="user_password" type="password" name="user_password" placeholder="Password" autocomplete="off" tabindex="2" required />
+						<input id="password" type="password" name="password" placeholder="Password" autocomplete="off" tabindex="2" required />
 						<input type="submit" name="login" tabindex="4" value="<?php echo "Log in"; ?>" />
 						&nbsp; <a href="/password_reset/"><?php echo "I forgot my password"; ?></a>
 					</div>

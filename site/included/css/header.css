@@ -54,17 +54,31 @@ input[type=checkbox] {
 	padding: 5px;
 	float: left;
 }
+.navBarSearchResultsContainer {
+	width:406px;
+	left:155px;
+	top:10px;
+	position:absolute;
+	display: none;
+	border-bottom: solid 1px #FFF;
+	box-shadow: 0 0px 10px #888;
+	-webkit-user-select: none;
+	padding-top:30px;
+}
+.navbarSearchResultsContainerContent {
+	background-color:#FFF;
+	padding:5px;
+}
 .navBarSearchBar {
-	padding-top: 8px;
 	padding-left:5px;
 	width:400px; 
 	font-size: 18px;
 	outline: 0;
 	border: 0;
 	border-bottom:solid 1px rgb(232,232,232);
-}
-.navBarSearchBar:focus {
-	border-bottom: solid 1px #000;
+	position: absolute;
+	z-index: 1;
+	margin-top:10px;
 }
 .navBarUserContainer {
 	height: 40px;
@@ -135,10 +149,14 @@ input[type=checkbox] {
 }
 .mainContentContainer {
 	left:150px;
-	padding: 10px;
+	padding: 0px;
 	margin-top: 40px;
 	position: absolute;
 	min-width: 450px;
+	overflow: auto;
+}
+.mainContentContainerContent {
+	padding:10px;
 	overflow: auto;
 }
 .sideBarTabContainer {
@@ -155,6 +173,42 @@ input[type=checkbox] {
 .sideBarTabContainer:hover {
 	background-color:#F0F0F0;
 }
+.selected {
+	background-color: #F0F0F0;
+}
+.sideBarCoursesSubBar {
+	width:150px;
+	height:30px;
+	margin-top:5px;
+	background-color: #FFF;
+	line-height: 12px;
+	font-size: 12px;
+	cursor: pointer;
+	text-align: center;
+	-webkit-transition: background-color .3s;
+}
+.sideBarCoursesSubBar:hover {
+	background-color:#F0F0F0;
+}
 .noUnderline {
 	text-decoration: none;
+}
+
+.coursesCourseContainer {
+	border-bottom: solid 1px rgb(232,232,232);
+	height:40px;
+	-webkit-transition: background-color .3s;
+	padding-left:5px;
+	padding-right:5px;
+}
+.coursesCourseContainer:hover {
+	background-color:#F0F0F0;
+	cursor: pointer;
+}
+.coursesCourseTitle {
+	line-height: 25px;
+	font-size: 20px;
+}
+.coursesCourseTeacher {
+	line-height: 15px;
 }
