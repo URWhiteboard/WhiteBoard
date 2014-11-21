@@ -1,7 +1,0 @@
-Options +FollowSymLinks
-RewriteEngine On
-
-<Files ~ "\.php$">
-	Order allow,deny
-	Deny from all
-</Files>
