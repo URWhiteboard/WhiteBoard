@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 \usepackage[margin=1 in]{geometry}
 
-\DeclareGraphicsExtensions{.png,.jpg}
+\DeclareGraphicsExtensions{.png}
 
 \begin{document}
 
@@ -146,45 +146,47 @@ ways we accomplish this goal.
 
 \subsection{Login System}
 
-With the open-source library we're using, the PHP-Login project, the
-login system is complete. Users can register, and we've set up an email
-verification system. Users can log in and the system will remember them.
+With the open-source library we're using, the PHP-Login project, the login
+system is complete. The system is very secure, uisng bcrypt as the password
+hash. Users can register, and we've set up an email verification system. Users
+can log in and the system will remember them.
 
 \subsection{Courses}
 
-Users can search for courses via the search bar, which allows them to view information,
-add or drop courses, and contact the professor. The system keeps track of which users
-are enrolled in which sections.
+Users can search for courses via the search bar, which allows them to view
+information, add or drop courses, and contact the professor. The system keeps
+track of which users are enrolled in which sections.
 
 \section{Future Plans}
 
 \subsection{Courses UI}
 
-The courses UI could use a little more work to make it a bit more pretty and also make it
-completely intuitive. There is not much more to do in this area, though; much
-of the courses UI has already been done.
+The courses UI could use a little more work to make it a bit more pretty and
+also make it completely intuitive. There is not much more to do in this area,
+though; much of the courses UI has already been done.
 
 \subsection{Grades}
 
-Grades are the most important part of a students education. We plan to make them easy
-to access and easy to understand. We will accomplish this by getting rid of bloat
-on the face, while having the ability to see the more detailed information such as
-grade distributions and averages. Another thing that we are planning on doing is 
-to display the grading policies of the professors so students can better understand
-their grades.
+Grades are the most important part of a students education. We plan to make
+them easy to access and easy to understand. We will accomplish this by getting
+rid of bloat on the face, while having the ability to see the more detailed
+information such as grade distributions and averages. Another thing that we are
+planning on doing is to display the grading policies of the professors so
+students can better understand their grades.
 
 \subsection{Announcements and Communication}
 
 The primary aim of announcements and communication is for students to be able
 to contact other students in their classes. For simplicity, this will direct to
-email. It also will allow teachers to get a list of their students for whole-class
-announcements, and for students to get their teachers' emails easily.
+email. It also will allow teachers to get a list of their students for
+whole-class announcements, and for students to get their teachers' emails
+easily.
 
 \subsection{Professors' UI}
 
 We plan to create a side for professors so that they could do administrative
 functions, such as adding students to classes. This will be one of the later
-things we will add, as we would like the student interface done first. 
+things we will add, as we would like the student interface done first.
 
 \bibliography{refs}{} \bibliographystyle{plain}
 
