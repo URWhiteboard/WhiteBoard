@@ -65,7 +65,7 @@ class Login
 	public function __construct()
 	{
 		// create/read session
-		session_start();
+		// session_start();
 
 		// TODO: organize this stuff better and make the constructor very small
 		// TODO: unite Login and Registration classes ?
@@ -775,22 +775,6 @@ class Login
 			$query_user->execute();
 			// get result row (as an object)
 			return $query_user->fetchObject();
-		} else {
-			return false;
-		}
-	}
-
-	public function getSections($CRN)
-	{
-		// if database connection opened
-		if ($this->databaseConnection()) {
-			// database query, getting all the info of the selected user
-			$query_user = $this->db_connection->prepare('SELECT * FROM sections WHERE CRN = :CRN');
-			$query_user->bindValue(':CRN', $CRN, PDO::PARAM_STR);
-			$query_user->execute();
-			// get result row (as an object)
-			return $query_user->fetchObject();
-			var_dump($this);
 		} else {
 			return false;
 		}
