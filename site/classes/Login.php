@@ -1,8 +1,4 @@
-﻿<!DOCTYPE HTML>
-<!DOCTYPE html PUBLIC "" ""><HTML><HEAD>
-<META http-equiv="Content-Type" content="text/html; charset=utf-8"></HEAD>
-<BODY>
-<PRE>&lt;?php
+﻿<?php
 
 /**
  * handles the user login/logout/session
@@ -835,4 +831,3 @@ class Login
 		$this-&gt;user_gravatar_image_tag = $url;
 	}
 }
-</PRE></BODY></HTML>
