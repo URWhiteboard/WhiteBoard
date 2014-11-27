@@ -36,7 +36,7 @@ class Registration
 	 */
 	public function __construct()
 	{
-		session_start();
+		//session_start();
 
 		// if we have such a POST request, call the registerNewUser() method
 		if (isset($_POST["register"])) {
@@ -86,7 +86,7 @@ class Registration
 
 		// check provided data validity
 		// TODO: check for "return true" case early, so put this first
-		if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
+		if (strtolower($captcha) != strtolower ($_SESSION['captcha'])) {
 			$this->errors[] = "Captcha was wrong!";
 		} elseif (empty($username)) {
 			$this->errors[] = "Username field was empty";
