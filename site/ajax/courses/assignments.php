@@ -42,11 +42,9 @@ if ($login->databaseConnection()) {
 					$query_assignment->execute();
 					$assignment = $query_assignment->fetchObject();
 					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
+					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
 					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
 					echo $assignment->name;
-					if ($assignment->due_time < time()) {
-						echo " &ndash; Overdue!";
-					}
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
 					echo "Due ". date('D, F j \a\t g:i a', $assignment->due_time) ."";
@@ -55,6 +53,49 @@ if ($login->databaseConnection()) {
 					// Need to check to see if they have a grade for the assignment
 					echo "&ndash; / ". $assignment->maxScore ."";
 					echo "</div>";
+					echo "</div>";
+					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+					// Check the database for submissions
+					echo "<h3>Submissions</h3>";
+					$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID ORDER BY submit_time ASC');
+						$query_submissions->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+						$query_submissions->bindValue(':assignmentID', $sectionAssignment->assignmentID, PDO::PARAM_STR);
+						$query_submissions->execute();
+					if($query_submissions->rowCount() == 0) {
+						echo "You have not submitted anything for this assignment.<br>";
+					}
+					// loop through all of the submissions
+					while($submission = $query_submissions->fetchObject()) {
+						$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+						$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
+						$query_file->execute();
+						$file = $query_file->fetchObject();
+						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
+						echo "URL: <a href='../../users/submissions/". $file->url ."'>". $file->url ."</a><br>";
+						echo "Title: ". $file->title ."<br>";
+						echo "Comment: ". $submission->comment ."<br>";
+						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br><br>";
+					}
+					if ($assignment->due_time < time()) {
+						echo "Sorry, the due date has passed. You cannot add a new submission.";
+					} else {
+						echo "<h3>Add new submission</h3>";
+						?>
+						<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
+							<form method="post" action="/users/" name="submitAssignment" id="submitAssignment">
+							<label for="title"><?php echo "Title (only letters and numbers, 2 to 64 characters)"; ?></label>
+							<input id="title" type="text" pattern="[a-zA-Z0-9]{2,64}" name="title"/>
+							<label for="comment">Comment</label>
+							<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
+							<br />
+							<label for="file">File</label>
+							<input id="file" type="file" name="file"/>
+							<br />
+							<input type="submit" name="submit" value="Submit" />
+							</form>
+						</div>
+						<?php
+					}
 					// echo "Curve : ";
 					// if($assignment->curveType == "ADD_PERCENT") { 
 					// 	echo $assignment->curveParam ."%";
@@ -67,6 +108,7 @@ if ($login->databaseConnection()) {
 					// }
 					// echo "Category: ". $assignment->category ."";
 					// echo "Comment: ". $assignment->comment ."";
+					echo "</div>";
 					echo "</div>";
 			}
 		} else {
@@ -123,7 +165,6 @@ if ($login->databaseConnection()) {
 			}
 			echo "<h4>Create a new assignment!</h4>";
 			?>
-
 			<form method="post" id="newAssignment" name="newAssignment">
 				<label for="name">Assignment Name (only letters and numbers, 2 to 64 characters): </label>
 				<input id="name" type="text" pattern="[a-zA-Z0-9]{2,64}" name="name" required />
@@ -220,24 +261,24 @@ $('#newAssignment').on('submit', function(e) {
 		error = "late_policy";
 	}
 	console.log(postData);
-    var formURL = '../../ajax/courses/newAssignment.php';
+	var formURL = '../../ajax/courses/newAssignment.php';
 	if(error == null) {
-	    $.ajax(
-	    {
-	        url : formURL,
-	        type: "POST",
-	        data : postData,
-	        success:function(data, textStatus, jqXHR) 
-	        {
-	            //data: return data from server
-	            $('#mainContentContainerContent').html(data);
-	        },
-	        error: function(jqXHR, textStatus, errorThrown) 
-	        {
-	            //if fails
-	            $('#mainContentContainerContent').html(data);
-	        }
-	    })
+		$.ajax(
+		{
+			url : formURL,
+			type: "POST",
+			data : postData,
+			success:function(data, textStatus, jqXHR) 
+			{
+				//data: return data from server
+				$('#mainContentContainerContent').html(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) 
+			{
+				//if fails
+				$('#mainContentContainerContent').html(data);
+			}
+		})
 	} else {
 		console.log(postData);
 		console.log('error '+ error);
@@ -252,5 +293,32 @@ $('#datetimepicker').datetimepicker({
 	maxDate:'+01/01/1971',
 	yearStart: 2014,
 	yearEnd: 2015
+});
+// Expand the assignments div
+$('.assignmentsAssignmentHeader').click(function(e) {
+	$(this.parentNode).toggleClass('assignmentsAssignmentContainer');
+	$(this.parentNode).toggleClass('assignmentsAssignmentContainerExpanded');
+});
+$( '#submitAssignment' ).submit( function( e ) {
+	e.preventDefault();
+	var f = e.target;
+    var fd = new FormData(f);
+	$.ajax({
+		url: '../../ajax/uploadSubmission.php',
+		type: 'POST',
+		data: fd,
+		processData: false,
+		contentType: false,
+		success:function(data, textStatus, jqXHR) 
+		{
+			//data: return data from server
+			$('#newSubmissionContainer').html(data);
+		},
+		error: function(jqXHR, textStatus, errorThrown) 
+		{
+			//if fails
+			$('#newSubmissionContainer').html(data);
+		}
+	});
 });
 </script>
