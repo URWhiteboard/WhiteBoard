@@ -176,6 +176,6 @@ $(document).ready(function() {
 	// Attach a submit handler to the form
 	//callback handler for form submit
 	$("#newAssignment").submit(function(e){
-    e.preventDefault();
-});
+	    e.preventDefault();
+	});
 });

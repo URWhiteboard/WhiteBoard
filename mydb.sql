@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Nov 18, 2014 at 08:23 PM
+-- Generation Time: Nov 28, 2014 at 01:28 PM
 -- Server version: 5.5.38
 -- PHP Version: 5.5.14
 
@@ -40,8 +40,8 @@ CREATE TABLE `assignments` (
 --
 
 INSERT INTO `assignments` (`assignmentID`, `name`, `category`, `maxScore`, `creatorID`, `curveType`, `curveParam`, `due_time`, `show_letter`, `comment`, `latePolicyID`, `fileID`) VALUES
-(14, 'Lab 20', 'LAB', 3, 6, '', 0, 1416452400, 1, 'Lab 20 Blah', 1, NULL),
-(16, 'Lab 21', 'LAB', 3, 6, '', 0, 1416625215, 1, 'Lab 21', 1, NULL),
+(14, 'Lab 20', 'LAB', 3, 6, '', 0, 1417364894, 1, 'Lab 20 Blah', 1, NULL),
+(16, 'Lab 21', 'LAB', 3, 6, '', 0, 1417364894, 1, 'Lab 21', 1, NULL),
 (17, 'Lab 19', 'LAB', 3, 6, '', 0, 1416020400, 1, 'Lab 19', 1, NULL);
 
 -- --------------------------------------------------------
@@ -51,7 +51,7 @@ INSERT INTO `assignments` (`assignmentID`, `name`, `category`, `maxScore`, `crea
 --
 
 CREATE TABLE `courses` (
-  `courseID` int(10) unsigned NOT NULL,
+`courseID` int(10) unsigned NOT NULL,
   `school` varchar(64) NOT NULL,
   `department` char(3) NOT NULL,
   `number` smallint(3) unsigned NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `courses` (
   `clusters` text COMMENT 'This should be removed and expanded into a whole tables, but for now we''re not dealing with clusters and just leaving them as text.',
   `prerequisites` text,
   `cross_listed` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2264 ;
 
 --
 -- Dumping data for table `courses`
@@ -2340,11 +2340,19 @@ INSERT INTO `courses` (`courseID`, `school`, `department`, `number`, `type`, `ti
 --
 
 CREATE TABLE `files` (
-  `fileID` int(10) unsigned NOT NULL,
-  `url` varchar(255) NOT NULL,
+`fileID` int(10) unsigned NOT NULL,
+  `extension` varchar(10) NOT NULL,
   `title` varchar(128) DEFAULT NULL,
   `upload_time` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `files`
+--
+
+INSERT INTO `files` (`fileID`, `extension`, `title`, `upload_time`) VALUES
+(1, 'txt', 'Test', 1417060854),
+(2, 'txt', 'Test Two', 1417061951);
 
 -- --------------------------------------------------------
 
@@ -2353,7 +2361,7 @@ CREATE TABLE `files` (
 --
 
 CREATE TABLE `grades` (
-  `gradeID` int(10) unsigned NOT NULL,
+`gradeID` int(10) unsigned NOT NULL,
   `real_score` smallint(5) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL,
@@ -2362,7 +2370,7 @@ CREATE TABLE `grades` (
   `effective_score` smallint(5) unsigned DEFAULT NULL,
   `comment` text,
   `submissionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2392,7 +2400,7 @@ INSERT INTO `latePolicies` (`latePolicyID`, `rate`, `period`, `is_percent`, `cre
 --
 
 CREATE TABLE `letterScales` (
-  `letterScaleID` int(10) unsigned NOT NULL,
+`letterScaleID` int(10) unsigned NOT NULL,
   `a` decimal(2,0) unsigned DEFAULT NULL,
   `am` decimal(2,0) unsigned DEFAULT NULL,
   `bp` decimal(2,0) unsigned DEFAULT NULL,
@@ -2404,7 +2412,7 @@ CREATE TABLE `letterScales` (
   `dp` decimal(2,0) unsigned DEFAULT NULL,
   `d` decimal(2,0) unsigned NOT NULL,
   `dm` decimal(2,0) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `letterScales`
@@ -2423,7 +2431,7 @@ CREATE TABLE `sectionAssignments` (
 `sectionAssignmentsID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `assignmentID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `sectionAssignments`
@@ -2441,7 +2449,7 @@ INSERT INTO `sectionAssignments` (`sectionAssignmentsID`, `sectionID`, `assignme
 --
 
 CREATE TABLE `sectionGradingPolicies` (
-  `sectionGradingPolicyID` int(10) unsigned NOT NULL,
+`sectionGradingPolicyID` int(10) unsigned NOT NULL,
   `letterScaleID` int(10) unsigned NOT NULL,
   `isWeighted` tinyint(1) unsigned NOT NULL,
   `quiz_weight` decimal(2,0) unsigned DEFAULT NULL,
@@ -2455,7 +2463,7 @@ CREATE TABLE `sectionGradingPolicies` (
   `midterm_weight` decimal(2,0) unsigned DEFAULT NULL,
   `final_weight` decimal(2,0) unsigned DEFAULT NULL,
   `other_weight` decimal(2,0) unsigned DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2267 ;
 
 --
 -- Dumping data for table `sectionGradingPolicies`
@@ -4713,7 +4721,7 @@ INSERT INTO `sectionGradingPolicies` (`sectionGradingPolicyID`, `letterScaleID`,
 --
 
 CREATE TABLE `sections` (
-  `sectionID` int(10) unsigned NOT NULL,
+`sectionID` int(10) unsigned NOT NULL,
   `CRN` int(10) unsigned NOT NULL,
   `day` varchar(7) NOT NULL,
   `time_start` int(4) unsigned NOT NULL,
@@ -4729,7 +4737,7 @@ CREATE TABLE `sections` (
   `url` varchar(255) DEFAULT NULL,
   `courseID` int(10) unsigned NOT NULL,
   `sectionGradingPolicyID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2242 ;
 
 --
 -- Dumping data for table `sections`
@@ -6988,14 +6996,14 @@ INSERT INTO `sections` (`sectionID`, `CRN`, `day`, `time_start`, `time_end`, `bu
 --
 
 CREATE TABLE `sectionStudents` (
-  `sectionStudentID` int(10) unsigned NOT NULL,
+`sectionStudentID` int(10) unsigned NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `userID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `is_pass_fail` tinyint(1) NOT NULL,
   `is_satisfactory_fail` tinyint(1) NOT NULL,
   `is_no_credit` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `sectionStudents`
@@ -7013,11 +7021,11 @@ INSERT INTO `sectionStudents` (`sectionStudentID`, `is_active`, `userID`, `secti
 --
 
 CREATE TABLE `sectionTAs` (
-  `sectionTAID` int(10) unsigned NOT NULL,
+`sectionTAID` int(10) unsigned NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `userID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -7026,11 +7034,11 @@ CREATE TABLE `sectionTAs` (
 --
 
 CREATE TABLE `sectionTeachers` (
-  `sectionTeacherID` int(10) unsigned NOT NULL,
+`sectionTeacherID` int(10) unsigned NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `userID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `sectionTeachers`
@@ -7046,13 +7054,21 @@ INSERT INTO `sectionTeachers` (`sectionTeacherID`, `is_active`, `userID`, `secti
 --
 
 CREATE TABLE `submissions` (
-  `submissionID` int(10) unsigned NOT NULL,
+`submissionID` int(10) unsigned NOT NULL,
   `submit_time` int(10) unsigned NOT NULL,
   `comment` text,
   `assignmentID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `submissions`
+--
+
+INSERT INTO `submissions` (`submissionID`, `submit_time`, `comment`, `assignmentID`, `fileID`, `userID`) VALUES
+(1, 1417060854, 'This is a test text file.', 14, 1, 3),
+(2, 1417061951, 'This is test number two', 14, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -7061,7 +7077,7 @@ CREATE TABLE `submissions` (
 --
 
 CREATE TABLE `users` (
-  `userID` int(10) unsigned NOT NULL,
+`userID` int(10) unsigned NOT NULL,
   `type` enum('STUDENT','TEACHER','ADMIN') NOT NULL,
   `username` varchar(64) NOT NULL,
   `password_hash` char(255) NOT NULL,
@@ -7082,13 +7098,14 @@ CREATE TABLE `users` (
   `birth_day` tinyint(2) DEFAULT NULL,
   `birth_month` tinyint(2) unsigned DEFAULT NULL,
   `registration_time` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userID`, `type`, `username`, `password_hash`, `email`, `activation_hash`, `is_active`, `password_reset_hash`, `password_reset_time`, `rememberme_token`, `failed_logins`, `last_failed_login_time`, `registration_ip`, `name_first`, `name_last`, `name_suffix`, `expected_graduation`, `birth_year`, `birth_day`, `birth_month`, `registration_time`) VALUES
+(1, 'STUDENT', 'faradis', '$2y$10$/bZqEjr9nAgGAyT1OtS7O.eRjezWaJLnl1PCQQw3Fl/0.US.SZwKW', 'faradis111709@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Faradis', 'Lindblom', '', 2018, 1996, 4, 6, 1417104998),
 (3, 'STUDENT', 'jroschen', '$2y$10$2JPHql9yXgbYTDOe/yGaYevD44z.44uX6FFZC8aEIh9lU2bfeVLjK', 'jroschen@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Jacob', 'Roschen', 'Sr', 2018, 1996, 31, 5, 1414282890),
 (5, 'STUDENT', 'jro', '$2y$10$UhdoaVQBc18efRDwSYCa5.mc5NWIaX97uREbbNMQNghESdxT3BQZq', 'roshie2@gmail.com', NULL, 1, NULL, NULL, NULL, 0, 1414871614, '::1', 'Jacob', 'Roschen', 'Sr', 2018, 1996, 31, 5, 1414871574),
 (6, 'TEACHER', 'cbrown', '$2y$10$TJnfZoif8Fe/Tb/ZHcFiU.pDmPT5g2G7Zkt8Hzu/UmDjlkJUmlqM2', 'b2348550@trbvm.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Chris', 'Brown', '', 2010, 1944, 8, 11, 1415498132);
@@ -7191,15 +7208,70 @@ ALTER TABLE `users`
 ALTER TABLE `assignments`
 MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
+-- AUTO_INCREMENT for table `courses`
+--
+ALTER TABLE `courses`
+MODIFY `courseID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2264;
+--
+-- AUTO_INCREMENT for table `files`
+--
+ALTER TABLE `files`
+MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `grades`
+--
+ALTER TABLE `grades`
+MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `latePolicies`
 --
 ALTER TABLE `latePolicies`
 MODIFY `latePolicyID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `letterScales`
+--
+ALTER TABLE `letterScales`
+MODIFY `letterScaleID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `sectionAssignments`
 --
 ALTER TABLE `sectionAssignments`
-MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `sectionGradingPolicies`
+--
+ALTER TABLE `sectionGradingPolicies`
+MODIFY `sectionGradingPolicyID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2267;
+--
+-- AUTO_INCREMENT for table `sections`
+--
+ALTER TABLE `sections`
+MODIFY `sectionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2242;
+--
+-- AUTO_INCREMENT for table `sectionStudents`
+--
+ALTER TABLE `sectionStudents`
+MODIFY `sectionStudentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+--
+-- AUTO_INCREMENT for table `sectionTAs`
+--
+ALTER TABLE `sectionTAs`
+MODIFY `sectionTAID` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sectionTeachers`
+--
+ALTER TABLE `sectionTeachers`
+MODIFY `sectionTeacherID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `submissions`
+--
+ALTER TABLE `submissions`
+MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+MODIFY `userID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --

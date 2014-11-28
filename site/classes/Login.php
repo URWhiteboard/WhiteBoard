@@ -780,22 +780,6 @@ class Login
 		}
 	}
 
-	public function getSections($CRN)
-	{
-		// if database connection opened
-		if ($this->databaseConnection()) {
-			// database query, getting all the info of the selected user
-			$query_user = $this->db_connection->prepare('SELECT * FROM sections WHERE CRN = :CRN');
-			$query_user->bindValue(':CRN', $CRN, PDO::PARAM_STR);
-			$query_user->execute();
-			// get result row (as an object)
-			return $query_user->fetchObject();
-			var_dump($this);
-		} else {
-			return false;
-		}
-	}
-
 	/**
 	 * Get either a Gravatar URL or complete image tag for a specified email address.
 	 * Gravatar is the #1 (free) provider for email address based global avatar hosting.

@@ -62,4 +62,3 @@ if ($login->isUserLoggedIn() == true) {
 		}
 	}
 	?>
-<br />
