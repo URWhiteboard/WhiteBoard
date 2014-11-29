@@ -91,6 +91,7 @@ if ($login->databaseConnection()) {
 							<label for="file">File</label>
 							<input id="file" type="file" name="file"/>
 							<br />
+							<input id="assignment" type="hidden" name="assignment" value="<?php echo $sectionAssignment->assignmentID; ?>"/>
 							<input type="submit" name="submit" value="Submit" />
 							</form>
 						</div>
