@@ -1,12 +1,7 @@
 Progress Report
 ===============
 
-This could be due on Friday! We really need to work on this. Check out directory
-cb/ for CB's notes on our proposal, revised proposal, and what we need to do
-for this progress report.
-
-Basically, even though this is called a progrss report, it's really version 3.0
-of the proposal. This time we really need to make it good.
+The progress report is tag v3.0.
 
 Proposals
 =========
