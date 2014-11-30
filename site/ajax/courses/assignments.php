@@ -71,7 +71,7 @@ if ($login->databaseConnection()) {
 						$query_file->execute();
 						$file = $query_file->fetchObject();
 						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
-						echo "URL: <a href='../../users/submissions/". $file->url ."'>". $file->url ."</a><br>";
+						echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
 						echo "Title: ". $file->title ."<br>";
 						echo "Comment: ". $submission->comment ."<br>";
 						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br><br>";
