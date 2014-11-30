@@ -82,7 +82,7 @@ if ($login->databaseConnection()) {
 						echo "<h3>Add new submission</h3>";
 						?>
 						<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
-							<form method="post" action="/users/" name="submitAssignment" id="submitAssignment">
+							<form method="post" action="/users/" name="submitAssignment" id="submitAssignment" class="submitAssignment">
 							<label for="title"><?php echo "Title (only letters and numbers, 2 to 64 characters)"; ?></label>
 							<input id="title" type="text" pattern="[a-zA-Z0-9]{2,64}" name="title"/>
 							<label for="comment">Comment</label>
@@ -300,7 +300,7 @@ $('.assignmentsAssignmentHeader').click(function(e) {
 	$(this.parentNode).toggleClass('assignmentsAssignmentContainer');
 	$(this.parentNode).toggleClass('assignmentsAssignmentContainerExpanded');
 });
-$( '#submitAssignment' ).submit( function( e ) {
+$(".submitAssignment").on('submit', function( e ) {
 	e.preventDefault();
 	var f = e.target;
     var fd = new FormData(f);
@@ -313,12 +313,12 @@ $( '#submitAssignment' ).submit( function( e ) {
 		success:function(data, textStatus, jqXHR) 
 		{
 			//data: return data from server
-			$('#newSubmissionContainer').html(data);
+			$(e.target.parentNode).html(data);
 		},
 		error: function(jqXHR, textStatus, errorThrown) 
 		{
 			//if fails
-			$('#newSubmissionContainer').html(data);
+			$(e.target.parentNode).html(data);
 		}
 	});
 });
