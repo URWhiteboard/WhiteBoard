@@ -31,10 +31,11 @@ if ($login->databaseConnection()) {
 			$query_new_submission->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 			$query_new_submission->execute();
 		// Upload directory
-		$uploaddir = '../users/submissions/';
+		$uploaddir = $_SERVER['DOCUMENT_ROOT']. '/users/submissions/';
 		// create the url to upload the file with the fileID as the file name
 		$uploadfile = $uploaddir . $fileID .".". $ext;
 		// copy the temp uploaded file into the user/submissions directory
+
 		if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
 		    echo "File upload successful.";
 		} else {
