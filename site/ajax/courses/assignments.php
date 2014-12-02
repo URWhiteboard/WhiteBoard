@@ -95,7 +95,6 @@ if ($login->databaseConnection()) {
 							<label for="comment">Comment</label>
 							<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
 							<br />
-							<label for="file">File</label>
 							<input id="file" type="file" name="file"/>
 							<br />
 							<input id="assignment" type="hidden" name="assignment" value="<?php echo $sectionAssignment->assignmentID; ?>"/>
@@ -141,12 +140,13 @@ if ($login->databaseConnection()) {
 			if($query_sectionAssignments->rowCount() == 0) {
 				echo "There are no assignments for this section!";
 			}
+			$i = 0;
 			while($sectionAssignment = $query_sectionAssignments->fetchObject()) {
 					$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID ORDER BY due_time ASC');
 					$query_assignment->bindValue(':assignmentID', $sectionAssignment->assignmentID, PDO::PARAM_STR);
 					$query_assignment->execute();
 					$assignment = $query_assignment->fetchObject();
-					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
+					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
 					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
 					echo $assignment->name;
@@ -256,7 +256,7 @@ if ($login->databaseConnection()) {
 				<option value="0">No</option>
 				</select>
 				
-				<label for="comment"><?php echo "Comment"; ?></label>
+				<label for="comment">Comment: </label>
 				<input id="comment" type="text" name="comment" required/>
 				
 				<label for="late_policy">Late Policy: </label>
@@ -306,14 +306,16 @@ $('#newAssignment').on('submit', function(e) {
 	} else if(postData[8].value == "") {
 		error = "late_policy";
 	}
-	console.log(postData);
 	var formURL = '../../ajax/courses/newAssignment.php';
 	if(error == null) {
+		fd = postData;
+		var sectionID = {name:"sectionID", value:"<?php echo $_GET['s']; ?>"};
+		fd.push(sectionID);
 		$.ajax(
 		{
 			url : formURL,
 			type: "POST",
-			data : postData,
+			data : fd,
 			success:function(data, textStatus, jqXHR) 
 			{
 				//data: return data from server
@@ -325,8 +327,9 @@ $('#newAssignment').on('submit', function(e) {
 				$('#mainContentContainerContent').html(data);
 			}
 		})
+		console.log(fd);
 	} else {
-		console.log(postData);
+		// Assignment form needs to be updated when there is an error
 		console.log('error '+ error);
 	}
 });
