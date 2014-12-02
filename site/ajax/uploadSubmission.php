@@ -13,10 +13,11 @@ if ($login->databaseConnection()) {
 	// Extract the extension from the file name
 	$ext = end((explode(".", $_FILES['file']['name'])));
 	// Insert file information into the database
-	$query_new_file = $login->db_connection->prepare('INSERT INTO files (extension, title, upload_time) VALUES(:extension, :title, :upload_time)');
+	$query_new_file = $login->db_connection->prepare('INSERT INTO files (extension, title, upload_time, userID) VALUES(:extension, :title, :upload_time, :userID)');
 		$query_new_file->bindValue(':extension', $ext, PDO::PARAM_STR);
-		$query_new_file->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
+		$query_new_file->bindValue(':title', $_FILES['file']['name'], PDO::PARAM_STR);
 		$query_new_file->bindValue(':upload_time', time(), PDO::PARAM_STR);
+		$query_new_file->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 	$query_new_file->execute();
 
 	$fileID = $login->db_connection->lastInsertId();

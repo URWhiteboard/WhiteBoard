@@ -36,12 +36,14 @@ if ($login->databaseConnection()) {
 				echo "There are no assignments for this section!";
 			}
 			// get result row as an object, so we can itenerate through the sections
+			$i = 0;
 			while($sectionAssignment = $query_sectionAssignments->fetchObject()) {
 				$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID ORDER BY due_time ASC');
 					$query_assignment->bindValue(':assignmentID', $sectionAssignment->assignmentID, PDO::PARAM_STR);
 					$query_assignment->execute();
 					$assignment = $query_assignment->fetchObject();
-					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
+					// will create a top border on the first assignment
+					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
 					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
 					echo $assignment->name;
@@ -64,18 +66,25 @@ if ($login->databaseConnection()) {
 					if($query_submissions->rowCount() == 0) {
 						echo "You have not submitted anything for this assignment.<br>";
 					}
+					// Used to keep track of the attempt
+					$j = 0;
 					// loop through all of the submissions
 					while($submission = $query_submissions->fetchObject()) {
+						$j++;
 						$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
 						$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
 						$query_file->execute();
 						$file = $query_file->fetchObject();
+						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
+						echo "Attempt ". $j ."<br>";
 						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
-						echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+						echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
 						echo "Title: ". $file->title ."<br>";
 						echo "Comment: ". $submission->comment ."<br>";
-						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br><br>";
+						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
+						echo "</div>";
 					}
+					// Needs to check the late submission policy
 					if ($assignment->due_time < time()) {
 						echo "Sorry, the due date has passed. You cannot add a new submission.";
 					} else {
@@ -83,8 +92,6 @@ if ($login->databaseConnection()) {
 						?>
 						<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
 							<form method="post" action="/users/" name="submitAssignment" id="submitAssignment" class="submitAssignment">
-							<label for="title"><?php echo "Title (only letters and numbers, 2 to 64 characters)"; ?></label>
-							<input id="title" type="text" pattern="[a-zA-Z0-9]{2,64}" name="title"/>
 							<label for="comment">Comment</label>
 							<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
 							<br />
@@ -135,34 +142,72 @@ if ($login->databaseConnection()) {
 				echo "There are no assignments for this section!";
 			}
 			while($sectionAssignment = $query_sectionAssignments->fetchObject()) {
-				$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID');
+					$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID ORDER BY due_time ASC');
 					$query_assignment->bindValue(':assignmentID', $sectionAssignment->assignmentID, PDO::PARAM_STR);
 					$query_assignment->execute();
 					$assignment = $query_assignment->fetchObject();
-				echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
-				echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
-				echo $assignment->name;
-				echo "</div>";
-				echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
-				echo "". date('D, F j \a\t g:i a', $assignment->due_time) ."";
-				echo "</div>";
-				echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
-				// Need to check to see if they have a grade for the assignment
-				echo "&ndash; / ". $assignment->maxScore ."";
-				echo "</div>";
-				// echo "Curve : ";
-				// if($assignment->curveType == "ADD_PERCENT") { 
-				// 	echo $assignment->curveParam ."%";
-				// } elseif($assignment->curveType == "ADD_CONSTANT") { 
-				// 	echo $assignment->curveParam ." points";
-				// } elseif($assignment->curveParam == "REDUCE_MAX") {
-				// 	echo "Graded out of ". $assignment->maxScore - $assignment->curveParam ."";
-				// } else {
-				// 	echo "None" ."";
-				// }
-				// echo "Category: ". $assignment->category ."";
-				// echo "Comment: ". $assignment->comment ."";
-				echo "</div>";
+					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
+					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
+					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+					echo $assignment->name;
+					echo "</div>";
+					echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
+					echo "Due ". date('D, F j \a\t g:i a', $assignment->due_time) ."";
+					echo "</div>";
+					echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
+					// Need to check to see if they have a grade for the assignment
+					echo "&ndash; / ". $assignment->maxScore ."";
+					echo "</div>";
+					echo "</div>";
+					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+					// Check the database for submissions
+					echo "<h3>Submissions</h3>";
+					// This query might have a bug, as it doesn't work correctly if your sort it ASC, so I've included
+					// a query below that will show all of the submissions
+					$query_submissions = $login->db_connection->prepare('SELECT comment, submit_time, userID, MAX(fileID) fileID FROM submissions WHERE assignmentID = :assignmentID GROUP BY userID DESC');
+					//$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE assignmentID = :assignmentID');
+						$query_submissions->bindValue(':assignmentID', $sectionAssignment->assignmentID, PDO::PARAM_STR);
+						$query_submissions->execute();
+					if($query_submissions->rowCount() == 0) {
+						echo "There are no submissions to grade.<br>";
+					}
+					// loop through all of the submissions
+					while($submission = $query_submissions->fetchObject()) {
+						$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+						$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
+						$query_file->execute();
+						$file = $query_file->fetchObject();
+						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
+						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
+						echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+						echo "Title: ". $file->title ."<br>";
+						echo "Comment: ". $submission->comment ."<br>";
+						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
+						echo "Submitted by: ". $submission->userID ."<br>";
+						echo "</div>";
+					}
+					// Allow the professor to start grading the assignments now that the due date has passed
+					if ($assignment->due_time < time()) {
+						echo "You can now grade the assignments.";
+					} else {
+						echo "You can not grade the assignements yet.";
+						?>
+						<?php
+					}
+					// echo "Curve : ";
+					// if($assignment->curveType == "ADD_PERCENT") { 
+					// 	echo $assignment->curveParam ."%";
+					// } elseif($assignment->curveType == "ADD_CONSTANT") { 
+					// 	echo $assignment->curveParam ." points";
+					// } elseif($assignment->curveParam == "REDUCE_MAX") {
+					// 	echo "Graded out of ". $assignment->maxScore - $assignment->curveParam ."";
+					// } else {
+					// 	echo "None" ."";
+					// }
+					// echo "Category: ". $assignment->category ."";
+					// echo "Comment: ". $assignment->comment ."";
+					echo "</div>";
+					echo "</div>";
 			}
 			echo "<h4>Create a new assignment!</h4>";
 			?>
