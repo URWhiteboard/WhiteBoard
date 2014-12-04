@@ -16,12 +16,14 @@ a {
 }
 input[type=text],
 input[type=password],
-input[type=file],
-textarea,
 select,
 input[type=email] {
+	padding-top: 5px;
+	padding-left:5px;
+	width:200px; 
+	font-size: 18px;
+	line-height: 20px;
 	display: block;
-	margin-bottom: 15px;
 }
 input[type=checkbox] {
 	margin-bottom: 15px;
@@ -52,6 +54,9 @@ input[type=submit]:hover {
 	box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 0px 0px;
 	color: rgb(34, 34, 34);
 	cursor: pointer;
+}
+.error {
+	border: solid 1px red;
 }
 .navBarContainer {
 	width: 100%;

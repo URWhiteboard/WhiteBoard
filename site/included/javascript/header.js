@@ -165,6 +165,8 @@ $(document).ready(function() {
 				if(data=="Permission Denied!") {
 					// User does not have permission, redirect them back to info
 					window.location.hash = '#info';
+				} else if(data=="You are logged out!") {
+					window.location.replace(window.location.protocol +'//'+ window.location.host);
 				} else {
 					// User has permission, show them the page
 					$('#mainContentContainerContent').html(data);

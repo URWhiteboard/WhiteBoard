@@ -49,5 +49,11 @@
 	border-radius: 5px;
 	padding: 5px;
 	margin-bottom:5px;
-
+}
+.assignmentsAssignmentSubmissionUser {
+	padding: 5px;
+}
+.assignmentsAssignmentSubmissionTeacher {
+	border-top:solid 1px #F0F0F0;
+	padding: 5px;
 }

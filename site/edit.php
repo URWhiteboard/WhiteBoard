@@ -19,7 +19,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] .'/included/header.php');
 ?>
 <div id="mainContentContainerContent" class="mainContentContainerContent">
 <form method="post" action="/edit/" name="edit_form_name">
-	<label for="name"><?php echo "New username (username must consist of 2-64 alphanumeric characters)"; ?></label>
+	<label for="name"><?php echo "New username (username cannot be empty and must be azAZ09 and 2-64 characters)"; ?></label>
 	<input id="username" type="text" name="username" pattern="[a-zA-Z0-9]{2,64}" required /> (<?php echo "currently"; ?>: <?php echo $_SESSION['username']; ?>)
 	<input type="submit" name="edit_submit_name" value="Change username" />
 </form><hr/>
