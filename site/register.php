@@ -38,7 +38,7 @@ if (isset($registration)) {
 	<br />
 	<input id="name_last" type="text" pattern="[a-zA-Z]{2,30}" name="name_last" placeholder="Last Name" required />
 	<br />
-	<input id="name_suffix" type="text" pattern="[a-zA-Z]{2,30}" placeholder="Suffix" name="name_suffix" />
+	<input id="name_suffix" type="text" pattern="[a-zA-Z]{2,30}" placeholder="Suffix (optional)" name="name_suffix" />
 	<br />
 	<input id="email" type="email" name="email" placeholder="Email" required />
 	<br />
