@@ -37,14 +37,14 @@ if ($login->databaseConnection()) {
 		// copy the temp uploaded file into the user/submissions directory
 
 		if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
-		    echo "File upload successful.";
+		    echo "Your submission was successfully uploaded. Reloading...";
 		} else {
-		    echo "There was an error and your file did not upload.";
+		    echo "There was an error and your file did not upload. Reloading...";
 		}
 	} else {
-		echo "There was an error and your file did not upload.";
+		echo "There was an error and your file did not upload. Reloading...";
 	}
 } else {
-	echo "Database connection failed";
+	echo "Database connection failed. Reloading...";
 }
 ?>
