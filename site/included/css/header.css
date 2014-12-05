@@ -100,7 +100,14 @@ input[type=submit]:hover {
 }
 .navbarSearchResultsContainerContent {
 	background-color:#FFF;
+}
+.navbarSearchResultsSectionContainer {
+	border-top: solid 1px rgb(232, 232, 232);
 	padding:5px;
+}
+.navbarSearchResultsSectionContainer:hover {
+	background-color: rgb(232,232,232);
+	cursor: pointer;
 }
 .navBarSearchBar {
 	padding-left:5px;
