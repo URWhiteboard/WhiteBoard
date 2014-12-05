@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Dec 02, 2014 at 12:42 AM
+-- Generation Time: Dec 04, 2014 at 10:30 AM
 -- Server version: 5.5.38
 -- PHP Version: 5.5.14
 
@@ -33,16 +33,7 @@ CREATE TABLE `assignments` (
   `comment` text,
   `latePolicyID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
-
---
--- Dumping data for table `assignments`
---
-
-INSERT INTO `assignments` (`assignmentID`, `name`, `category`, `maxScore`, `creatorID`, `curveType`, `curveParam`, `due_time`, `show_letter`, `comment`, `latePolicyID`, `fileID`) VALUES
-(14, 'Lab 20', 'LAB', 3, 6, '', 0, 1417364894, 1, 'Lab 20 Blah', 1, NULL),
-(16, 'Lab 21', 'LAB', 3, 6, '', 0, 1418364894, 1, 'Lab 21', 1, NULL),
-(17, 'Lab 19', 'LAB', 3, 6, '', 0, 1416020400, 1, 'Lab 19', 1, NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
 -- --------------------------------------------------------
 
@@ -2345,7 +2336,22 @@ CREATE TABLE `files` (
   `title` varchar(128) DEFAULT NULL,
   `upload_time` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=74 ;
+
+--
+-- Dumping data for table `files`
+--
+
+INSERT INTO `files` (`fileID`, `extension`, `title`, `upload_time`, `userID`) VALUES
+(65, 'zip', 'Roschen_12-2.zip', 1417546723, 3),
+(66, 'zip', 'Roschen_11-20.zip', 1417551903, 3),
+(67, 'zip', 'Roschen_11-20.zip', 1417552008, 3),
+(68, 'zip', 'Roschen_11-20.zip', 1417579002, 3),
+(69, 'zip', 'Roschen_11-20.zip', 1417579084, 3),
+(70, 'zip', 'Roschen_11-20.zip', 1417663822, 5),
+(71, 'zip', '70.zip', 1417665512, 1),
+(72, 'zip', '71.zip', 1417665529, 3),
+(73, 'zip', 'Roschen_11-20.zip', 1417665551, 5);
 
 -- --------------------------------------------------------
 
@@ -2363,7 +2369,7 @@ CREATE TABLE `grades` (
   `effective_score` smallint(5) unsigned DEFAULT NULL,
   `comment` text,
   `submissionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -2373,9 +2379,10 @@ CREATE TABLE `grades` (
 
 CREATE TABLE `latePolicies` (
 `latePolicyID` int(10) unsigned NOT NULL,
-  `rate` smallint(5) unsigned NOT NULL,
-  `period` enum('DAY','HOUR') NOT NULL,
-  `is_percent` tinyint(1) NOT NULL,
+  `title` text NOT NULL,
+  `rate` smallint(5) unsigned DEFAULT NULL,
+  `period` enum('DAY','HOUR','NONE') NOT NULL,
+  `is_percent` tinyint(1) DEFAULT NULL,
   `creatorID` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -2383,8 +2390,8 @@ CREATE TABLE `latePolicies` (
 -- Dumping data for table `latePolicies`
 --
 
-INSERT INTO `latePolicies` (`latePolicyID`, `rate`, `period`, `is_percent`, `creatorID`) VALUES
-(1, 2, 'HOUR', 1, 6);
+INSERT INTO `latePolicies` (`latePolicyID`, `title`, `rate`, `period`, `is_percent`, `creatorID`) VALUES
+(1, 'Labs', 2, 'HOUR', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -2424,16 +2431,7 @@ CREATE TABLE `sectionAssignments` (
 `sectionAssignmentsID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `assignmentID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `sectionAssignments`
---
-
-INSERT INTO `sectionAssignments` (`sectionAssignmentsID`, `sectionID`, `assignmentID`) VALUES
-(1, 501, 17),
-(2, 501, 14),
-(3, 501, 16);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -6996,7 +6994,7 @@ CREATE TABLE `sectionStudents` (
   `is_pass_fail` tinyint(1) NOT NULL,
   `is_satisfactory_fail` tinyint(1) NOT NULL,
   `is_no_credit` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
 -- Dumping data for table `sectionStudents`
@@ -7006,7 +7004,8 @@ INSERT INTO `sectionStudents` (`sectionStudentID`, `is_active`, `userID`, `secti
 (25, 0, 3, 500, 0, 0, 0),
 (50, 1, 3, 717, 0, 0, 0),
 (52, 1, 3, 501, 0, 0, 0),
-(53, 1, 5, 501, 0, 0, 0);
+(53, 1, 5, 501, 0, 0, 0),
+(54, 1, 1, 501, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -7054,7 +7053,7 @@ CREATE TABLE `submissions` (
   `assignmentID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=67 ;
 
 -- --------------------------------------------------------
 
@@ -7093,7 +7092,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userID`, `type`, `username`, `password_hash`, `email`, `activation_hash`, `is_active`, `password_reset_hash`, `password_reset_time`, `rememberme_token`, `failed_logins`, `last_failed_login_time`, `registration_ip`, `name_first`, `name_last`, `name_suffix`, `expected_graduation`, `birth_year`, `birth_day`, `birth_month`, `registration_time`) VALUES
 (1, 'STUDENT', 'faradis', '$2y$10$/bZqEjr9nAgGAyT1OtS7O.eRjezWaJLnl1PCQQw3Fl/0.US.SZwKW', 'faradis111709@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Faradis', 'Lindblom', '', 2018, 1996, 4, 6, 1417104998),
 (3, 'STUDENT', 'jroschen', '$2y$10$2JPHql9yXgbYTDOe/yGaYevD44z.44uX6FFZC8aEIh9lU2bfeVLjK', 'jroschen@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Jacob', 'Roschen', 'Sr', 2018, 1996, 31, 5, 1414282890),
-(5, 'STUDENT', 'jro', '$2y$10$UhdoaVQBc18efRDwSYCa5.mc5NWIaX97uREbbNMQNghESdxT3BQZq', 'roshie2@gmail.com', NULL, 1, NULL, NULL, NULL, 0, 1414871614, '::1', 'Jacob', 'Roschen', 'Sr', 2018, 1996, 31, 5, 1414871574),
+(5, 'STUDENT', 'jro', '$2y$10$UhdoaVQBc18efRDwSYCa5.mc5NWIaX97uREbbNMQNghESdxT3BQZq', 'roshie2@gmail.com', NULL, 1, NULL, NULL, NULL, 0, 1414871614, '::1', 'Jacob', 'Ro', 'Sr', 2018, 1996, 31, 5, 1414871574),
 (6, 'TEACHER', 'cbrown', '$2y$10$TJnfZoif8Fe/Tb/ZHcFiU.pDmPT5g2G7Zkt8Hzu/UmDjlkJUmlqM2', 'b2348550@trbvm.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Chris', 'Brown', '', 2010, 1944, 8, 11, 1415498132);
 
 --
@@ -7192,7 +7191,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `courses`
 --
@@ -7202,12 +7201,12 @@ MODIFY `courseID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2264;
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=65;
+MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `latePolicies`
 --
@@ -7222,7 +7221,7 @@ MODIFY `letterScaleID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2
 -- AUTO_INCREMENT for table `sectionAssignments`
 --
 ALTER TABLE `sectionAssignments`
-MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `sectionGradingPolicies`
 --
@@ -7237,7 +7236,7 @@ MODIFY `sectionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2242;
 -- AUTO_INCREMENT for table `sectionStudents`
 --
 ALTER TABLE `sectionStudents`
-MODIFY `sectionStudentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
+MODIFY `sectionStudentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `sectionTAs`
 --
@@ -7252,7 +7251,7 @@ MODIFY `sectionTeacherID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMEN
 -- AUTO_INCREMENT for table `submissions`
 --
 ALTER TABLE `submissions`
-MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
+MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `users`
 --

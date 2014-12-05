@@ -27,33 +27,40 @@ if ($AJAX){
 			$query_courses->bindValue(':title', "%". $_GET['s'] ."%", PDO::PARAM_INT);
 			$query_courses->bindValue(':number', "%". $_GET['s'] ."%", PDO::PARAM_INT);
 			$query_courses->execute();
-			// get result row (as an object)
+			// if there is at least one result
 			if($query_courses->rowCount() > 0) { 
+				// Keep track of the result number
 				$i = 0;
+				//get result row as an object
 				while($course = $query_courses->fetchObject()) {
-					$i++;
-					echo "CourseID: <a href='../courses/?c=". $course->courseID ."'>". $course->courseID ."</a><br>";
-					// get result row (as an object)
+					// Get all the sections of the course
 					$query_section = $login->db_connection->prepare('SELECT * FROM sections WHERE courseID = :courseID');
 						$query_section->bindValue(':courseID', $course->courseID, PDO::PARAM_STR);
 						$query_section->execute();
-					echo "SectionID: ";
+
+					// Loop through all of the sections
 					while($section = $query_section->fetchObject()) {
-						echo "<a href='../courses/?s=". $section->sectionID ."'>". $section->sectionID ."</a> ";
+						echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
 					}
-					echo "<br>";
-					echo "Title: ". $course->title ."<br>";
-					echo "Department: ". $course->department ." ". $course->number ."<br>";
-					if($i != $query_courses->rowCount()) {
-						echo "<br>";
-					}
+					echo "<div id='navbarSearchResultsSectionContainer' class='navbarSearchResultsSectionContainer' ". ((!$i++)? "style='border-top: none;'" : "") .">";
+					// Replaces the found search term and makes it bold
+					echo str_ireplace(strtoupper($_GET['s']), "<strong>". strtoupper($_GET['s']) ."</strong>", $course->title) ."<br>";
+					echo str_ireplace(strtoupper($_GET['s']), "<strong>". strtoupper($_GET['s']) ."</strong>", $course->department ." ". $course->number)  ."<br>";
+					echo "</div>";
+					echo "</a>";
 				}
+			// There were no matches for the query
 			} else {
+				echo "<div id='navbarSearchResultsSectionContainer' class='navbarSearchResultsSectionContainer' ". ((!$i++)? "style='border-top: none;'" : "") .">";
 				echo "There were no matches for ". $_GET['s'];
+				echo "</div>";
 			}
 		}
+	// The user has clicked in the box, but hasn't typed anything
 	} else {
+		echo "<div id='navbarSearchResultsSectionContainer' class='navbarSearchResultsSectionContainer' ". ((!$i++)? "style='border-top: none;'" : "") .">";
 		echo "Start typing to search...";
+		echo "</div>";
 	}
 	echo "</div>";
 }
