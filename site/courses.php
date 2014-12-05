@@ -91,6 +91,7 @@ if ($login->databaseConnection()) {
 			if($query_sectionTeachers->rowCount() == 0) {
 				echo "You do not currently teach any sections";
 			}
+			$i = 0;
 			// get result row as an object, so we can itenerate through the sections
 			while($sectionTeachers = $query_sectionTeachers->fetchObject()) {
 				// database query, get all the relevant information about the section
@@ -104,6 +105,18 @@ if ($login->databaseConnection()) {
 					$query_course->execute();
 					// get result row (as an object)
 					$course = $query_course->fetchObject();
+
+				// query the sectionTeachers to get the teacher of the section
+				$query_sectionTeacher = $login->db_connection->prepare('SELECT * FROM sectionTeachers WHERE sectionID = :sectionID');
+					$query_sectionTeacher->bindValue(':sectionID', $section->sectionID, PDO::PARAM_STR);
+					$query_sectionTeacher->execute();
+					$sectionTeacher = $query_sectionTeacher->fetchObject();
+
+				$query_sectionTeacherData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
+					$query_sectionTeacherData->bindValue(':userID', $sectionTeacher->userID, PDO::PARAM_STR);
+					$query_sectionTeacherData->execute();
+					$sectionTeacherData = $query_sectionTeacherData->fetchObject();
+
 				// Display all relevant course information
 				// echo "<a href='../courses/?s=". $section->sectionID ."'>". $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title)) ."</a><br />";
 		  //   	echo "sectionID: ". $section->sectionID ."</a><br />";
@@ -118,15 +131,15 @@ if ($login->databaseConnection()) {
 				// echo "Year: ". $section->year ."<br />";
 
 				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
-				echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>";
-				echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+				echo "<div id='coursesCourseContainer' class='coursesCourseContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
+				echo "<div id='coursesCourseTitle' class='coursesCourseTitle'>";
 				echo $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title));
 				echo "</div>";
-				echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
-				if($section->instructor =="") {
+				echo "<div id='coursesCourseTeacher' class='coursesCourseTeacher'>";
+				if($sectionTeacherData->name_first == "") {
 					echo "No instructor assigned";
 				} else {
-					echo "". $section->instructor ."";
+					echo "". $sectionTeacherData->name_first ." ". $sectionTeacherData->name_last ."";
 				}
 				echo "</div>";
 				echo "</div>";
@@ -141,7 +154,7 @@ if ($login->databaseConnection()) {
 			if($query_sectionStudents->rowCount() == 0) {
 				echo "You are not enrolled in any courses! Please use the search above to find courses.";
 			}
-
+			$i = 0;
 			// get result row as an object, so we can itenerate through the sections
 			while($sectionStudents = $query_sectionStudents->fetchObject()) {
 				// database query, get all the relevant information about the section
@@ -181,7 +194,7 @@ if ($login->databaseConnection()) {
 				// echo "<br />";
 
 				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
-				echo "<div id='coursesCourseContainer' class='coursesCourseContainer'>";
+				echo "<div id='coursesCourseContainer' class='coursesCourseContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 				echo "<div id='coursesCourseTitle' class='coursesCourseTitle'>";
 				echo $course->department ." ". $course->number ." - ". ucwords(strtolower($course->title));
 				echo "</div>";

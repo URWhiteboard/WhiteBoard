@@ -24,13 +24,19 @@ if ($login->databaseConnection()) {
 	$query_newAssignment->bindValue(':fileID', $_POST['fileID'], PDO::PARAM_INT);
 	$query_newAssignment->execute();
 
+	$assignmentID = $login->db_connection->lastInsertId();
+
+	$query_sectionAssignment = $login->db_connection->prepare('INSERT INTO sectionAssignments (sectionID, assignmentID) VALUES(:sectionID, :assignmentID)');
+		$query_sectionAssignment->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_STR);
+		$query_sectionAssignment->bindValue(':assignmentID', $assignmentID, PDO::PARAM_STR);
+		$query_sectionAssignment->execute();
 	// If there were no rows returned, then the data did not get inserted correctly
 	if($query_newAssignment->rowCount() > 0) { 
-		echo "You have created a new assignment!";
+		echo "You have created a new assignment! Reloading...";
 	} else {
-		echo "There was an error and you did not create a new assignment.";
+		echo "There was an error and you did not create a new assignment. Reloading...";
 	}
 } else {
-	echo "Database connection failed";
+	echo "Database connection failed. Reloading...";
 }
 ?>

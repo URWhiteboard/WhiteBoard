@@ -16,14 +16,47 @@ a {
 }
 input[type=text],
 input[type=password],
-input[type=submit],
 select,
 input[type=email] {
+	padding-top: 5px;
+	padding-left:5px;
+	width:200px; 
+	font-size: 18px;
+	line-height: 20px;
 	display: block;
-	margin-bottom: 15px;
 }
 input[type=checkbox] {
 	margin-bottom: 15px;
+}
+input[type=submit] {
+	background-color: rgba(0, 0, 0, 0);
+	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	border-color: rgba(0, 0, 0, 0.0980392);
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+
+	color: rgb(68, 68, 68);
+	font-size: 11px;
+	font-weight: bold;
+	height: 29px;
+	line-height: 29px;
+	min-width: 54px;
+	padding-bottom: 0px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 0px;
+	text-align: center;
+}
+input[type=submit]:hover {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 0px 0px;
+	border-color: rgb(198, 198, 198);
+	box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 0px 0px;
+	color: rgb(34, 34, 34);
+	cursor: pointer;
+}
+.error {
+	border: solid 1px red;
 }
 .navBarContainer {
 	width: 100%;
