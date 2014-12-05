@@ -1,3 +1,4 @@
+// Expands the Additional Information section in Courses->info
 function expand() {
 	if(document.getElementsByClassName('adinfo')[0].style.display == 'none') { 
 		for(i = 0; i < document.getElementsByClassName('adinfo').length; i++) {
@@ -57,11 +58,6 @@ $(document).ready(function() {
 	});
 	$('.navBarSearchResultsContainer').click(function(e) {
 		e.stopPropagation();
-	});
-	
-	// Additional Information drop down
-	$('#additional').click(function(e) {
-		$('.adinfo').toggle();
 	});
 	
 	// Function to retrieve and show the search results live
