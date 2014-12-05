@@ -46,7 +46,7 @@ if ($login->databaseConnection()) {
 			echo "<li>Description: <br>". $course->description ."</li>";
 			
 			// Additional Information
-			echo "<li><table>";
+			echo "<li><table class='infoTable'>";
 			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
 			echo "<tr class='adinfo'  style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
 			echo "<tr class='adinfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
@@ -102,6 +102,28 @@ if ($login->databaseConnection()) {
 			echo "<li>Location: ". $section->building . " " .$section->room . "</li>";
 			echo "<li>Description: <br>". $course->description ."</li>";
 			
+			echo "<li>";
+			if($login->getType() == "TEACHER"){
+				// Teacher control panel
+				echo "Roster: ";
+				$query_sectionStudents = $login->db_connection->prepare('SELECT userID FROM sectionStudents WHERE sectionID = :sectionID');
+				$query_sectionStudents->bindValue(':sectionID', $section->sectionID, PDO::PARAM_STR);
+				$query_sectionStudents->execute();
+				while($sectionStudents = $query_sectionStudents->fetchObject()) {
+					$query_sectionUserData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
+					$query_sectionUserData->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
+					$query_sectionUserData->execute();
+					$sectionUserData = $query_sectionUserData->fetchObject();
+					echo $sectionUserData->name_first ." ". $sectionUserData->name_last .", ";
+				}
+			} elseif($login->getType() == "STUDENT"){
+				// Student control panel
+				// echo "You are enrolled in this section";
+			} else {
+				echo "You are an admin!";
+			}
+			echo "</li>";
+			
 			// Additional Information
 			echo "<li><table>";
 			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
@@ -126,25 +148,6 @@ if ($login->databaseConnection()) {
 			echo "<tr class='adinfo' style='display: none;'><td>URL</td><td>". $section->url ."</td></tr>";
 			echo "</table></li>";
 
-		if($login->getType() == "TEACHER"){
-			// Teacher control panel
-			echo "All students enrolled in this course<br />";
-			$query_sectionStudents = $login->db_connection->prepare('SELECT userID FROM sectionStudents WHERE sectionID = :sectionID');
-			$query_sectionStudents->bindValue(':sectionID', $section->sectionID, PDO::PARAM_STR);
-			$query_sectionStudents->execute();
-			while($sectionStudents = $query_sectionStudents->fetchObject()) {
-				$query_sectionUserData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
-				$query_sectionUserData->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
-				$query_sectionUserData->execute();
-				$sectionUserData = $query_sectionUserData->fetchObject();
-				echo $sectionUserData->name_first ." ". $sectionUserData->name_last .", ";
-			}
-		} elseif($login->getType() == "STUDENT"){
-			// Student control panel
-			// echo "You are enrolled in this section";
-		} else {
-			echo "You are an admin!";
-		}
 	} else {
 		echo "There was an error, please try again later.";
 	}

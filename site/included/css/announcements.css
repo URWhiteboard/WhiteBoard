@@ -1,0 +1,21 @@
+.announceNav {
+	height: 45px;
+}
+.announceNavButton {
+	padding: 10px;
+	font-size: 14px;
+	float: left;
+	position: relative;
+}
+.announceNavButton:hover {
+	cursor: pointer;
+	background-color:#F0F0F0;
+}
+.announceContainer {
+}
+table,tr,td {
+	border: none;
+}
+.announceInput {
+	padding: 10px;
+}

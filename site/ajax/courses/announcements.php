@@ -39,7 +39,43 @@ if ($login->databaseConnection()) {
 		$enrolled = $query_sectionTeachers->fetchColumn();
 		if($enrolled==1) {
 			// Enrolled, show page
-			echo "Teacher Announcements";
+			?>
+			<link rel="stylesheet" type="text/css" href="../../included/css/announcements.css">
+			<div class="announceNav">
+				<div class='announceNavButton' id="newAnnouncement">+ Announcement</div>
+			</div>
+			<div class="announceContainer">
+				<div class="newAnnouncement" style="display: none">
+					<table> <!-- only way to do this, I swear. -->
+					<tr class="announceInput"><td>Title</td><td><input></td></tr>
+					<tr class="announceInput"><td>Content</td><td><input></td></tr>
+					<submit>
+					</table>
+<?php
+// on sumbit, connect to database and send using framework from addignments submission page
+?>
+				</div>
+				<div class="pastAnnouncements">
+<?php
+// Get past assignments (copied from grades.php)
+//$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM assignments INNER JOIN assignments ON sectionAssignments.assignmentID = assignments.assignmentID WHERE sectionAssignments.sectionID = :sectionID ORDER BY due_time DESC');
+//	$query_sectionAssignments->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+//	$query_sectionAssignments->execute();
+
+// get result row as an object, so we can itenerate through the sections
+//while($assignment = $query_sectionAssignments->fetchObject()) {
+//	$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE date_create=*');
+	// title
+//	$query_title->bindValue(':latePolicyID', $assignment->latePolicyID, PDO::PARAM_STR);
+	// body
+//	$query_latePolicies->execute();
+//	$latePolicy = $query_latePolicies->fetchObject();
+//}
+?>
+				</div>
+			</div>
+			<?php
+			
 		} else {
 			// Not enrolled, redirect back to #info
 			echo "Permission Denied!";
@@ -47,3 +83,10 @@ if ($login->databaseConnection()) {
 	}
 }
 ?>
+<script>
+// Expand the announcements div
+$('#newAnnouncement').click(function(e) {
+	$('.newAnnouncement').toggle();
+	$('.pastAnnouncements').toggle();
+});
+</script>
