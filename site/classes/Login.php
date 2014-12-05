@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * handles the user login/logout/session
@@ -775,6 +775,7 @@ class Login
 			$query_user->execute();
 			// get result row (as an object)
 			return $query_user->fetchObject();
+			var_dump($this);
 		} else {
 			return false;
 		}

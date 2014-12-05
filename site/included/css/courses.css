@@ -47,3 +47,29 @@
 .selected {
 	background-color: #F0F0F0;
 }
+
+/* Assignment Formatting */
+table,tr,td {
+	border: 2px solid #F0F0F0;
+	border-collapse: collapse;
+}
+td {
+	padding: 5px;
+}
+li {
+	list-style-type: none;
+	padding: 10px;
+}
+#additional:hover {
+	cursor: pointer;
+	background-color:#F0F0F0;
+}
+.title {
+	font-size: 14px;
+}
+.instructor {
+}
+.description {
+}
+.info {
+}
