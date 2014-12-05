@@ -25,6 +25,31 @@ if ($login->databaseConnection()) {
 		if($enrolled==1) {
 			// Enrolled, show page
 			echo "Student Resources";
+			//get all resources for this section
+			$query_sectionResources=$login->db_connection->prepare('SELECT * FROM sectionResources INNER JOIN resources ON sectionResources.resourceID=resources.resourceID WHERE sectionResources.sectionID=:sectionID ')
+				$query_sectionResources->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+				$query_sectionResources->execute();
+			if($query_sectionResources->rowCount()==0){
+				echo "There are no resources for this section"
+			}
+			$i=0;
+			while($resource=$query_sectionResources->fetchObject()){
+				echo "<div id='resourcesResourceContainer' class='resourcesResourceConainter' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : ") ."">";
+				echo "<div id='resourcesResourceHeader' class='resourcesResourceHeader'>";
+				echo "<div id='resourcesResourceName' class='resourcesResourceName'>";
+				echo $resource->name;
+				echo "</div>"
+				echo "<div id='resourcesResourceFile' class='resourcesResourceFile'>";
+				echo "URL: <a href='../../users/resources/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+				echo "</div>";
+				if($submission->comment==""){}
+				else{
+					echo "Comment: ";
+					echo $submission->comment;
+				}
+				echo "</div>";
+				echo "</div>";
+			}
 		} else {
 			// Not enrolled, redirect back to #info
 			echo "Permission Denied!";
@@ -39,7 +64,43 @@ if ($login->databaseConnection()) {
 		$enrolled = $query_sectionTeachers->fetchColumn();
 		if($enrolled==1) {
 			// Enrolled, show page
-			echo "Teacher Resources";
+			echo "Resources";
+			//get all resources for this section
+			$query_sectionResources=$login->db_connection->prepare('SELECT * FROM sectionResources INNER JOIN resources ON sectionResources.resourceID=resources.resourceID WHERE sectionResources.sectionID=:sectionID ')
+				$query_sectionResources->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+				$query_sectionResources->execute();
+			if($query_sectionResources->rowCount()==0){
+				echo "There are no resources for this section"
+			}
+			$i=0;
+			while($resource=$query_sectionResources->fetchObject()){
+				echo "<div id='resourcesResourceContainer' class='resourcesResourceConainter' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : ") ."">";
+				echo "<div id='resourcesResourceHeader' class='resourcesResourceHeader'>";
+				echo "<div id='resourcesResourceName' class='resourcesResourceName'>";
+				echo $resource->name;
+				echo "</div>"
+				echo "<div id='resourcesResourceFile' class='resourcesResourceFile'>";
+				echo "URL: <a href='../../users/resources/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+				echo "</div>";
+				if($submission->comment==""){}
+				else{
+					echo "Comment: ";
+					echo $submission->comment;
+				}
+				echo "</div>";
+				echo "</div>";
+			}
+			<div id='resourcesResourceContainer' class='resourcesResourceCountiner'>
+				<div id='resourcesResourceHeader' class='resourcesResourceHeader'>
+					<div id='resourcesResourceName' class='resourcesResourceName'>
+						New Resource
+					</div>
+				</div>
+				<div id='resourcesNewResourceBody' class='resourcesNewResourceBody'>
+					<form method="post" id="newResource" name="newResource">
+						<input id="name" type="text" pattern="[a-zA-Z0-9]{2,64}" name="name" placeholder="name" required />
+				</div>
+			</div>
 		} else {
 			// Not enrolled, redirect back to #info
 			echo "Permission Denied!";
