@@ -36,6 +36,39 @@ if ($login->databaseConnection()) {
 				$query_sectionTeacherData->execute();
 				$sectionTeacherData = $query_sectionTeacherData->fetchObject();
 			
+			// Main
+			echo "<li class='title'>". $course->title ."</li>";
+			echo "<li>Instructor: ". $sectionTeacherData->name_first . " ". $sectionTeacherData->name_last ."</li>";
+			
+			// General Information
+			echo "<li>Time: ". $section->day . " ". $section->time_start . " - " . $section->time_end . "</li>";
+			echo "<li>Location: ". $section->building . " " .$section->room . "</li>";
+			echo "<li>Description: <br>". $course->description ."</li>";
+			
+			// Additional Information
+			echo "<li><table>";
+			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
+			echo "<tr class='adinfo'  style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>School</td><td>". $course->school ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Subject</td><td>". $course->department ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Course Number</td><td>". $course->number ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Course Type</td><td>". $course->type ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Credits</td><td>". $course->credits ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Section Enroll</td><td>". $section->enroll ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Section Cap</td><td>". $section->enrollCap ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Course Info</td><td>". $section->info ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Requirements</td><td>". $course->requirements ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Prerequisites</td><td>". $course->prerequisites ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Clusters</td><td>". $course->clusters ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Term</td><td>". $section->term ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Year</td><td>". $section->year ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Status</td><td>". $section->status ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>Cross Listed</td><td>". $course->crossListed ."</td></tr>";
+			echo "<tr class='adinfo' style='display: none;'><td>URL</td><td>". $section->url ."</td></tr>";
+			echo "</table></li>";
+			
 		}
 	} elseif(isset($_GET['s'])) {
 		// if the user is trying to look up a section
