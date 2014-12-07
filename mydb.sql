@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2014 at 10:30 AM
+-- Generation Time: Dec 07, 2014 at 05:39 PM
 -- Server version: 5.5.38
 -- PHP Version: 5.5.14
 
@@ -32,8 +32,9 @@ CREATE TABLE `assignments` (
   `show_letter` tinyint(1) NOT NULL,
   `comment` text,
   `latePolicyID` int(10) unsigned NOT NULL,
-  `fileID` int(10) unsigned DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+  `fileID` int(10) unsigned DEFAULT NULL,
+  `gradeVisible` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -2336,7 +2337,7 @@ CREATE TABLE `files` (
   `title` varchar(128) DEFAULT NULL,
   `upload_time` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=74 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=80 ;
 
 --
 -- Dumping data for table `files`
@@ -2351,7 +2352,13 @@ INSERT INTO `files` (`fileID`, `extension`, `title`, `upload_time`, `userID`) VA
 (70, 'zip', 'Roschen_11-20.zip', 1417663822, 5),
 (71, 'zip', '70.zip', 1417665512, 1),
 (72, 'zip', '71.zip', 1417665529, 3),
-(73, 'zip', 'Roschen_11-20.zip', 1417665551, 5);
+(73, 'zip', 'Roschen_11-20.zip', 1417665551, 5),
+(74, 'zip', 'Roschen_12-4.zip', 1417795885, 3),
+(75, 'zip', 'Roschen_12-2.zip', 1417796092, 3),
+(76, 'zip', 'Roschen_10-28.zip', 1417905205, 3),
+(77, 'zip', 'Roschen_10-28.zip', 1417983719, 3),
+(78, 'zip', 'Roschen_10-28.zip', 1417984220, 3),
+(79, 'zip', 'Roschen_10-28.zip', 1417984397, 1);
 
 -- --------------------------------------------------------
 
@@ -2367,9 +2374,8 @@ CREATE TABLE `grades` (
   `assignmentID` int(10) unsigned NOT NULL,
   `graderID` int(10) unsigned NOT NULL,
   `effective_score` smallint(5) unsigned DEFAULT NULL,
-  `comment` text,
-  `submissionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `comment` text
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -2431,7 +2437,7 @@ CREATE TABLE `sectionAssignments` (
 `sectionAssignmentsID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `assignmentID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -6994,7 +7000,7 @@ CREATE TABLE `sectionStudents` (
   `is_pass_fail` tinyint(1) NOT NULL,
   `is_satisfactory_fail` tinyint(1) NOT NULL,
   `is_no_credit` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `sectionStudents`
@@ -7053,7 +7059,7 @@ CREATE TABLE `submissions` (
   `assignmentID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=67 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -7121,7 +7127,7 @@ ALTER TABLE `files`
 -- Indexes for table `grades`
 --
 ALTER TABLE `grades`
- ADD PRIMARY KEY (`gradeID`,`sectionID`,`userID`,`assignmentID`,`graderID`,`submissionID`), ADD KEY `fk_grades_sections1_idx` (`sectionID`), ADD KEY `fk_grades_users1_idx` (`userID`), ADD KEY `fk_grades_assignments1_idx` (`assignmentID`), ADD KEY `fk_grades_users2_idx` (`graderID`), ADD KEY `fk_grades_submissions1_idx` (`submissionID`);
+ ADD PRIMARY KEY (`gradeID`,`sectionID`,`userID`,`assignmentID`,`graderID`), ADD KEY `fk_grades_sections1_idx` (`sectionID`), ADD KEY `fk_grades_users1_idx` (`userID`), ADD KEY `fk_grades_assignments1_idx` (`assignmentID`), ADD KEY `fk_grades_users2_idx` (`graderID`);
 
 --
 -- Indexes for table `latePolicies`
@@ -7191,7 +7197,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `courses`
 --
@@ -7201,12 +7207,12 @@ MODIFY `courseID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2264;
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=74;
+MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=80;
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `latePolicies`
 --
@@ -7221,7 +7227,7 @@ MODIFY `letterScaleID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2
 -- AUTO_INCREMENT for table `sectionAssignments`
 --
 ALTER TABLE `sectionAssignments`
-MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `sectionGradingPolicies`
 --
@@ -7236,7 +7242,7 @@ MODIFY `sectionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2242;
 -- AUTO_INCREMENT for table `sectionStudents`
 --
 ALTER TABLE `sectionStudents`
-MODIFY `sectionStudentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
+MODIFY `sectionStudentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `sectionTAs`
 --
@@ -7251,7 +7257,7 @@ MODIFY `sectionTeacherID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMEN
 -- AUTO_INCREMENT for table `submissions`
 --
 ALTER TABLE `submissions`
-MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=67;
+MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -7281,7 +7287,6 @@ ADD CONSTRAINT `fk_files_users1` FOREIGN KEY (`userID`) REFERENCES `users` (`use
 ALTER TABLE `grades`
 ADD CONSTRAINT `fk_grades_assignments1` FOREIGN KEY (`assignmentID`) REFERENCES `assignments` (`assignmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_grades_sections1` FOREIGN KEY (`sectionID`) REFERENCES `sections` (`sectionID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_grades_submissions1` FOREIGN KEY (`submissionID`) REFERENCES `submissions` (`submissionID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_grades_users1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_grades_users2` FOREIGN KEY (`graderID`) REFERENCES `users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -7336,6 +7341,6 @@ ADD CONSTRAINT `fk_sectionTeachers_users1` FOREIGN KEY (`userID`) REFERENCES `us
 -- Constraints for table `submissions`
 --
 ALTER TABLE `submissions`
-ADD CONSTRAINT `fk_submissions_files1` FOREIGN KEY (`fileID`) REFERENCES `files` (`fileID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_submissions_assignments1` FOREIGN KEY (`assignmentID`) REFERENCES `assignments` (`assignmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_submissions_files1` FOREIGN KEY (`fileID`) REFERENCES `files` (`fileID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `fk_submissions_users1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION;

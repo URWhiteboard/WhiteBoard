@@ -117,10 +117,11 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+					echo $assignment->comment ."<br />";
 					echo "<h3>Submissions</h3>";
 					
 					if($query_submissions->rowCount() == 0) {
-						echo "You have not submitted anything for this assignment.<br>";
+						echo "You have not submitted anything for this assignment.<br /><br />";
 					}
 					// Used to keep track of the attempt
 					$j = 0;
@@ -132,16 +133,26 @@ if ($login->databaseConnection()) {
 						$query_file->execute();
 						$file = $query_file->fetchObject();
 						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
-						echo "Attempt ". $j ."<br>";
+						echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
+						echo "Attempt ". $j;
+						echo "</div>";
+						echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
+						echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
 						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
-						echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
 						echo "Title: ". $file->title ."<br>";
+						echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
 						echo "Comment: ". $submission->comment ."<br>";
 						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
 						echo "</div>";
+						echo "</div>";
+						echo "</div>";
 					}
-					echo "<h3>Add new submission</h3>";
-
+					echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
+					echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
+					echo "Add New Submission";
+					echo "</div>";
+					echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
+					echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
 					?>
 					<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
 						<form method="post" action="/users/" name="submitSubmission" id="submitSubmission" class="submitSubmission">
@@ -159,12 +170,14 @@ if ($login->databaseConnection()) {
 							echo "Note, ". $valueLost ."<br /><br />";
 						}
 						?>
-						<input type="submit" name="submit" value="Submit" />
-						<br />
+						<input type="submit" name="submit" value="Add Submission" />
 						<br />
 						</form>
 					</div>
 					<?php
+					echo "</div>";
+					echo "</div>";
+					echo "</div>";
 					// echo "Curve : ";
 					// if($assignment->curveType == "ADD_PERCENT") { 
 					// 	echo $assignment->curveParam ."%";
@@ -199,12 +212,13 @@ if ($login->databaseConnection()) {
 			$query_sectionAssignments = $login->db_connection->prepare('SELECT * FROM sectionAssignments INNER JOIN assignments ON sectionAssignments.assignmentID = assignments.assignmentID WHERE sectionAssignments.sectionID = :sectionID ORDER BY due_time ASC');
 				$query_sectionAssignments->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
 				$query_sectionAssignments->execute();
+			
 			if($query_sectionAssignments->rowCount() == 0) {
-				echo "There are no assignments for this section!";
+				echo "There are no gradeable assignments for this section!";
 			}
 
 			$i = 0;
-			// get result row as an object, so we can itenerate through the sections
+			// Loop through all of the sections assignments
 			while($assignment = $query_sectionAssignments->fetchObject()) {
 				// Set gradeable to false
 				$gradeable = false;
@@ -221,7 +235,7 @@ if ($login->databaseConnection()) {
 					// No late work accepted, submission period closed
 					if($latePolicy->period == "NONE") {
 						$gradeable = true;
-					// Late policy based on hours
+						// Late policy based on hours
 					} else if($latePolicy->period == "HOUR") {
 						$hoursLate = ceil(abs($timeRemaining)/3600);
 						// Late policy based on percent/day
@@ -263,6 +277,7 @@ if ($login->databaseConnection()) {
 					}
 				}
 				if(!$gradeable) {
+
 					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
 					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
@@ -271,44 +286,81 @@ if ($login->databaseConnection()) {
 					echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
 					echo "Due ". date('D, F j \a\t g:i a', $assignment->due_time) ."";
 					echo "</div>";
+					echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
+					if($assignment->gradeVisible) {
+						echo "&#10003";
+					}
+					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
-					
-					// Allow the professor to start grading the assignments now that the due date has passed
-					echo "<h3>Student Submissions</h3>";
-					// a query below that will show the most recent submission from every user
-					$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE submit_time In(SELECT MAX(submit_time) FROM submissions WHERE assignmentID = :assignmentID GROUP BY userID)');
-						$query_submissions->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
-						$query_submissions->execute();
-					if($query_submissions->rowCount() == 0) {
-						echo "There are no submissions for this assignment yet.<br>";
-					}
+					echo "<h3>Submissions</h3>";
 
-					// loop through all of the submissions
-					while($submission = $query_submissions->fetchObject()) {
-						$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
-						$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
-						$query_file->execute();
-						$file = $query_file->fetchObject();
-						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
+					// Set a varaible to keep track of number of graded submissions and submissions
+					$gradedSubmissions = 0;
+					$submissionCount = 0;
+					$pointsScored = 0;
+					// Get all of the section users
+					$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM users INNER JOIN sectionStudents ON sectionStudents.userID = users.userID WHERE sectionStudents.sectionID = :sectionID ORDER BY users.name_last, users.name_first ASC');
+						$query_sectionStudents->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+						$query_sectionStudents->execute();
+
+					// Loop through all of the users assigned to this section
+					while($sectionStudents = $query_sectionStudents->fetchObject()) {
+						$query_submission = $login->db_connection->prepare('SELECT * FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID ORDER BY submit_time DESC');
+							$query_submission->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
+							$query_submission->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
+							$query_submission->execute();
+							$submission = $query_submission->fetchObject();
+
 						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
-						echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
-						echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
-						echo "Title: ". $file->title ."<br>";
-						echo "Submitted at ". date('D, F j \a\t g:i a', $submission->submit_time) ." by ";
-
-						// Get the submitters first and last name
-						$query_gradingUserData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
-						$query_gradingUserData->bindValue(':userID', $submission->userID, PDO::PARAM_STR);
-						$query_gradingUserData->execute();
-						$gradingUser = $query_gradingUserData->fetchObject();
-						echo $gradingUser->name_first ." ". $gradingUser->name_last ."<br />";
-						echo "Comment: ";
-						if($submission->comment=="") {
-							echo "No Comment";
+						echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
+						// The user did not have a submission
+						if($query_submission->rowCount() == 0) {
+							echo $sectionStudents->name_last .", ". $sectionStudents->name_first;
+							echo "<p style='float: right;padding: 0;margin:0;'>&#63</p>";
+							echo "</div>";
+							echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
+							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
+							echo "There is no submission.";
+							echo "</div>";
+						// The user had a submission
 						} else {
-							echo $submission->comment;
-						} 
+
+							$submissionCount++;
+							// Get the grade from the database
+							$query_grade = $login->db_connection->prepare('SELECT * FROM grades WHERE assignmentID = :assignmentID AND userID = :userID');
+								$query_grade->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
+								$query_grade->bindValue(':userID', $submission->userID, PDO::PARAM_STR);
+								$query_grade->execute();
+								$grade = $query_grade->fetchObject();
+
+							echo $sectionStudents->name_last .", ". $sectionStudents->name_first;
+							if($grade!=null) {
+								echo "<p style='float: right;padding: 0;margin:0;'>&#10003</p>";
+							} else {
+								echo "<p style='float: right;padding: 0;margin:0;'>&ndash;</p>";
+							}
+							echo "</div>";
+							echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
+							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
+
+							// Get the submission file
+							$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+							$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
+							$query_file->execute();
+							$file = $query_file->fetchObject();
+
+							echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+							echo "Title: ". $file->title ."<br>";
+							echo "Submitted at ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br />";
+							echo "Comment: ";
+							if($submission->comment=="") {
+								echo "No Comment";
+							} else {
+								echo $submission->comment;
+							} 
+							echo "</div>";
+						}
 						echo "</div>";
 						echo "</div>";
 					}
@@ -462,7 +514,8 @@ $('#newAssignment').on('submit', function(e) {
 			{
 				//data: return data from server
 				$('#mainContentContainerContent').html(data);
-				setTimeout(function(){window.location.reload(true)}, 1000);
+				// Reloads the course assignments, not the whole page.
+				loadTab($('#assignments'), 'assignments');
 			},
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
@@ -488,10 +541,15 @@ $('.assignmentsAssignmentHeader').click(function(e) {
 	$(this.parentNode).toggleClass('assignmentsAssignmentContainer');
 	$(this.parentNode).toggleClass('assignmentsAssignmentContainerExpanded');
 });
+
+// Expand the submissions div
+$('.assignmentsAssignmentSubmissionHeader').click(function(e) {
+	$(this.parentNode).children( ".assignmentsAssignmentSubmissionContentContainer" ).toggleClass('assignmentsAssignmentSubmissionContentContainerExpanded');
+});
 $(".submitSubmission").on('submit', function( e ) {
 	e.preventDefault();
 	var f = e.target;
-    var fd = new FormData(f);
+	var fd = new FormData(f);
 	$.ajax({
 		url: '../../ajax/uploadSubmission.php',
 		type: 'POST',
@@ -502,7 +560,10 @@ $(".submitSubmission").on('submit', function( e ) {
 		{
 			//data: return data from server
 			$(e.target.parentNode).html(data);
-			setTimeout(function(){window.location.reload(true)}, 1000);
+			// Reloads the course assignments, not the whole page
+			if(data = "Your submission was successfully uploaded. Reloading..."){
+				loadTab($('#assignments'), 'assignments');
+			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) 
 		{

@@ -1,16 +1,15 @@
 .assignmentsAssignmentContainer {
 	border-bottom: solid 1px rgb(232,232,232);
 	height:40px;
-	-webkit-transition: background-color .3s;
 	overflow:hidden;
 }
 .assignmentsAssignmentContainerExpanded {
 	border-bottom: solid 1px rgb(232,232,232);
-	-webkit-transition: background-color .3s;
 }
 .assignmentsAssignmentHeader {
 	padding-left:5px;
 	padding-right:5px;
+	-webkit-transition: background-color .3s;
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -25,10 +24,6 @@
 .assignmentsAssignmentName {
 	line-height: 25px;
 	font-size: 20px;
-}
-.assignmentsAssignmentName:hover {
-	background-color:#F0F0F0;
-	cursor: pointer;
 }
 .assignmentsAssignmentDue {
 	line-height: 15px;
@@ -47,11 +42,32 @@
 .assignmentsAssignmentSubmissionContainer {
 	border: solid 1px #F0F0F0;
 	border-radius: 5px;
-	padding: 5px;
 	margin-bottom:5px;
 }
-.assignmentsAssignmentSubmissionUser {
+.assignmentsAssignmentSubmissionHeader {
+	cursor: pointer;
 	padding: 5px;
+	-webkit-transition: background-color .3s;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.assignmentsAssignmentSubmissionHeader:hover {
+	background-color: #F0F0F0;
+}
+.assignmentsAssignmentSubmissionContentContainer {
+	height: 0;
+	overflow: hidden;
+}
+.assignmentsAssignmentSubmissionContentContainerExpanded {
+	height: auto;
+}
+.assignmentsAssignmentSubmissionUser {
+	padding:5px;
+    border-top: solid 1px #F0F0F0;
 }
 .assignmentsAssignmentSubmissionTeacher {
 	border-top:solid 1px #F0F0F0;

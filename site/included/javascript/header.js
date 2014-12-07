@@ -12,15 +12,37 @@ function expand() {
 	}
 }
 
+// Function to load the new tab content, use this to reload any page on the courses tab
+function loadTab(tabObj, url){
+	var section = $('#courseNavBarEnrollStatus').data("sid");
+	$.get("../../ajax/courses/"+ url +".php",
+	{ 
+		s: section
+	},
+	function(data) {
+		if(data=="Permission Denied!") {
+			// User does not have permission, redirect them back to info
+			window.location.hash = '#info';
+		} else if(data=="You are logged out!") {
+			window.location.replace(window.location.protocol +'//'+ window.location.host);
+		} else {
+			// User has permission, show them the page
+			$('#mainContentContainerContent').html(data);
+		}
+	});
+}
+
 $(document).ready(function() {
 	//GET BROWSER WINDOW SIZE
 	var currWidth = $(window).width() - 150;
 	var currHeight = $(window).height() - 40;
 	$('#mainContentContainer').css('width', currWidth);
 	$('#mainContentContainer').css('height', currHeight);
+
 	if(window.location.search != "") {
 		$('#mainContentContainerContent').css('height', currHeight-50);
 	}
+
 	//ON RESIZE OF WINDOW
 	$(window).resize(function() {
 		
@@ -35,31 +57,36 @@ $(document).ready(function() {
 		}
 		
 	});
+
 	// NavBarUserContainer shown on click and hide navBarSearchResultsContainer
 	$('.navBarUserContainer').click(function(e) {
 		$('.navBarUserContainer').addClass('navBarUserContainerExpanded');
 		$('.navBarSearchResultsContainer').hide();
 		e.stopPropagation();
 	});
+
 	// Hide navBarUserContainer and show navBarSearchResultsContainer
 	$('.navBarSearchBar').click(function(e) {
 		$('.navBarUserContainer').removeClass('navBarUserContainerExpanded');
 		$('.navBarSearchResultsContainer').show();
 		e.stopPropagation();
 	});
+
 	// Hide navbarUserContainer and navBarSearchResultsContainer on click
 	$(document.body).click(function() {
 		$('.navBarUserContainer').removeClass('navBarUserContainerExpanded');
 		$('.navBarSearchResultsContainer').hide();
 	});
+
 	// Prevent clicking on the drop down menus from closing them
 	$('.navBarUserOptionsContainer').click(function(e) {
 		e.stopPropagation();
 	});
+
 	$('.navBarSearchResultsContainer').click(function(e) {
 		e.stopPropagation();
 	});
-	
+
 	// Function to retrieve and show the search results live
 	function searchCourses(value){
 		$.get("../../ajax/search.php",
@@ -71,6 +98,7 @@ $(document).ready(function() {
 		}
 
 	)};
+
 	// Search courses on focus or on key up
 	$(".navBarSearchBar").focus(function(){
 		searchCourses($('.navBarSearchBar').val())
@@ -154,41 +182,44 @@ $(document).ready(function() {
 		
 		// Set up click listeners for the tabs
 		$('#courseNavBarInfo').click(function(){
-			window.location.hash = '#info';
+			if(window.location.hash == '#info') {
+				loadTab($('#info'), 'info');
+			}else {
+				window.location.hash = '#info';
+			}
 		});
 		$('#courseNavBarAnnouncements').click(function(){
-			window.location.hash = '#announcements';
+			if(window.location.hash == '#announcements') {
+				loadTab($('#announcements'), 'announcements');
+			}else {
+				window.location.hash = '#announcements';
+			}
 		});
 		$('#courseNavBarAssignments').click(function(){
-			window.location.hash = '#assignments';
+			if(window.location.hash == '#assignments') {
+				loadTab($('#assignments'), 'assignments');
+			}else {
+				window.location.hash = '#assignments';
+			}
 		});
 		$('#courseNavBarGrades').click(function(){
 			window.location.hash = '#grades';
+			if(window.location.hash == '#grades') {
+				loadTab($('#grades'), 'grades');
+			}else {
+				window.location.hash = '#grades';
+			}
 		});
 		$('#courseNavBarResources').click(function(){
 			window.location.hash = '#resources';
+			if(window.location.hash == '#resources') {
+				loadTab($('#resources'), 'resources');
+			}else {
+				window.location.hash = '#resources';
+			}
 		});
-
-		// Function to load the new tab content
-		function loadTab(tabObj, url){
-			var section = $('#courseNavBarEnrollStatus').data("sid");
-			$.get("../../ajax/courses/"+ url +".php",
-			{ 
-				s: section
-			},
-			function(data) {
-				if(data=="Permission Denied!") {
-					// User does not have permission, redirect them back to info
-					window.location.hash = '#info';
-				} else if(data=="You are logged out!") {
-					window.location.replace(window.location.protocol +'//'+ window.location.host);
-				} else {
-					// User has permission, show them the page
-					$('#mainContentContainerContent').html(data);
-				}
-			});
-		}
 	}
+
 	// Handles the new assignment
 	// Attach a submit handler to the form
 	//callback handler for form submit
