@@ -1,13 +1,13 @@
 // Expands the Additional Information section in Courses->info
 function expand() {
-	if(document.getElementsByClassName('adinfo')[0].style.display == 'none') { 
-		for(i = 0; i < document.getElementsByClassName('adinfo').length; i++) {
-			document.getElementsByClassName('adinfo')[i].style.display = '';
+	if(document.getElementsByClassName('infoAdditionalInfo')[0].style.display == 'none') { 
+		for(i = 0; i < document.getElementsByClassName('infoAdditionalInfo').length; i++) {
+			document.getElementsByClassName('infoAdditionalInfo')[i].style.display = '';
 		}
 	}
 	else {
-		for(i = 0; i < document.getElementsByClassName('adinfo').length; i++) {
-			document.getElementsByClassName('adinfo')[i].style.display = 'none';
+		for(i = 0; i < document.getElementsByClassName('infoAdditionalInfo').length; i++) {
+			document.getElementsByClassName('infoAdditionalInfo')[i].style.display = 'none';
 		}
 	}
 }
