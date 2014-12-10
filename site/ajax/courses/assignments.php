@@ -156,22 +156,22 @@ if ($login->databaseConnection()) {
 					?>
 					<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
 						<form method="post" action="/users/" name="submitSubmission" id="submitSubmission" class="submitSubmission">
-						<label for="comment">Comment</label>
-						<br />
-						<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
-						<br />
-						<br />
-						<input id="file" type="file" name="file"/>
-						<br />
-						<br />
-						<input id="assignment" type="hidden" name="assignment" value="<?php echo $assignment->assignmentID; ?>"/>
-						<?php
-						if($valueLost != NULL) {
-							echo "Note, ". $valueLost ."<br /><br />";
-						}
-						?>
-						<input type="submit" name="submit" value="Add Submission" />
-						<br />
+							<label for="comment">Comment</label>
+							<br />
+							<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
+							<br />
+							<br />
+							<input id="file" type="file" name="file"/>
+							<br />
+							<br />
+							<input id="assignment" type="hidden" name="assignment" value="<?php echo $assignment->assignmentID; ?>"/>
+							<?php
+							if($valueLost != NULL) {
+								echo "Note, ". $valueLost ."<br /><br />";
+							}
+							?>
+							<input type="submit" name="submit" value="Add Submission" />
+							<br />
 						</form>
 					</div>
 					<?php
@@ -213,10 +213,6 @@ if ($login->databaseConnection()) {
 				$query_sectionAssignments->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
 				$query_sectionAssignments->execute();
 			
-			if($query_sectionAssignments->rowCount() == 0) {
-				echo "There are no gradeable assignments for this section!";
-			}
-
 			$i = 0;
 			// Loop through all of the sections assignments
 			while($assignment = $query_sectionAssignments->fetchObject()) {

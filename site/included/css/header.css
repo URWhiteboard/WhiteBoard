@@ -252,3 +252,9 @@ input[type=submit]:hover {
 .coursesCourseTeacher {
 	line-height: 15px;
 }
+.infoAdditionalInfo {
+	display: none;
+}
+.infoAdditionalInfoExpanded {
+	display: table-row;
+}

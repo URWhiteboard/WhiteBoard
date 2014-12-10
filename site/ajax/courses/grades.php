@@ -198,7 +198,7 @@ if ($login->databaseConnection()) {
 				$query_sectionAssignments->execute();
 			
 			if($query_sectionAssignments->rowCount() == 0) {
-				echo "There are no gradeable assignments for this section!";
+				echo "There are no gradeable assignments for this section.";
 			}
 
 			$i = 0;

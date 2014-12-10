@@ -1,17 +1,3 @@
-// Expands the Additional Information section in Courses->info
-function expand() {
-	if(document.getElementsByClassName('infoAdditionalInfo')[0].style.display == 'none') { 
-		for(i = 0; i < document.getElementsByClassName('infoAdditionalInfo').length; i++) {
-			document.getElementsByClassName('infoAdditionalInfo')[i].style.display = '';
-		}
-	}
-	else {
-		for(i = 0; i < document.getElementsByClassName('infoAdditionalInfo').length; i++) {
-			document.getElementsByClassName('infoAdditionalInfo')[i].style.display = 'none';
-		}
-	}
-}
-
 // Function to load the new tab content, use this to reload any page on the courses tab
 function loadTab(tabObj, url){
 	var section = $('#courseNavBarEnrollStatus').data("sid");
