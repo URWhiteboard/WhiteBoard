@@ -73,3 +73,9 @@
 	border-top:solid 1px #F0F0F0;
 	padding: 5px;
 }
+.assignmentOptions {
+	display:block;
+}
+.assignmentOptionsHidden {
+	display: none;
+}

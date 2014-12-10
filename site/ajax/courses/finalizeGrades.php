@@ -29,6 +29,13 @@ if ($login->databaseConnection()) {
 		while($sectionStudents = $query_sectionStudents->fetchObject()) {
 			$userIDs[] = $sectionStudents->userID;
 
+			// Get all of the announcements
+			$query_announcement = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID');
+				$query_announcement->bindValue(':assignmentID', $_POST['assignment'], PDO::PARAM_STR);
+				$query_announcement->execute();
+				$assignment = $query_announcement->fetchObject();
+
+			// Get all of the submissions
 			$query_submission = $login->db_connection->prepare('SELECT * FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID');
 				$query_submission->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
 				$query_submission->bindValue(':assignmentID', $_POST['assignment'], PDO::PARAM_STR);
@@ -48,7 +55,7 @@ if ($login->databaseConnection()) {
 			if($grade==null) {
 
 				// There was not a submission, grade them with a zero
-				if($query_submission->rowCount() == 0) {
+				if($query_submission->rowCount() == 0 && $assignment->submittable) {
 
 				$query_newGrade = $login->db_connection->prepare('INSERT INTO grades (real_score, sectionID, userID, assignmentID, graderID, effective_score, comment) VALUES(:real_score, :sectionID, :userID, :assignmentID, :graderID, :effective_score, :comment) ') or die(mysqli_error($db_connection_insert));
 					$query_newGrade->bindValue(':real_score', 0, PDO::PARAM_INT);
@@ -82,7 +89,6 @@ if ($login->databaseConnection()) {
 			if ($query_updateAssignment->rowCount() > 0) {
 				// Send out a notification to the users
 				for($i = 0; $i < count($gradeIDs); $i++) {
-					echo "GradeID: ". $gradeIDs[$i] ."<br />UserID: ". $userIDs[$i];
 					$query_newAnnouncement = $login->db_connection->prepare('INSERT INTO announcements (time, type, typeID, sectionID, userID) VALUES(:time, :type, :typeID, :sectionID, :userID) ') or die(mysqli_error($db_connection_insert));
 					$query_newAnnouncement->bindValue(':time', time(), PDO::PARAM_INT);
 					$query_newAnnouncement->bindValue(':type', "GRADE", PDO::PARAM_INT);

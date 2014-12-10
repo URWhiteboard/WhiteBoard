@@ -122,8 +122,36 @@ if ($login->databaseConnection()) {
 						$query_submissions->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 						$query_submissions->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
 						$query_submissions->execute();
-					if($query_submissions->rowCount() == 0) {
-						echo "You did not submit anything for this assignment.<br>";
+
+					if(!$assignment->submittable) {
+						// Div that contains the grade
+						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
+						echo "<div id='assignmentsAssignmentSubmissionTeacher' class='assignmentsAssignmentSubmissionTeacher'>";
+						// Check if the assignment has been graded yet
+						$query_grade = $login->db_connection->prepare('SELECT * FROM grades WHERE assignmentID = :assignmentID AND userID = :userID');
+							$query_grade->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
+							$query_grade->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+							$query_grade->execute();
+							$grade = $query_grade->fetchObject();
+						if($grade!=null && $assignment->gradeVisible) {
+							echo "Graded by: ";
+							// Get the submitters first and last name
+							$query_gradingUserData = $login->db_connection->prepare('SELECT name_first, name_last FROM users WHERE userID = :userID');
+							$query_gradingUserData->bindValue(':userID', $grade->graderID, PDO::PARAM_STR);
+							$query_gradingUserData->execute();
+							$gradingUser = $query_gradingUserData->fetchObject();
+							echo $gradingUser->name_first ." ". $gradingUser->name_last ."<br />";
+							echo "Grade: ". $grade->real_score ."/". $assignment->maxScore ."<br />";
+							echo "Actual grade: ". $grade->effective_score ."/". $assignment->maxScore ."<br />";
+							echo "Comments: ". $grade->comment ."<br />";
+						} else {
+							// Need to add functionality to grade the submission
+							echo "This assignment has not been graded yet.";
+						}
+						echo "</div>";
+						echo "</div>";
+					} else if($query_submissions->rowCount() == 0) {
+						echo "You did not submit anything for this assignment.<br />";
 					}
 					// loop through all of the submissions
 					while($submission = $query_submissions->fetchObject()) {
@@ -297,8 +325,9 @@ if ($login->databaseConnection()) {
 
 						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
 						echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
-						// The user did not have a submission
-						if($query_submission->rowCount() == 0) {
+
+						// The user did not have a submission and it was submittable
+						if($query_submission->rowCount() == 0 && $assignment->submittable) {
 							echo $sectionStudents->name_last .", ". $sectionStudents->name_first;
 							echo "<p style='float: right;padding: 0;margin:0;'>&#63</p>";
 							echo "</div>";
@@ -306,14 +335,14 @@ if ($login->databaseConnection()) {
 							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
 							echo "There was no submission";
 							echo "</div>";
-						// The user had a submission
+						// The user had a submission or if they were not allowed to have a submission
 						} else {
 
 							$submissionCount++;
 							// Get the grade from the database
 							$query_grade = $login->db_connection->prepare('SELECT * FROM grades WHERE assignmentID = :assignmentID AND userID = :userID');
 								$query_grade->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
-								$query_grade->bindValue(':userID', $submission->userID, PDO::PARAM_STR);
+								$query_grade->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
 								$query_grade->execute();
 								$grade = $query_grade->fetchObject();
 
@@ -327,21 +356,27 @@ if ($login->databaseConnection()) {
 							echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
 							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
 
-							// Get the submission file
-							$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
-							$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
-							$query_file->execute();
-							$file = $query_file->fetchObject();
+							// Check to see if the user was allowed to submit anything
+							if($assignment->submittable) {
+								// Get the submission file
+								$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+								$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
+								$query_file->execute();
+								$file = $query_file->fetchObject();
 
-							echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
-							echo "Title: ". $file->title ."<br>";
-							echo "Submitted at ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br />";
-							echo "Comment: ";
-							if($submission->comment=="") {
-								echo "No Comment";
+								echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+								echo "Title: ". $file->title ."<br>";
+								echo "Submitted at ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br />";
+								echo "Comment: ";
+								if($submission->comment=="") {
+									echo "No Comment";
+								} else {
+									echo $submission->comment;
+								} 
+							// no need for a submission, the user was not allwed to upload one
 							} else {
-								echo $submission->comment;
-							} 
+								echo "The user was not allowed to submit an assignment.";
+							}
 							echo "</div>";
 							// Div that contains the grade
 							echo "<div id='assignmentsAssignmentSubmissionTeacher' class='assignmentsAssignmentSubmissionTeacher'>";
@@ -367,7 +402,7 @@ if ($login->databaseConnection()) {
 								<form method="post" action="/users/" name="submitSubmission" id="addGrade" class="addGrade">
 								<input id="real_score" type="text" name="real_score" placeholder="Score" pattern="[-+]?[0-9]*[.,]?[0-9]+" required />
 									<input id="assignment" type="hidden" name="assignment" value="<?php echo $assignment->assignmentID; ?>"/>
-									<input id="user" type="hidden" name="user" value="<?php echo $submission->userID; ?>"/>
+									<input id="user" type="hidden" name="user" value="<?php echo $sectionStudents->userID; ?>"/>
 									<label for="comment">Comment</label>
 									<br />
 									<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
@@ -465,6 +500,7 @@ $(".finalizeGrades").on('submit', function(e) {
 	var postData = $(this).serializeArray();
 	var sectionID = {name:"sectionID", value:"<?php echo $_GET['s']; ?>"};
 	postData.push(sectionID);
+	console.log(postData);
 	$.ajax({
 		url: '../../ajax/courses/finalizeGrades.php',
 		type: 'POST',

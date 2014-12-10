@@ -113,83 +113,86 @@ if ($login->databaseConnection()) {
 					echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
 					if($query_submissions->rowCount() > 0) {
 						echo "&#10003";
+					} else {
+						echo "&dash;/". $assignment->maxScore;
 					}
 					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
-					echo $assignment->comment ."<br />";
 					echo "<h3>Submissions</h3>";
 					
-					if($query_submissions->rowCount() == 0) {
-						echo "You have not submitted anything for this assignment.<br /><br />";
-					}
-					// Used to keep track of the attempt
-					$j = 0;
-					// loop through all of the submissions
-					while($submission = $query_submissions->fetchObject()) {
-						$j++;
-						$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
-						$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
-						$query_file->execute();
-						$file = $query_file->fetchObject();
+					if($assignment->submittable) {
+						if($query_submissions->rowCount() == 0) {
+							echo "You have not submitted anything for this assignment.<br /><br />";
+						}
+						// Used to keep track of the attempt
+						$j = 0;
+						// loop through all of the submissions
+						while($submission = $query_submissions->fetchObject()) {
+							$j++;
+							$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+							$query_file->bindValue(':fileID', $submission->fileID, PDO::PARAM_STR);
+							$query_file->execute();
+							$file = $query_file->fetchObject();
+							echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
+							echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
+							echo "Attempt ". $j;
+							echo "</div>";
+							echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
+							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
+							// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
+							echo "Title: ". $file->title ."<br>";
+							echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
+							echo "Comment: ". $submission->comment ."<br>";
+							echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
+							echo "</div>";
+							echo "</div>";
+							echo "</div>";
+						}
 						echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
 						echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
-						echo "Attempt ". $j;
+						echo "Add New Submission";
 						echo "</div>";
 						echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
 						echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
-						// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
-						echo "Title: ". $file->title ."<br>";
-						echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
-						echo "Comment: ". $submission->comment ."<br>";
-						echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
+						?>
+						<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
+							<form method="post" action="/users/" name="submitSubmission" id="submitSubmission" class="submitSubmission">
+								<label for="comment">Comment</label>
+								<br />
+								<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
+								<br />
+								<br />
+								<input id="file" type="file" name="file"/>
+								<br />
+								<br />
+								<input id="assignment" type="hidden" name="assignment" value="<?php echo $assignment->assignmentID; ?>"/>
+								<?php
+								if($valueLost != NULL) {
+									echo "Note, ". $valueLost ."<br /><br />";
+								}
+								?>
+								<input type="submit" name="submit" value="Add Submission" />
+								<br />
+							</form>
+						</div>
+						<?php
 						echo "</div>";
 						echo "</div>";
 						echo "</div>";
+						// echo "Curve : ";
+						// if($assignment->curveType == "ADD_PERCENT") { 
+						// 	echo $assignment->curveParam ."%";
+						// } elseif($assignment->curveType == "ADD_CONSTANT") { 
+						// 	echo $assignment->curveParam ." points";
+						// } elseif($assignment->curveParam == "REDUCE_MAX") {
+						// 	echo "Graded out of ". $assignment->maxScore - $assignment->curveParam ."";
+						// } else {
+						// 	echo "None" ."";
+						// }
+						// echo "Category: ". $assignment->category ."";
+						// echo "Comment: ". $assignment->comment ."";
 					}
-					echo "<div id='assignmentsAssignmentSubmissionContainer' class='assignmentsAssignmentSubmissionContainer'>";
-					echo "<div id='assignmentsAssignmentSubmissionHeader' class='assignmentsAssignmentSubmissionHeader'>";
-					echo "Add New Submission";
-					echo "</div>";
-					echo "<div id='assignmentsAssignmentSubmissionContentContainer' class='assignmentsAssignmentSubmissionContentContainer'>";
-					echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
-					?>
-					<div id="newSubmissionContainer" class="newSubmissionContainer" enctype="multipart/form-data">
-						<form method="post" action="/users/" name="submitSubmission" id="submitSubmission" class="submitSubmission">
-							<label for="comment">Comment</label>
-							<br />
-							<textarea id="comment" type="textarea" name="comment" rows="4" cols="50"></textarea>
-							<br />
-							<br />
-							<input id="file" type="file" name="file"/>
-							<br />
-							<br />
-							<input id="assignment" type="hidden" name="assignment" value="<?php echo $assignment->assignmentID; ?>"/>
-							<?php
-							if($valueLost != NULL) {
-								echo "Note, ". $valueLost ."<br /><br />";
-							}
-							?>
-							<input type="submit" name="submit" value="Add Submission" />
-							<br />
-						</form>
-					</div>
-					<?php
-					echo "</div>";
-					echo "</div>";
-					echo "</div>";
-					// echo "Curve : ";
-					// if($assignment->curveType == "ADD_PERCENT") { 
-					// 	echo $assignment->curveParam ."%";
-					// } elseif($assignment->curveType == "ADD_CONSTANT") { 
-					// 	echo $assignment->curveParam ." points";
-					// } elseif($assignment->curveParam == "REDUCE_MAX") {
-					// 	echo "Graded out of ". $assignment->maxScore - $assignment->curveParam ."";
-					// } else {
-					// 	echo "None" ."";
-					// }
-					// echo "Category: ". $assignment->category ."";
-					// echo "Comment: ". $assignment->comment ."";
 					echo "</div>";
 					echo "</div>";
 				}
@@ -405,33 +408,38 @@ if ($login->databaseConnection()) {
 							<option value="REDUCE_MAX">Reduce Max</option>
 						</select>
 
-						<input id="curve_param" type="text" name="curve_param" placeholder="Curve Value"/>
-
-						<label for="datetimepicker">Time Due: </label><br />
-						<input type="text" id="datetimepicker" name="datetimepicker"/><br />
-
-						<label for="show_letter">Show Letter: </label>
-						<select id="show_letter" name="show_letter" required>
-							<option selected="" value="0">No</option>
-							<option value="1">Yes</option>
+						<select id="submittable" name="submittable" required>
+							<option value="1" selected="">Submittable</option>
+							<option value="0">Non-Submittable</option>
 						</select>
-						<br />
+						<div id="assignmentOptions" class="assignmentOptions">
+							<label for="datetimepicker">Time Due: </label><br />
+							<input type="text" id="datetimepicker" name="datetimepicker"/><br />
+
+							<label for="late_policy">Late Policy: </label>
+							<select id="late_policy" name="late_policy" required>
+								<option value="1" selected="">No Late Work</option>
+								<?php
+								$query_latePolicy = $login->db_connection->prepare('SELECT * FROM latePolicies WHERE creatorID = :creatorID ');
+								$query_latePolicy->bindValue(':creatorID', $_SESSION['userID'], PDO::PARAM_STR);
+								$query_latePolicy->execute();
+								// get result row as an object, so we can itenerate through the sections
+								while($latePolicies = $query_latePolicy->fetchObject()) {
+									echo "<option value=\"". $latePolicies->latePolicyID ."\">". $latePolicies->title ."</option>";
+								}
+								?>
+							</select>
+							<br />
+						</div>
+						<label for="show_letter">Show Letter: </label>
+							<select id="show_letter" name="show_letter" required>
+								<option selected="" value="0">No</option>
+								<option value="1">Yes</option>
+							</select>
 						<textarea id="comment" type="textarea" name="comment" rows="4" cols="50" placeholder="Comment"></textarea>
 						<br />
 						<br />
-						<label for="late_policy">Late Policy: </label>
-						<select id="late_policy" name="late_policy" required>
-							<option disabled="" selected=""></option>
-							<?php
-							$query_latePolicy = $login->db_connection->prepare('SELECT * FROM latePolicies WHERE creatorID = :creatorID ');
-							$query_latePolicy->bindValue(':creatorID', $_SESSION['userID'], PDO::PARAM_STR);
-							$query_latePolicy->execute();
-							// get result row as an object, so we can itenerate through the sections
-							while($latePolicies = $query_latePolicy->fetchObject()) {
-								echo "<option value=\"". $latePolicies->latePolicyID ."\">". $latePolicies->title ."</option>";
-							}
-							?>
-							</select>
+						
 						<label for="file">File: </label>
 						<input id="file" type="text" name="file" />
 						<br />
@@ -472,30 +480,29 @@ $('#newAssignment').on('submit', function(e) {
 	} else {
 		$('#maxScore').removeClass('error');
 	}
-	if(postData[5].value == "") {
+	if(postData[5].value == "" && $("#submittable").val()==1) {
 		error = "due_time";
 		$('#due_time').addClass('error');
 	} else {
 		$('#due_time').removeClass('error');
 	}
-	if(postData[6].value == "") {
+	if(postData[7].value == "") {
 		error = "show_letter";
 		$('#show_letter').addClass('error');
 	} else {
 		$('#show_letter').removeClass('error');
 	}
-	if(postData[7].value == "") {
+	if(postData[8].value == "") {
 		error = "comment";
 		$('#comment').addClass('error');
 	} else {
 		$('#comment').removeClass('error');
 	}
-	if(postData[8].value == "") {
-		error = "late_policy";
-		$('#late_policy').addClass('error');
-	} else {
-		$('#late_policy').removeClass('error');
+	if($("#submittable").val()==0) {
+		postData[5] = {name: "datetimepicker", value: Math.floor((new Date).getTime()/1000)};
+		postData[6] = {name: "late_policy", value: "1"};
 	}
+	console.log(postData);
 	var formURL = '../../ajax/courses/newAssignment.php';
 	if(error == null) {
 		fd = postData;
@@ -511,7 +518,7 @@ $('#newAssignment').on('submit', function(e) {
 				//data: return data from server
 				$('#mainContentContainerContent').html(data);
 				// Reloads the course assignments, not the whole page.
-				loadTab($('#assignments'), 'assignments');
+				//loadTab($('#assignments'), 'assignments');
 			},
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
@@ -557,7 +564,7 @@ $(".submitSubmission").on('submit', function( e ) {
 			//data: return data from server
 			$(e.target.parentNode).html(data);
 			// Reloads the course assignments, not the whole page
-			if(data = "Your submission was successfully uploaded. Reloading..."){
+			if(data = "You have created a new assignment! Reloading..."){
 				loadTab($('#assignments'), 'assignments');
 			}
 		},
@@ -567,5 +574,12 @@ $(".submitSubmission").on('submit', function( e ) {
 			$(e.target.parentNode).html(data);
 		}
 	});
+});
+$( "#submittable" ).change(function() {
+	if($("#submittable").val()==0) {
+		$("#assignmentOptions").addClass('assignmentOptionsHidden');
+	} else {
+		$("#assignmentOptions").removeClass('assignmentOptionsHidden');
+	}
 });
 </script>

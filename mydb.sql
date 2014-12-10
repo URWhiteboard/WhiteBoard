@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Dec 09, 2014 at 07:49 PM
+-- Generation Time: Dec 10, 2014 at 02:52 AM
 -- Server version: 5.5.38
 -- PHP Version: 5.5.14
 
@@ -30,7 +30,7 @@ CREATE TABLE `announcements` (
   `isRead` tinyint(1) NOT NULL DEFAULT '0',
   `title` text,
   `comment` text
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -51,8 +51,9 @@ CREATE TABLE `assignments` (
   `comment` text,
   `latePolicyID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned DEFAULT NULL,
-  `gradeVisible` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+  `gradeVisible` tinyint(1) NOT NULL DEFAULT '0',
+  `submittable` tinyint(1) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -2355,7 +2356,7 @@ CREATE TABLE `files` (
   `title` varchar(128) DEFAULT NULL,
   `upload_time` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=124 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -2372,7 +2373,7 @@ CREATE TABLE `grades` (
   `graderID` int(10) unsigned NOT NULL,
   `effective_score` smallint(5) unsigned DEFAULT NULL,
   `comment` text
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -2387,14 +2388,15 @@ CREATE TABLE `latePolicies` (
   `period` enum('DAY','HOUR','NONE') NOT NULL,
   `is_percent` tinyint(1) DEFAULT NULL,
   `creatorID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `latePolicies`
 --
 
 INSERT INTO `latePolicies` (`latePolicyID`, `title`, `rate`, `period`, `is_percent`, `creatorID`) VALUES
-(1, 'Labs', 2, 'HOUR', 1, 6);
+(1, 'No Late Work', 100, 'NONE', 1, 1),
+(2, 'Labs', 2, 'HOUR', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -2434,7 +2436,7 @@ CREATE TABLE `sectionAssignments` (
 `sectionAssignmentsID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL,
   `assignmentID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -4722,7 +4724,7 @@ CREATE TABLE `sectionResources` (
   `fileID` int(10) unsigned DEFAULT NULL,
   `userID` int(10) unsigned NOT NULL,
   `sectionID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -7073,7 +7075,7 @@ CREATE TABLE `submissions` (
   `assignmentID` int(10) unsigned NOT NULL,
   `fileID` int(10) unsigned NOT NULL,
   `userID` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -7103,7 +7105,7 @@ CREATE TABLE `users` (
   `birth_day` tinyint(2) DEFAULT NULL,
   `birth_month` tinyint(2) unsigned DEFAULT NULL,
   `registration_time` int(10) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `users`
@@ -7113,7 +7115,8 @@ INSERT INTO `users` (`userID`, `type`, `username`, `password_hash`, `email`, `ac
 (1, 'STUDENT', 'faradis', '$2y$10$/bZqEjr9nAgGAyT1OtS7O.eRjezWaJLnl1PCQQw3Fl/0.US.SZwKW', 'faradis111709@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Faradis', 'Lindblom', '', 2018, 1996, 4, 6, 1417104998),
 (3, 'STUDENT', 'jroschen', '$2y$10$2JPHql9yXgbYTDOe/yGaYevD44z.44uX6FFZC8aEIh9lU2bfeVLjK', 'jroschen@gmail.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Jacob', 'Roschen', 'Sr', 2018, 1996, 31, 5, 1414282890),
 (5, 'STUDENT', 'jro', '$2y$10$UhdoaVQBc18efRDwSYCa5.mc5NWIaX97uREbbNMQNghESdxT3BQZq', 'roshie2@gmail.com', NULL, 1, NULL, NULL, NULL, 0, 1414871614, '::1', 'Jacob', 'Ro', 'Sr', 2018, 1996, 31, 5, 1414871574),
-(6, 'TEACHER', 'cbrown', '$2y$10$TJnfZoif8Fe/Tb/ZHcFiU.pDmPT5g2G7Zkt8Hzu/UmDjlkJUmlqM2', 'b2348550@trbvm.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Chris', 'Brown', '', 2010, 1944, 8, 11, 1415498132);
+(6, 'TEACHER', 'cbrown', '$2y$10$TJnfZoif8Fe/Tb/ZHcFiU.pDmPT5g2G7Zkt8Hzu/UmDjlkJUmlqM2', 'b2348550@trbvm.com', NULL, 1, NULL, NULL, NULL, 0, NULL, '::1', 'Chris', 'Brown', '', 2010, 1944, 8, 11, 1415498132),
+(7, 'STUDENT', 'jake', '$2y$10$QPn4GDzY5o8Tq/x0rLvraumXx0liPiygzA0ny4Vq40LG23EKIJ916', 'jroschen@u.rochester.edu', NULL, 1, NULL, NULL, NULL, 2, 1418179861, '::1', 'jake', 'roshie', '', 2018, 1996, 31, 5, 1418179570);
 
 --
 -- Indexes for dumped tables
@@ -7223,12 +7226,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-MODIFY `announcementID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+MODIFY `announcementID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `assignments`
 --
 ALTER TABLE `assignments`
-MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `assignmentID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `courses`
 --
@@ -7238,17 +7241,17 @@ MODIFY `courseID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2264;
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=124;
+MODIFY `fileID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+MODIFY `gradeID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `latePolicies`
 --
 ALTER TABLE `latePolicies`
-MODIFY `latePolicyID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `latePolicyID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `letterScales`
 --
@@ -7258,7 +7261,7 @@ MODIFY `letterScaleID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2
 -- AUTO_INCREMENT for table `sectionAssignments`
 --
 ALTER TABLE `sectionAssignments`
-MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `sectionAssignmentsID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `sectionGradingPolicies`
 --
@@ -7268,7 +7271,7 @@ MODIFY `sectionGradingPolicyID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_IN
 -- AUTO_INCREMENT for table `sectionResources`
 --
 ALTER TABLE `sectionResources`
-MODIFY `resourceID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+MODIFY `resourceID` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sections`
 --
@@ -7293,12 +7296,12 @@ MODIFY `sectionTeacherID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMEN
 -- AUTO_INCREMENT for table `submissions`
 --
 ALTER TABLE `submissions`
-MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `submissionID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `userID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `userID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- Constraints for dumped tables
 --
