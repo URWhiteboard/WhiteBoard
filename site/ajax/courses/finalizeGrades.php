@@ -17,6 +17,8 @@ if ($login->databaseConnection()) {
 	$teacher = $query_sectionTeachers->rowCount();
 	// User has permission to finalize grades
 	if($teacher == 1) {
+		$gradeIDs = Array();
+		$userIDs = Array();
 		$error = false;
 		// Get all of the users assigned to this section along with their data
 		$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM users INNER JOIN sectionStudents ON sectionStudents.userID = users.userID WHERE sectionStudents.sectionID = :sectionID ORDER BY users.name_last, users.name_first ASC');
@@ -25,6 +27,8 @@ if ($login->databaseConnection()) {
 
 		// Loop through all of the users assigned to this section
 		while($sectionStudents = $query_sectionStudents->fetchObject()) {
+			$userIDs[] = $sectionStudents->userID;
+
 			$query_submission = $login->db_connection->prepare('SELECT * FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID');
 				$query_submission->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_STR);
 				$query_submission->bindValue(':assignmentID', $_POST['assignment'], PDO::PARAM_STR);
@@ -57,21 +61,37 @@ if ($login->databaseConnection()) {
 
 					$query_newGrade->execute();
 
+					$gradeIDs[] = $login->db_connection->lastInsertId();
 				// There was no submission, fail
 				} else {
 					$error = true;
 				}
+			} else {
+				$gradeIDs[] = $grade->gradeID;
 			}
 		}
-
 		// If there were no rows returned, then the data did not get inserted correctly
 		if(!$error) { 
-
+			
+			// Finalize and show the user their grade
 			$query_updateAssignment = $login->db_connection->prepare('UPDATE assignments SET gradeVisible = 1 WHERE assignmentID = :assignmentID');
 			$query_updateAssignment->bindValue(':assignmentID', $_POST['assignment'], PDO::PARAM_INT);
 			$query_updateAssignment->execute();
 
+			// Grades were successfully finalized
 			if ($query_updateAssignment->rowCount() > 0) {
+				// Send out a notification to the users
+				for($i = 0; $i < count($gradeIDs); $i++) {
+					echo "GradeID: ". $gradeIDs[$i] ."<br />UserID: ". $userIDs[$i];
+					$query_newAnnouncement = $login->db_connection->prepare('INSERT INTO announcements (time, type, typeID, sectionID, userID) VALUES(:time, :type, :typeID, :sectionID, :userID) ') or die(mysqli_error($db_connection_insert));
+					$query_newAnnouncement->bindValue(':time', time(), PDO::PARAM_INT);
+					$query_newAnnouncement->bindValue(':type', "GRADE", PDO::PARAM_INT);
+					$query_newAnnouncement->bindValue(':typeID', $gradeIDs[$i], PDO::PARAM_INT);
+					$query_newAnnouncement->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
+					$query_newAnnouncement->bindValue(':userID', $userIDs[$i], PDO::PARAM_INT);
+
+					$query_newAnnouncement->execute();
+				}
 				echo "You have successfully finalized the grades.";
 			} else {
 				echo "There was an error and grades were not finalized.";

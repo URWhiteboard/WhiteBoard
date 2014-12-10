@@ -48,7 +48,7 @@ if ($login->databaseConnection()) {
 			// Additional Information
 			echo "<li><table class='infoTable'>";
 			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
-			echo "<tr class='infoAdditionalInfo'  style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
+			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>School</td><td>". $course->school ."</td></tr>";
@@ -127,7 +127,7 @@ if ($login->databaseConnection()) {
 			// Additional Information
 			echo "<li><table>";
 			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
-			echo "<tr class='infoAdditionalInfo'  style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
+			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
 			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>School</td><td>". $course->school ."</td></tr>";
