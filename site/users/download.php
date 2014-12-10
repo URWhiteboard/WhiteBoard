@@ -41,7 +41,7 @@ if ($login->databaseConnection()) {
 				$query_sectionTeacher->execute();
 				$sectionTeacher = $query_sectionTeacher->fetchObject();
 			// Section teacher uploaded the file
-			if($sectionTeacher->userID == $assignment->creatorID) {
+			if($sectionTeacher->userID == $assignment->creatorID && $sectionTeacher->userID != NULL) {
 				// Check if the user is enrolled in that section
 				$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE sectionID = :sectionID AND userID = :userID');
 					$query_sectionStudents->bindValue(':sectionID', $sectionAssignments->sectionID, PDO::PARAM_STR);
@@ -50,6 +50,31 @@ if ($login->databaseConnection()) {
 				// User was enrolled in section, permission granted
 				if($query_sectionStudents->rowCount() != 0 ) {
 					$permissionGranted = true;
+				}
+			// Check to see if it was a resource
+			} else {
+			// Get the resource that the assignment was submitted to
+			$query_sectionResources = $login->db_connection->prepare('SELECT * FROM sectionResources WHERE fileID = :fileID');
+				$query_sectionResources->bindValue(':fileID', $_GET['id'], PDO::PARAM_STR);
+				$query_sectionResources->execute();
+				$sectionResources = $query_sectionResources->fetchObject();
+
+				// Check if the professor of this section uploaded the assignment
+				$query_sectionTeacher = $login->db_connection->prepare('SELECT * FROM sectionTeachers WHERE sectionID = :sectionID');
+					$query_sectionTeacher->bindValue(':sectionID', $sectionResources->sectionID, PDO::PARAM_STR);
+					$query_sectionTeacher->execute();
+					$sectionTeacher = $query_sectionTeacher->fetchObject();
+				// Section teacher uploaded the file
+				if($sectionTeacher->userID == $sectionResources->userID) {
+					// Check if the user is enrolled in that section
+					$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE sectionID = :sectionID AND userID = :userID');
+						$query_sectionStudents->bindValue(':sectionID', $sectionResources->sectionID, PDO::PARAM_STR);
+						$query_sectionStudents->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+						$query_sectionStudents->execute();
+					// User was enrolled in section, permission granted
+					if($query_sectionStudents->rowCount() != 0 ) {
+						$permissionGranted = true;
+					}
 				}
 			}
 		}
@@ -60,6 +85,7 @@ if ($login->databaseConnection()) {
 			$query_userPermission->bindValue(':fileID', $_GET['id'], PDO::PARAM_STR);
 			$query_userPermission->execute();
 			$submission = $query_userPermission->fetchObject();
+
 		// File was uploaded by a teacher
 		if($query_userPermission->rowCount() == 0) {
 			$query_assignments = $login->db_connection->prepare('SELECT * FROM assignments WHERE fileID = :fileID');
@@ -69,6 +95,17 @@ if ($login->databaseConnection()) {
 			// Permission granted
 			if($assignment->creatorID == $_SESSION['userID']) {
 				$permissionGranted = true;
+			} else {
+				// Check the sectionResource for the file uploaded
+				$query_sectionResources = $login->db_connection->prepare('SELECT * FROM sectionResources WHERE fileID = :fileID AND userID = :userID');
+					$query_sectionResources->bindValue(':fileID', $_GET['id'], PDO::PARAM_STR);
+					$query_sectionResources->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+					$query_sectionResources->execute();
+					$sectionResources = $query_sectionResources->fetchObject();
+				
+				if($query_sectionResources->rowCount() > 0) {
+					$permissionGranted = true;
+				}
 			}
 		} else {
 			// Get who created the submission
@@ -89,8 +126,13 @@ if ($login->databaseConnection()) {
 			$query_file->execute();
 			$file = $query_file->fetchObject();
 		$fileURL = $_GET['id'] .".". $file->extension;
+		header("Pragma: public"); // required
+		header("Expires: 0"); 
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+		header("Cache-Control: private",false); // required for certain browsers 
 		header("Content-Disposition: attachment; filename=\"" . basename($fileURL) . "\"");
 		header("Content-Type: application/force-download");
+		header("Content-Transfer-Encoding: binary");
 		header("Content-Length: " . filesize($fileURL));
 		header("Connection: close");
 	// Tell the user they can't access the file

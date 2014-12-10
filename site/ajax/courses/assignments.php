@@ -120,7 +120,7 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
 					echo "<h3>Submissions</h3>";
-					
+
 					if($assignment->submittable) {
 						if($query_submissions->rowCount() == 0) {
 							echo "You have not submitted anything for this assignment.<br /><br />";
@@ -518,7 +518,7 @@ $('#newAssignment').on('submit', function(e) {
 				//data: return data from server
 				$('#mainContentContainerContent').html(data);
 				// Reloads the course assignments, not the whole page.
-				//loadTab($('#assignments'), 'assignments');
+				loadTab($('#assignments'), 'assignments');
 			},
 			error: function(jqXHR, textStatus, errorThrown) 
 			{
