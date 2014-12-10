@@ -30,8 +30,27 @@ if ($login->databaseConnection()) {
 		$query_sectionAssignment->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_STR);
 		$query_sectionAssignment->bindValue(':assignmentID', $assignmentID, PDO::PARAM_STR);
 		$query_sectionAssignment->execute();
-	// If there were no rows returned, then the data did not get inserted correctly
+	// If there were rows returned, then the data got inserted correctly
 	if($query_newAssignment->rowCount() > 0) { 
+		// Send notification to all of the users in the section
+		// Get all of the section users
+		$query_sectionStudents = $login->db_connection->prepare('SELECT * FROM sectionStudents WHERE sectionID = :sectionID');
+			$query_sectionStudents->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_STR);
+			$query_sectionStudents->execute();
+
+		// Loop through all of the users assigned to this section
+		while($sectionStudents = $query_sectionStudents->fetchObject()) {
+
+			// Insert a new assignment for every user in this section
+			$query_newAnnouncement = $login->db_connection->prepare('INSERT INTO announcements (time, type, typeID, sectionID, userID) VALUES(:time, :type, :typeID, :sectionID, :userID) ') or die(mysqli_error($db_connection_insert));
+				$query_newAnnouncement->bindValue(':time', time(), PDO::PARAM_INT);
+				$query_newAnnouncement->bindValue(':type', "ASSIGNMENT", PDO::PARAM_INT);
+				$query_newAnnouncement->bindValue(':typeID', $assignmentID, PDO::PARAM_INT);
+				$query_newAnnouncement->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
+				$query_newAnnouncement->bindValue(':userID', $sectionStudents->userID, PDO::PARAM_INT);
+
+				$query_newAnnouncement->execute();
+		}
 		echo "You have created a new assignment! Reloading...";
 	} else {
 		echo "There was an error and you did not create a new assignment. Reloading...";
