@@ -40,7 +40,7 @@ class Registration
 
 		// if we have such a POST request, call the registerNewUser() method
 		if (isset($_POST["register"])) {
-			$this->registerNewUser($_POST['username'], $_POST['email'], $_POST['name_first'], $_POST['name_last'], $_POST['name_suffix'],  $_POST['expected_graduation'], $_POST['birth_year'], $_POST['birth_month'], $_POST['birth_day'], $_POST['password_new'], $_POST['password_repeat'], $_POST["captcha"]);
+			$this->registerNewUser($_POST['usernameSU'], $_POST['email'], $_POST['name_first'], $_POST['name_last'], $_POST['name_suffix'],  $_POST['expected_graduation'], $_POST['birth_year'], $_POST['birth_month'], $_POST['birth_day'], $_POST['password_new'], $_POST['password_repeat'], $_POST["captcha"]);
 		// if we have such a GET request, call the verifyNewUser() method
 		} else if (isset($_GET["id"]) && isset($_GET["verification_code"])) {
 			$this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
@@ -172,7 +172,7 @@ class Registration
 					// send a verification email
 					if ($this->sendVerificationEmail($userID, $email, $activation_hash)) {
 						// when mail has been send successfully
-						$this->messages[] = "Your account has been created successfully and we have sent you an email. Please click the verification link within that mail.";
+						$this->messages[] = "Your account has been created successfully and we have sent you an email. Please click the verification link within that email.";
 						$this->registration_successful = true;
 					} else {
 						// delete this users account immediately, as we could not send a verification email
@@ -180,7 +180,7 @@ class Registration
 						$query_delete_user->bindValue(':userID', $userID, PDO::PARAM_INT);
 						$query_delete_user->execute();
 
-						$this->errors[] = "Sorry, we could not send you an verification mail. Your account has NOT been created.";
+						$this->errors[] = "Sorry, we could not send you an verification email. Your account has NOT been created.";
 					}
 				} else {
 					$this->errors[] = "Sorry, your registration failed. Please go back and try again.";

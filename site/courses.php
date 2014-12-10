@@ -49,7 +49,7 @@ if(isset($_GET['c']) || isset($_GET['s'])) {
 					<div id="courseNavBarResources" class="courseNavBarButton">
 					Resources
 					</div>
-					<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" data-sID="<?php echo $_GET['s']; ?>" data-action="r" style="display:none;">
+					<div id="courseNavBarEnrollStatus" class="courseNavBarButtonRight" data-sID="<?php echo $_GET['s']; ?>" data-action="r" <?php if($login->getType()=="TEACHER") { echo "style='display:none;'"; } ?>'>
 					Drop Section
 					</div>
 				<?php
