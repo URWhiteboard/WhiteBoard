@@ -28,7 +28,7 @@ if ($login->databaseConnection()) {
 		$enrolled = $query_sectionStudents->fetchColumn();
 		// Enrolled, show page
 		if($enrolled==1) {
-			// Get all resources for this section
+			// Get all announcments for this section
 			$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE sectionID = :sectionID AND userID = :userID ORDER BY time DESC');
 				$query_sectionAnnouncements->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
 				$query_sectionAnnouncements->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
@@ -39,7 +39,7 @@ if ($login->databaseConnection()) {
 			}
 
 			$i = 0;
-			// Loop through all of the sections resources
+			// Loop through all of the sections announcements
 			while($announcements = $query_sectionAnnouncements->fetchObject()) {
 				
 				echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
@@ -194,7 +194,104 @@ if ($login->databaseConnection()) {
 		$enrolled = $query_sectionTeachers->fetchColumn();
 		// Enrolled, show page
 		if($enrolled==1) {
+			// Get all announcments for this section
+			$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE sectionID = :sectionID GROUP BY time ORDER BY time DESC');
+				$query_sectionAnnouncements->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+				$query_sectionAnnouncements->execute();
 			
+			if($query_sectionAnnouncements->rowCount() == 0) {
+				echo "There are no announcements for this section!";
+			}
+
+			$i = 0;
+			// Loop through all of the sections announcements
+			while($announcements = $query_sectionAnnouncements->fetchObject()) {
+				
+				echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
+				echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
+				echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+
+				// If the announcement was a new grade
+				if($announcements->type=="GRADE") {
+
+					// Find the new grade
+					$query_grade = $login->db_connection->prepare('SELECT * FROM grades WHERE gradeID = :gradeID');
+						$query_grade->bindValue(':gradeID', $announcements->typeID, PDO::PARAM_STR);
+						$query_grade->execute();
+						$grade = $query_grade->fetchObject();
+
+					// Find the assignment that was graded
+					$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID');
+						$query_assignment->bindValue(':assignmentID', $grade->assignmentID, PDO::PARAM_STR);
+						$query_assignment->execute();
+						$assignment = $query_assignment->fetchObject();
+
+					echo $assignment->name ." has been graded";
+
+				// If the announcement was an assignment
+				} else if($announcements->type=="ASSIGNMENT") {
+
+					// Find the assignment that was posted
+					$query_assignment = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID');
+						$query_assignment->bindValue(':assignmentID', $announcements->typeID, PDO::PARAM_STR);
+						$query_assignment->execute();
+						$assignment = $query_assignment->fetchObject();
+
+					echo $assignment->name ." has been assigned";
+
+				// If the announcment was a resource
+				} else if($announcements->type=="RESOURCE") {
+
+					// Find the resource that was posted
+					$query_resource = $login->db_connection->prepare('SELECT * FROM sectionResources WHERE resourceID = :resourceID');
+						$query_resource->bindValue(':resourceID', $announcements->typeID, PDO::PARAM_STR);
+						$query_resource->execute();
+						$resource = $query_resource->fetchObject();
+
+					echo $resource->name ." has been added to resources";
+
+				// If the announcment was an assignment
+				} else if($announcements->type=="ANNOUNCEMENT") {
+					echo $announcements->title;
+				}
+				echo "</div>";
+				echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
+				echo date('D, F j \a\t g:i a', $announcements->time) ."";
+				echo "</div>";
+				echo "</div>";
+				echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+
+				// If the announcement is a grade
+				if($announcements->type=="GRADE") {
+
+					echo "The assignment has been graded";
+				// If the announcement type is an assignment
+				} else if($announcements->type=="ASSIGNMENT") {
+					echo "Due ". date('D, F j \a\t g:i a', $assignment->due_time) ."<br />";
+					echo $assignment->comment ."<br />";
+
+				// If the announcement type is a resource
+				} else if($announcements->type=="RESOURCE") {
+
+				// Check if the resource has a fileID, if so, show the link to it.
+				if($resource->fileID!=null) {
+					$query_file = $login->db_connection->prepare('SELECT * FROM files WHERE fileID = :fileID');
+					$query_file->bindValue(':fileID', $resource->fileID, PDO::PARAM_STR);
+					$query_file->execute();
+					$file = $query_file->fetchObject();
+
+					echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
+				}
+				echo "Comment: ". $resource->comment ."<br />";
+
+				// If the announcement is an announcement
+				} else if($announcements->type=="ANNOUNCEMENT") {
+					echo $announcements->comment;
+				}
+
+				echo "</div>";
+				echo "</div>";
+			}
 			?>
 			<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>
 				<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>
@@ -244,7 +341,7 @@ $(".addResource").on('submit', function( e ) {
 			$(e.target.parentNode).html(data);
 			// Reloads the course assignments, not the whole page
 			if(data = "Your resource was successfully added. Reloading..."){
-				//loadTab($('#resources'), 'resources');
+				loadTab($('#resources'), 'resources');
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) 
