@@ -83,7 +83,7 @@ define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your p
  * Configuration for: verification email data
  * Set the absolute URL to register.php, necessary for email verification links
  */
-define("EMAIL_VERIFICATION_URL", "http://". $_SERVER['SERVER_NAME'] ."/register/");
+define("EMAIL_VERIFICATION_URL", "http://". $_SERVER['SERVER_NAME'] ."/");
 define("EMAIL_VERIFICATION_FROM", "admin@jacobroschen.com");
 define("EMAIL_VERIFICATION_FROM_NAME", "Whiteboard");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for Whiteboard");

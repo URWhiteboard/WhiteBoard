@@ -294,7 +294,7 @@ class Login
 				$this->errors[] = "Wrong password. Try again.";
 			// has the user activated their account with the verification email
 			} else if ($result_row->is_active != 1) {
-				$this->errors[] = "Your account is not activated yet. Please click on the confirm link in the mail.";
+				$this->errors[] = "Your account is not activated yet. Please click on the confirm link in the email.";
 			} else if ($result_row->is_active == null) {
 				$this->errors[] = "Your account has been blocked due to too many failed login attempts. Please reset your password.";
 			} else {

@@ -1,5 +1,5 @@
 body {
-	font-family: Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	margin: 0px;
 }
@@ -12,7 +12,8 @@ a {
 .headerContainer {
 	width: 100%;
 	height:100px;
-	background-color: rgb(232,232,232);
+	background-color: rgba(0, 0, 0, 0);
+	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	position: absolute;
 }
 .headerLogo {
@@ -20,31 +21,31 @@ a {
 	position: absolute;
 	float: left;
 	font-weight: bold;
-	padding:0 10px 0 10px;
+	padding:0 20px 0 20px;
 	line-height: 100px;
 }
 .headerLoginContainer {
 	position: relative;
 	float: right;
 	text-align: right;
-	width: 500px;
+	width: 600px;
 	padding: 0 10px 0 10px;
 }
 .headerLoginContainerForms {
 	height: 40px;
 	padding-top: 30px;
 	vertical-align: bottom;
-	width: 500px;
+	width: 600px;
 }
 .headerLoginContainerFormUsername {
 	height:60px;
-	width: 200px;
+	width: 250px;
 	text-align: left;
 	float: left;
 }
 .headerLoginContainerFormPassword {
 	height:60px;
-	width: 280px;
+	width: 330px;
 	text-align: left;
 	float: right;
 }
@@ -61,7 +62,7 @@ input[type=email],
 input[type=password] {
 	padding-top: 5px;
 	padding-left:5px;
-	width:200px; 
+	width:250px; 
 	font-size: 18px;
 	line-height: 20px;
 }
@@ -96,4 +97,47 @@ input[type=submit]:hover {
 .mainContentContainerContent {
 	padding:10px;
 	overflow: auto;
+}
+.loggedOutContainer {
+	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(255, 255, 255));
+	height: 520px;
+	width:800px;
+	margin: 10px auto;
+	border: solid 1px #F0F0F0;
+	border-radius: 5px;
+	position: relative;
+}
+.loggedOutContainerLeft {
+	width:380px;
+	position: relative;
+	float: left;
+	padding:10px;
+	text-align: center;
+}
+.loggedOutContainerRight {
+	width:380px;
+	position: relative;
+	float: left;
+	padding:10px;
+	text-align: center;
+}
+.loggedOutMessageContainer {
+	height: 20px;
+	width:790px;
+	margin: 10px auto;
+	border: solid 1px #F0F0F0;
+	border-radius: 5px;
+	position: relative;
+	line-height: 20px;
+	padding:5px;
+}
+.loggedOutErrorContainer {
+	height: 20px;
+	width:790px;
+	margin: 10px auto;
+	border: solid 1px red;
+	border-radius: 5px;
+	position: relative;
+	line-height: 20px;
+	padding:5px;
 }
