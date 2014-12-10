@@ -30,7 +30,9 @@ input[type=checkbox] {
 }
 input[type=submit] {
 	background-color: rgba(0, 0, 0, 0);
+	background-image: linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	background-image: -moz-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	border-color: rgba(0, 0, 0, 0.0980392);
 	border-style: solid;
 	border-width: 1px;

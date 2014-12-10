@@ -12,8 +12,9 @@ a {
 .headerContainer {
 	width: 100%;
 	height:100px;
-	background-color: rgba(0, 0, 0, 0);
+	background-image: linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	background-image: -moz-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	position: absolute;
 }
 .headerLogo {
@@ -68,7 +69,9 @@ input[type=password] {
 }
 input[type=submit] {
 	background-color: rgba(0, 0, 0, 0);
+	background-image: linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
+	background-image: -moz-linear-gradient(top, rgb(245, 245, 245), rgb(241, 241, 241));
 	border-color: rgba(0, 0, 0, 0.0980392);
 	border-style: solid;
 	border-width: 1px;
@@ -99,7 +102,9 @@ input[type=submit]:hover {
 	overflow: auto;
 }
 .loggedOutContainer {
+	background-image: linear-gradient(top, rgb(245, 245, 245), rgb(255, 255, 255));
 	background-image: -webkit-linear-gradient(top, rgb(245, 245, 245), rgb(255, 255, 255));
+	background-image: -moz-linear-gradient(top, rgb(245, 245, 245), rgb(255, 255, 255));
 	height: 520px;
 	width:800px;
 	margin: 10px auto;
