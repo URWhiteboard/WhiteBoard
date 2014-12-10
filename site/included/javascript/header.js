@@ -1,13 +1,3 @@
-// Expands the Additional Information section in Courses->info
-function expand() {
-	if($('.infoAdditionalInfo').css("display") == "none") { 
-		$('.infoAdditionalInfo').css({"display":"table-row"});
-	}
-	else {
-		$('.infoAdditionalInfo').css({"display":"none"});
-	}
-}
-
 // Function to load the new tab content, use this to reload any page on the courses tab
 function loadTab(tabObj, url){
 	var section = $('#courseNavBarEnrollStatus').data("sid");

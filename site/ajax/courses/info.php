@@ -48,25 +48,25 @@ if ($login->databaseConnection()) {
 			// Additional Information
 			echo "<li><table class='infoTable'>";
 			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>School</td><td>". $course->school ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Subject</td><td>". $course->department ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Number</td><td>". $course->number ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Type</td><td>". $course->type ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Credits</td><td>". $course->credits ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section Enroll</td><td>". $section->enroll ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section Cap</td><td>". $section->enrollCap ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Info</td><td>". $section->info ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Requirements</td><td>". $course->requirements ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Prerequisites</td><td>". $course->prerequisites ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Clusters</td><td>". $course->clusters ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Term</td><td>". $section->term ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Year</td><td>". $section->year ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Status</td><td>". $section->status ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Cross Listed</td><td>". $course->crossListed ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>URL</td><td>". $section->url ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>School</td><td>". $course->school ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Subject</td><td>". $course->department ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Number</td><td>". $course->number ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Type</td><td>". $course->type ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Credits</td><td>". $course->credits ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section Enroll</td><td>". $section->enroll ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section Cap</td><td>". $section->enrollCap ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Info</td><td>". $section->info ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Requirements</td><td>". $course->requirements ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Prerequisites</td><td>". $course->prerequisites ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Clusters</td><td>". $course->clusters ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Term</td><td>". $section->term ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Year</td><td>". $section->year ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Status</td><td>". $section->status ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Cross Listed</td><td>". $course->crossListed ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>URL</td><td>". $section->url ."</td></tr>";
 			echo "</table></li>";
 			
 		}
@@ -126,26 +126,26 @@ if ($login->databaseConnection()) {
 			
 			// Additional Information
 			echo "<li><table>";
-			echo "<tr id='additional' onclick='expand();'><td>Additional Information</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>School</td><td>". $course->school ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Subject</td><td>". $course->department ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Number</td><td>". $course->number ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Type</td><td>". $course->type ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Credits</td><td>". $course->credits ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section Enroll</td><td>". $section->enroll ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Section Cap</td><td>". $section->enrollCap ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Course Info</td><td>". $section->info ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Requirements</td><td>". $course->requirements ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Prerequisites</td><td>". $course->prerequisites ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Clusters</td><td>". $course->clusters ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Term</td><td>". $section->term ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Year</td><td>". $section->year ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Status</td><td>". $section->status ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>Cross Listed</td><td>". $course->crossListed ."</td></tr>";
-			echo "<tr class='infoAdditionalInfo' style='display: none;'><td>URL</td><td>". $section->url ."</td></tr>";
+			echo "<tr id='additional'><td>Additional Information</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section ID</td><td><a href='../../courses/?s=". $section->sectionID."'>". $section->sectionID ."</a></td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course ID</td><td>". $course->courseID ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Reference Number (CRN)</td><td>". $section->CRN ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>School</td><td>". $course->school ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Subject</td><td>". $course->department ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Number</td><td>". $course->number ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Type</td><td>". $course->type ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Credits</td><td>". $course->credits ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section Enroll</td><td>". $section->enroll ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Section Cap</td><td>". $section->enrollCap ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Course Info</td><td>". $section->info ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Requirements</td><td>". $course->requirements ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Prerequisites</td><td>". $course->prerequisites ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Clusters</td><td>". $course->clusters ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Term</td><td>". $section->term ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Year</td><td>". $section->year ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Status</td><td>". $section->status ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>Cross Listed</td><td>". $course->crossListed ."</td></tr>";
+			echo "<tr class='infoAdditionalInfo'><td>URL</td><td>". $section->url ."</td></tr>";
 			echo "</table></li>";
 
 	} else {
@@ -155,3 +155,9 @@ if ($login->databaseConnection()) {
 	echo "Database connection failed, please try again later.";
 }
 ?>
+<script>
+// Expands the Additional Information section in Courses->info
+$('#additional').click(function(e) {
+	$('.infoAdditionalInfo').toggleClass('infoAdditionalInfoExpanded');
+});
+</script>

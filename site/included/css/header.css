@@ -256,5 +256,5 @@ input[type=submit]:hover {
 	display: none;
 }
 .infoAdditionalInfoExpanded {
-	display: block;
+	display: table-row;
 }
