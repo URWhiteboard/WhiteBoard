@@ -90,6 +90,7 @@ if ($login->databaseConnection()) {
 				echo "</div>";
 				echo "</div>";
 			}
+			?>
 			<div id='resourcesResourceContainer' class='resourcesResourceCountiner'>
 				<div id='resourcesResourceHeader' class='resourcesResourceHeader'>
 					<div id='resourcesResourceName' class='resourcesResourceName'>
@@ -99,8 +100,20 @@ if ($login->databaseConnection()) {
 				<div id='resourcesNewResourceBody' class='resourcesNewResourceBody'>
 					<form method="post" id="newResource" name="newResource">
 						<input id="name" type="text" pattern="[a-zA-Z0-9]{2,64}" name="name" placeholder="name" required />
+						<br />
+						<textarea id="comment" type="textarea" name="comment" rows="4" cols="50" placeholder="Comment"> </textarea>
+						<br />
+						<br />
+						<label for="file"> File: </label>
+						<input id="file" type="text" name="file" />
+						<br />
+						<input type="submit" value"Create Resource">
+						<br />
+						<br />
+					</form>
 				</div>
 			</div>
+			<?php
 		} else {
 			// Not enrolled, redirect back to #info
 			echo "Permission Denied!";
@@ -108,3 +121,44 @@ if ($login->databaseConnection()) {
 	}
 }
 ?>
+<script>
+$('#newResource').on('submit', function(e) {
+	e.preventDefault();
+	var postData=$(this).serializeArray();
+	var error=null;
+	if(postData[0].value=="") {
+		error ="name";
+		$('#name').addClass('error');
+	} else {
+		$('#name').removeClass('error');
+	}
+	if(postData[1].value==""){
+		error="comment";
+		$('#comment').addClass('error');
+	} else {
+		$('#comment').removeClass('error');
+	}
+	var formURL='../../ajax/courses/newResource.php';
+	if(error==null){
+		fd=postData;
+		var sectionID={name:"sectionID", value "<?php echo $_GET['s']; ?>"};
+		fd.push(sectionID);
+		$.ajax(
+		{
+			url: formURL,
+			type:"POST",
+			data: fd,
+			success: function(data, textStatus, jqXHR)
+			{
+				$('#mainContentContainerContent').html(data);
+				setTimout(funtion(){window.location.reload(true)}, 1000);
+			},
+			error:funtion(jqXHR, textStatus, errorThrown)
+			{
+				//if fails
+				$('mainContentContainerContent').htm(data);
+			}
+		})
+	}
+	
+})
