@@ -465,10 +465,8 @@ $(".addGrade").on('submit', function(e) {
 	postData.push(sectionID);
 
 	var tempLoc = e.target.parentNode.parentNode.parentNode;
-	console.log(postData);
 	// Check to make sure the grade has been filled in
 	if(postData[0].value == "") {
-		console.log("Add a score!");
 		$('#real_score').addClass('error');
 	} else {
 		$.ajax({
@@ -500,7 +498,6 @@ $(".finalizeGrades").on('submit', function(e) {
 	var postData = $(this).serializeArray();
 	var sectionID = {name:"sectionID", value:"<?php echo $_GET['s']; ?>"};
 	postData.push(sectionID);
-	console.log(postData);
 	$.ajax({
 		url: '../../ajax/courses/finalizeGrades.php',
 		type: 'POST',
