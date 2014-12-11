@@ -198,10 +198,6 @@ if ($login->databaseConnection()) {
 			$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE sectionID = :sectionID GROUP BY time ORDER BY time DESC');
 				$query_sectionAnnouncements->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
 				$query_sectionAnnouncements->execute();
-			
-			if($query_sectionAnnouncements->rowCount() == 0) {
-				echo "There are no announcements for this section!";
-			}
 
 			$i = 0;
 			// Loop through all of the sections announcements

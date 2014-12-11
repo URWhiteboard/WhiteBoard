@@ -486,6 +486,9 @@ $('#newAssignment').on('submit', function(e) {
 	} else {
 		$('#due_time').removeClass('error');
 	}
+	if(postData[5].value < Math.floor((new Date).getTime()/1000) && $("#submittable").val()==1) {
+		error = "due_time";
+	}
 	if(postData[7].value == "") {
 		error = "show_letter";
 		$('#show_letter').addClass('error');
@@ -502,7 +505,6 @@ $('#newAssignment').on('submit', function(e) {
 		postData[5] = {name: "datetimepicker", value: Math.floor((new Date).getTime()/1000)};
 		postData[6] = {name: "late_policy", value: "1"};
 	}
-	console.log(postData);
 	var formURL = '../../ajax/courses/newAssignment.php';
 	if(error == null) {
 		fd = postData;
