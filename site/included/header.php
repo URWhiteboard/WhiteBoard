@@ -37,11 +37,10 @@ $login = new Login();
 		</div>
 		</a>
 		<div id="navBarSearchContainer" class="navBarSearchContainer">
-			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to start searching..." autocomplete="off" autocorrect="off">
+			<input id="navBarSearchBar" class="navBarSearchBar" placeholder="Click here to search..." autocomplete="off" autocorrect="off" onfocus="this.placeholder='Type to search...'" onblur="this.placeholder='Click here to search...'">
 		</div>
-		<div id="navBarSearchResultsContainer" class="navBarSearchResultsContainer">
-		Start typing to search...
-		</div>
+        <div id="navBarSearchResultsContainer" class="navBarSearchResultsContainer">
+        </div>
 		<div id="navBarUserContainer" class="navBarUserContainer">
 			<div id="navBarUserName" class="navBarUserName">
 				<?php

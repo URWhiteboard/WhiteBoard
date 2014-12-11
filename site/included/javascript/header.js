@@ -46,15 +46,20 @@ $(document).ready(function() {
 
 	// NavBarUserContainer shown on click and hide navBarSearchResultsContainer
 	$('.navBarUserContainer').click(function(e) {
-		$('.navBarUserContainer').addClass('navBarUserContainerExpanded');
 		$('.navBarSearchResultsContainer').hide();
 		e.stopPropagation();
 	});
 
+    var navBarSearchBar = $('.navBarSearchBar');
+
 	// Hide navBarUserContainer and show navBarSearchResultsContainer
-	$('.navBarSearchBar').click(function(e) {
-		$('.navBarUserContainer').removeClass('navBarUserContainerExpanded');
-		$('.navBarSearchResultsContainer').show();
+	navBarSearchBar.keyup(function(e) {
+        if (navBarSearchBar.val()) {
+            $('.navBarSearchResultsContainer').show();
+        }
+        else {
+            $('.navBarSearchResultsContainer').hide();
+        }
 		e.stopPropagation();
 	});
 
