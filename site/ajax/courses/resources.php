@@ -13,6 +13,9 @@ if ($login->isUserLoggedIn() == false) {
 	// the user is not logged in, redirect them to the homepage
 	header("location: /");
 }
+//?>
+// <link rel="stylesheet" type="text/css" href="../../included/css/resources.css">
+//<?php
 if ($login->databaseConnection()) {
 	// Show the student page
 	if($login->getType() == "STUDENT") { 
@@ -64,7 +67,6 @@ if ($login->databaseConnection()) {
 		$enrolled = $query_sectionTeachers->fetchColumn();
 		if($enrolled==1) {
 			// Enrolled, show page
-			echo "Resources";
 			//get all resources for this section
 			$query_sectionResources=$login->db_connection->prepare('SELECT * FROM sectionResources INNER JOIN resources ON sectionResources.resourceID=resources.resourceID WHERE sectionResources.sectionID=:sectionID ')
 				$query_sectionResources->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
