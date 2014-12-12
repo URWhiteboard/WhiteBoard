@@ -46,6 +46,7 @@ $(document).ready(function() {
 
 	// NavBarUserContainer shown on click and hide navBarSearchResultsContainer
 	$('.navBarUserContainer').click(function(e) {
+		$('.navBarUserContainer').toggleClass('navBarUserContainerExpanded');
 		$('.navBarSearchResultsContainer').hide();
 		e.stopPropagation();
 	});
