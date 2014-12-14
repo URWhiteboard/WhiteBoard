@@ -238,7 +238,7 @@ input[type=submit]:hover {
 
 .coursesCourseContainer {
 	border-bottom: solid 1px rgb(232,232,232);
-	height:40px;
+	height:50px;
 	-webkit-transition: background-color .3s;
 	padding-left:5px;
 	padding-right:5px;
@@ -248,11 +248,11 @@ input[type=submit]:hover {
 	cursor: pointer;
 }
 .coursesCourseTitle {
-	line-height: 25px;
+	line-height: 30px;
 	font-size: 20px;
 }
 .coursesCourseTeacher {
-	line-height: 15px;
+	line-height: 20px;
 }
 .infoAdditionalInfo {
 	display: none;

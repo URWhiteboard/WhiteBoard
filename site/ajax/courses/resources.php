@@ -117,11 +117,8 @@ if ($login->databaseConnection()) {
 			?>
 			<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>
 				<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>
-					<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>
+					<div id='assignmentsAssignmentNew' class='assignmentsAssignmentNew'>
 						New Resource
-					</div>
-					<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>
-					&nbsp;
 					</div>
 				</div>
 				<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>

@@ -292,6 +292,7 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+					echo "Max grade: ". $assignment->maxScore;
 					echo "<h3>Submissions</h3>";
 
 					// Set a varaible to keep track of number of graded submissions and submissions
@@ -370,11 +371,8 @@ if ($login->databaseConnection()) {
 			?>
 			<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>
 				<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>
-					<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>
+					<div id='assignmentsAssignmentNew' class='assignmentsAssignmentNew'>
 						New Assignment
-					</div>
-					<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>
-					&nbsp;
 					</div>
 				</div>
 				<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>
