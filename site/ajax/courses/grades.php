@@ -32,7 +32,33 @@ if ($login->databaseConnection()) {
 				$query_sectionAssignments->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
 				$query_sectionAssignments->execute();
 			
-			$i = 0;
+			// Get the grade for this section
+			$query_sectionGrade = $login->db_connection->prepare('SELECT * FROM sectionGrades WHERE userID = :userID AND sectionID = :sectionID');
+				$query_sectionGrade->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+				$query_sectionGrade->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+				$query_sectionGrade->execute();
+				$sectionGrade = $query_sectionGrade->fetchObject();
+
+			// Show the current grade	
+			echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
+			echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
+			echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+			echo "Total Course Grade";
+			echo "</div>";
+			echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
+			echo "&nbsp;";
+			echo "</div>";
+			echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
+			if($sectionGrade->grade != NULL) {
+				echo round((double)$sectionGrade->grade, 2) ."%";
+			} else {
+				echo "&ndash;";
+				echo $query_sectionGrade->grade;
+			}
+			echo "</div>";
+			echo "</div>";
+			echo "</div>";
+			$hasGrades = false;
 			// get result row as an object, so we can itenerate through the sections
 			while($assignment = $query_sectionAssignments->fetchObject()) {
 				// Set default to submittable
@@ -92,13 +118,14 @@ if ($login->databaseConnection()) {
 					}
 				}
 				if($gradeable) {
+					$hasGrades = true;
 					$query_grades = $login->db_connection->prepare('SELECT * FROM grades WHERE assignmentID = :assignmentID AND userID = :userID');
 						$query_grades->bindValue(':assignmentID',  $assignment->assignmentID, PDO::PARAM_STR);
 						$query_grades->bindValue(':userID',  $_SESSION['userID'], PDO::PARAM_STR);
 						$query_grades->execute();
 						$grade = $query_grades->fetchObject();
-					// will create a top border on the first assignment
-					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
+
+					echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' >";
 					echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
 					echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
 					echo $assignment->name;
@@ -108,7 +135,7 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
 					// Need to check to see if they have a grade for the assignment
-					if($grade->real_score != NULL) {
+					if($grade->real_score != NULL && $assignment->gradeVisible) {
 						echo $grade->real_score ."/". $assignment->maxScore ."";
 					} else {
 						echo "&ndash;/". $assignment->maxScore ."";
@@ -144,8 +171,9 @@ if ($login->databaseConnection()) {
 							echo "Grade: ". $grade->real_score ."/". $assignment->maxScore ."<br />";
 							echo "Actual grade: ". $grade->effective_score ."/". $assignment->maxScore ."<br />";
 							echo "Comments: ". $grade->comment ."<br />";
+
+						// Assignment has not yet been graded
 						} else {
-							// Need to add functionality to grade the submission
 							echo "This assignment has not been graded yet.";
 						}
 						echo "</div>";
@@ -201,9 +229,10 @@ if ($login->databaseConnection()) {
 					}
 					echo "</div>";
 					echo "</div>";
+
 				}
 			}
-			if($i == 0) {
+			if(!$hasGrades) {
 				echo "There are no grades for this section.";
 			}
 		} else {

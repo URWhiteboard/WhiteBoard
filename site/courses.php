@@ -193,6 +193,13 @@ if ($login->databaseConnection()) {
 				// echo "Year: ". $section->year ."<br />";
 				// echo "<br />";
 
+				// Get the grade for this section
+				$query_sectionGrade = $login->db_connection->prepare('SELECT * FROM sectionGrades WHERE userID = :userID AND sectionID = :sectionID');
+					$query_sectionGrade->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+					$query_sectionGrade->bindValue(':sectionID', $section->sectionID, PDO::PARAM_STR);
+					$query_sectionGrade->execute();
+					$sectionGrade = $query_sectionGrade->fetchObject();
+
 				echo "<a href='../courses/?s=". $section->sectionID ."' class='noUnderline'>";
 				echo "<div id='coursesCourseContainer' class='coursesCourseContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 				echo "<div id='coursesCourseTitle' class='coursesCourseTitle'>";
@@ -203,6 +210,14 @@ if ($login->databaseConnection()) {
 					echo "No instructor assigned";
 				} else {
 					echo "". $sectionTeacherData->name_first ." ". $sectionTeacherData->name_last ."";
+				}
+				echo "</div>";
+				echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
+				if($sectionGrade->grade != NULL) {
+					echo round((double)$sectionGrade->grade, 2) ."%";
+				} else {
+					echo "&ndash;";
+					echo $query_sectionGrade->grade;
 				}
 				echo "</div>";
 				echo "</div>";

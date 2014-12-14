@@ -58,7 +58,7 @@ input[type=submit]:hover {
 	cursor: pointer;
 }
 .error {
-	border: solid 1px red !important;
+	border: solid 1px red;
 }
 .navBarContainer {
 	width: 100%;
