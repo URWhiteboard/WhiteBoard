@@ -143,6 +143,7 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+
 					// Check the database for submissions
 					echo "<h3>Submissions</h3>";
 					$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE submit_time In(SELECT MAX(submit_time) FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID GROUP BY userID)');
@@ -333,6 +334,7 @@ if ($login->databaseConnection()) {
 					echo "</div>";
 					echo "</div>";
 					echo "<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>";
+					echo "Max grade: ". $assignment->maxScore;
 					echo "<h3>Submissions</h3>";
 
 					// Set a varaible to keep track of number of graded submissions and submissions
