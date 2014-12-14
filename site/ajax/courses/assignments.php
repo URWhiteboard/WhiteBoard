@@ -142,7 +142,7 @@ if ($login->databaseConnection()) {
 							echo "<div id='assignmentsAssignmentSubmissionUser' class='assignmentsAssignmentSubmissionUser'>";
 							// When file is uploaded, it should change to the id to find the file, otherwise collisions will happen
 							echo "Title: ". $file->title ."<br>";
-							echo "URL: <a href='../../users/download.php?id=". $file->fileID ."'>". $file->fileID .".". $file->extension ."</a><br>";
+							echo "URL: <a href='../../users/download.php?id=". $file->fileID ."' download>". $file->fileID .".". $file->extension ."</a><br>";
 							echo "Comment: ". $submission->comment ."<br>";
 							echo "Submitted at: ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br>";
 							echo "</div>";
@@ -350,7 +350,7 @@ if ($login->databaseConnection()) {
 							$query_file->execute();
 							$file = $query_file->fetchObject();
 
-							echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."'>". $file->fileID .".". $file->extension ."</a><br>";
+							echo "URL: <a href='../../users/submissions/". $file->fileID .".". $file->extension ."' download>". $file->fileID .".". $file->extension ."</a><br>";
 							echo "Title: ". $file->title ."<br>";
 							echo "Submitted at ". date('D, F j \a\t g:i a', $submission->submit_time) ."<br />";
 							echo "Comment: ";

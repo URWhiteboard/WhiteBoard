@@ -42,11 +42,8 @@ if ($login->databaseConnection()) {
 			// Show the current grade	
 			echo "<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer' ". ((!$i++)? "style='border-top: solid 1px rgb(232,232,232);'" : "") ." >";
 			echo "<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>";
-			echo "<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>";
+			echo "<div id='assignmentsAssignmentNew' class='assignmentsAssignmentNew'>";
 			echo "Total Course Grade";
-			echo "</div>";
-			echo "<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>";
-			echo "&nbsp;";
 			echo "</div>";
 			echo "<div id='assignmentsAssignmentGrade' class='assignmentsAssignmentGrade'>";
 			if($sectionGrade->grade != NULL) {
