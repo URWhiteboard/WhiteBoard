@@ -179,7 +179,8 @@ if ($login->databaseConnection()) {
 							// Need to add functionality to grade the submission
 							echo "This assignment has not been graded yet.";
 						}
-						
+						echo "</div>";
+						echo "</div>";
 					}
 				// If the announcement type is an assignment
 				} else if($announcements->type=="ASSIGNMENT") {
@@ -323,11 +324,8 @@ if ($login->databaseConnection()) {
 			?>
 			<div id='assignmentsAssignmentContainer' class='assignmentsAssignmentContainer'>
 				<div id='assignmentsAssignmentHeader' class='assignmentsAssignmentHeader'>
-					<div id='assignmentsAssignmentName' class='assignmentsAssignmentName'>
+					<div id='assignmentsAssignmentNew' class='assignmentsAssignmentNew'>
 						New Announcement
-					</div>
-					<div id='assignmentsAssignmentDue' class='assignmentsAssignmentDue'>
-					&nbsp;
 					</div>
 				</div>
 				<div id='assignmentsAssignmentBody' class='assignmentsAssignmentBody'>

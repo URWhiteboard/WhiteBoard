@@ -12,12 +12,12 @@ if ($login->databaseConnection()) {
 	// Insert new row is sectionStudents
 
 	$query_newGrade = $login->db_connection->prepare('INSERT INTO grades (real_score, sectionID, userID, assignmentID, graderID, effective_score, comment) VALUES(:real_score, :sectionID, :userID, :assignmentID, :graderID, :effective_score, :comment) ') or die(mysqli_error($db_connection_insert));
-	$query_newGrade->bindValue(':real_score', $_POST['real_score'], PDO::PARAM_INT);
+	$query_newGrade->bindValue(':real_score', $_POST['real_score'], PDO::PARAM_STR);
 	$query_newGrade->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
 	$query_newGrade->bindValue(':userID', $_POST['user'], PDO::PARAM_INT);
 	$query_newGrade->bindValue(':assignmentID', $_POST['assignment'], PDO::PARAM_INT);
 	$query_newGrade->bindValue(':graderID', $_SESSION['userID'], PDO::PARAM_INT);
-	$query_newGrade->bindValue(':effective_score', $_POST['real_score'], PDO::PARAM_INT);
+	$query_newGrade->bindValue(':effective_score', $_POST['real_score'], PDO::PARAM_STR);
 	$query_newGrade->bindValue(':comment', $_POST['comment'], PDO::PARAM_INT);
 
 	$query_newGrade->execute();

@@ -28,7 +28,7 @@ if ($login->databaseConnection()) {
 	if($login->getType() == "STUDENT") { 
 
 		// Get all resources for this section
-		$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE userID = :userID ORDER BY time DESC LIMIT 100');
+		$query_sectionAnnouncements = $login->db_connection->prepare('SELECT * FROM announcements WHERE userID = :userID ORDER BY time DESC');
 			$query_sectionAnnouncements->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 			$query_sectionAnnouncements->execute();
 		
@@ -191,6 +191,8 @@ if ($login->databaseConnection()) {
 							// Need to add functionality to grade the submission
 							echo "This assignment has not been graded yet.";
 						}
+						echo "</div>";
+						echo "</div>";
 					}
 				// If the announcement type is an assignment
 				} else if($announcements->type=="ASSIGNMENT") {
