@@ -34,8 +34,13 @@ if ($AJAX){
 				$query_addSection->bindValue(':is_no_credit', 0, PDO::PARAM_STR);
 				$query_addSection->execute();
 
+				$query_addSectionGrade = $login->db_connection->prepare('INSERT INTO sectionGrades (sectionID, userID) VALUES(:sectionID, :userID)') or die(mysqli_error($db_connection_insert));
+				$query_addSectionGrade->bindValue(':sectionID', $_GET['s'], PDO::PARAM_STR);
+				$query_addSectionGrade->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
+				$query_addSectionGrade->execute();
+
 				// If there were no rows returned, then the data did not get inserted correctly
-				if($query_addSection->rowCount() > 0) { 
+				if($query_addSection->rowCount() > 0 && $query_addSectionGrade->rowCount() > 0) { 
 					echo "Enrolled, reloading...";
 				} else {
 					echo "There was an error and you were not enrolled in the section.";

@@ -90,13 +90,44 @@ if ($login->databaseConnection()) {
 				// Send out a notification to the users
 				for($i = 0; $i < count($gradeIDs); $i++) {
 					$query_newAnnouncement = $login->db_connection->prepare('INSERT INTO announcements (time, type, typeID, sectionID, userID) VALUES(:time, :type, :typeID, :sectionID, :userID) ') or die(mysqli_error($db_connection_insert));
-					$query_newAnnouncement->bindValue(':time', time(), PDO::PARAM_INT);
-					$query_newAnnouncement->bindValue(':type', "GRADE", PDO::PARAM_INT);
-					$query_newAnnouncement->bindValue(':typeID', $gradeIDs[$i], PDO::PARAM_INT);
-					$query_newAnnouncement->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
-					$query_newAnnouncement->bindValue(':userID', $userIDs[$i], PDO::PARAM_INT);
+						$query_newAnnouncement->bindValue(':time', time(), PDO::PARAM_INT);
+						$query_newAnnouncement->bindValue(':type', "GRADE", PDO::PARAM_INT);
+						$query_newAnnouncement->bindValue(':typeID', $gradeIDs[$i], PDO::PARAM_INT);
+						$query_newAnnouncement->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
+						$query_newAnnouncement->bindValue(':userID', $userIDs[$i], PDO::PARAM_INT);
 
-					$query_newAnnouncement->execute();
+						$query_newAnnouncement->execute();
+
+					// Update the section grades now that the grades have been finalized
+					$query_grades = $login->db_connection->prepare('SELECT * FROM grades WHERE userID = :userID');
+						$query_grades->bindValue(':userID',  $userIDs[$i], PDO::PARAM_STR);
+						$query_grades->execute();
+
+					$totalPoints = 0;
+					$pointsScored = 0;
+					// Loop through all of the grades and add them together
+					while($assignmentGrade = $query_grades->fetchObject()) {
+						$query_assignmentsTotal = $login->db_connection->prepare('SELECT * FROM assignments WHERE assignmentID = :assignmentID');
+						$query_assignmentsTotal->bindValue(':assignmentID',  $assignmentGrade->assignmentID, PDO::PARAM_STR);
+						$query_assignmentsTotal->execute();
+						$assignmentTotal = $query_assignmentsTotal->fetchObject();
+
+						$pointsScored += $assignmentGrade->effective_score;
+						$totalPoints += $assignmentTotal->maxScore;
+					}
+
+					// Calulate the grade
+					$grade = "". ($pointsScored/$totalPoints)*100;
+					// If the grade is zero
+					if($grade == "") {
+						$grade = "0.00";
+					}
+					$query_updateAssignment = $login->db_connection->prepare('UPDATE sectionGrades SET grade = :grade WHERE userID = :userID AND sectionID = :sectionID');
+						$query_updateAssignment->bindValue(':grade', $grade);
+						$query_updateAssignment->bindValue(':userID', $userIDs[$i], PDO::PARAM_INT);
+						$query_updateAssignment->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_INT);
+						$query_updateAssignment->execute();
+
 				}
 				echo "You have successfully finalized the grades.";
 			} else {
