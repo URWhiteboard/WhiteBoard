@@ -101,7 +101,7 @@ if ($login->databaseConnection()) {
 
 					// Check the database for submissions
 					echo "<h3>Submissions</h3>";
-					$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE submit_time In(SELECT MAX(submit_time) FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID GROUP BY userID)');
+					$query_submissions = $login->db_connection->prepare('SELECT * FROM submissions WHERE userID = :userID AND assignmentID = :assignmentID ORDER BY submit_time DESC LIMIT 1');
 						$query_submissions->bindValue(':userID', $_SESSION['userID'], PDO::PARAM_STR);
 						$query_submissions->bindValue(':assignmentID', $assignment->assignmentID, PDO::PARAM_STR);
 						$query_submissions->execute();
@@ -366,8 +366,8 @@ $(".addResource").on('submit', function( e ) {
 			//data: return data from server
 			$(e.target.parentNode).html(data);
 			// Reloads the course assignments, not the whole page
-			if(data = "Your resource was successfully added. Reloading..."){
-				loadTab($('#resources'), 'resources');
+			if(data = "Your announcement was successfully sent. Reloading..."){
+				loadTab($('#announcements'), 'announcements');
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) 
