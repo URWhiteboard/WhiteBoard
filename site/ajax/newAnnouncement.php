@@ -29,7 +29,7 @@ if ($login->databaseConnection()) {
 
 			$query_newAnnouncement->execute();
 	}
-	echo "Your assignment was succesfully sent. Reloading...";
+	echo "Your announcement was successfully sent. Reloading...";
 } else {
 	echo "Database connection failed. Reloading...";
 }

@@ -11,6 +11,7 @@ $login = new Login();
 if ($login->databaseConnection()) {
 	// Boolean if the user has permission to download the file
 	$permissionGranted = false;
+	$resource = false;
 	// Check if user is a teacher or a student
 	if($login->getType() == "STUDENT") { 
 		// check if user uploaded this file, if so let them download it
@@ -18,6 +19,7 @@ if ($login->databaseConnection()) {
 			$query_userPermission->bindValue(':fileID', $_GET['id'], PDO::PARAM_STR);
 			$query_userPermission->execute();
 			$submission = $query_userPermission->fetchObject();
+
 		// Permission granted
 		if($submission->userID == $_SESSION['userID']) {
 			$permissionGranted = true;
@@ -74,6 +76,7 @@ if ($login->databaseConnection()) {
 					// User was enrolled in section, permission granted
 					if($query_sectionStudents->rowCount() != 0 ) {
 						$permissionGranted = true;
+						$resource = true;
 					}
 				}
 			}
@@ -105,6 +108,7 @@ if ($login->databaseConnection()) {
 				
 				if($query_sectionResources->rowCount() > 0) {
 					$permissionGranted = true;
+					$resource = true;
 				}
 			}
 		} else {
@@ -125,7 +129,17 @@ if ($login->databaseConnection()) {
 			$query_file->bindValue(':fileID', $_GET['id'], PDO::PARAM_STR);
 			$query_file->execute();
 			$file = $query_file->fetchObject();
-		$fileURL = $_GET['id'] .".". $file->extension;
+
+		if($submission) {
+			$preURL = "submissions/";
+		} else {
+			$preURL = "resources/";
+		}
+		$fileURL = $preURL ."". $_GET['id'] .".". $file->extension;
+		if(!is_file($fileURL)) {
+			echo "Failed! Could not find ";
+			echo $_GET['id'] .".". $file->extension;
+		}
 		header("Pragma: public"); // required
 		header("Expires: 0"); 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
@@ -134,6 +148,7 @@ if ($login->databaseConnection()) {
 		header("Content-Type: application/force-download");
 		header("Content-Transfer-Encoding: binary");
 		header("Content-Length: " . filesize($fileURL));
+		readfile($fileURL);
 		header("Connection: close");
 	// Tell the user they can't access the file
 	} else {

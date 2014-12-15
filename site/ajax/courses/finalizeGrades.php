@@ -99,8 +99,9 @@ if ($login->databaseConnection()) {
 						$query_newAnnouncement->execute();
 
 					// Update the section grades now that the grades have been finalized
-					$query_grades = $login->db_connection->prepare('SELECT * FROM grades WHERE userID = :userID');
+					$query_grades = $login->db_connection->prepare('SELECT * FROM grades WHERE userID = :userID AND sectionID = :sectionID');
 						$query_grades->bindValue(':userID',  $userIDs[$i], PDO::PARAM_STR);
+						$query_grades->bindValue(':sectionID', $_POST['sectionID'], PDO::PARAM_STR);
 						$query_grades->execute();
 
 					$totalPoints = 0;
